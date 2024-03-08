@@ -12,7 +12,7 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <>
-      <h1>rrr</h1>
+      
     </>
   );
 }
