@@ -1,0 +1,90 @@
+.Part_1 {
+  height: 100vh;
+  width: 100%;
+  background: url("/inicio/inicioperu.png");
+  background-size: 100% 100%;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Topbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  color: white;
+  .Topbar_title {
+    letter-spacing: 3.5px;
+    font-size: 1.5rem;
+  }
+  .Topbar_options {
+    display: flex;
+    gap: 3rem;
+  }
+}
+.Topbar_menu {
+  background-color: #746a69;
+  position: absolute;
+  color: white;
+  right: 0;
+  padding: 1rem;
+  border-radius: 10px 0px 10px 10px;
+}
+.Welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: white;
+  .Text_1 {
+    font-size: 2rem;
+    letter-spacing: 0.8rem;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 1);
+    /*
+    background: linear-gradient(120deg, #ffffff 23.96%, #ffffff 63.46%);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent;*/
+  }
+  .Text_2 {
+    font-size: 4rem;
+    letter-spacing: 0.3rem;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    /*
+    background: linear-gradient(45deg, #ffffff 23.96%, #ffffff 63.46%);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent;*/
+  }
+}
+.Cards_nation {
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  .Card_nation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(116, 106, 105,0.3);
+    backdrop-filter: blur(20px);
+    max-width: 15rem;
+    gap: 1rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    
+  }
+  .Card_img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+}
+.Card_nation:hover{
+    background: rgba(116, 106, 105,0.8);
+
+}
