@@ -1,11 +1,33 @@
 "use client";
 
+import * as React from "react";
+import { NextUIProvider } from "@nextui-org/react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProviderProps } from "next-themes/dist/types";
 import { SessionProvider } from "next-auth/react";
 
-interface Props {
+export interface ProvidersProps {
   children: React.ReactNode;
+  themeProps?: ThemeProviderProps;
 }
 
-export const Providers = ({ children }: Props) => {
-  return <SessionProvider>{children}</SessionProvider>;
-};
+export function Providers({ children, themeProps }: ProvidersProps) {
+  return (
+    <NextUIProvider>
+      <NextThemesProvider
+        attribute="class"
+        defaultTheme="LightPeru"
+        themes={[
+          "LightPeru",
+          "DarkPeru",
+          "LightArgentina",
+          "DarkArgentina",
+          "system",
+        ]}
+        {...themeProps}
+      >
+        <SessionProvider>{children}</SessionProvider>
+      </NextThemesProvider>
+    </NextUIProvider>
+  );
+}

@@ -1,53 +1,64 @@
 .Layer_1 {
-    height: 100vh;
-    width: 100%;
-    background: url("/dashboard/FondoPeruLogin.jpg");
-    background-size: 100% 100%;
-  }
-  .Layer_2 {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.72) 0%,
-      rgb(255 255 255 / 45%) 100%
-    );
-    backdrop-filter: saturate(2);
-    padding: 0.7rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .Dash {
-    background-color: rgb(255 255 255 / 31%);
-    max-width: 100rem;
-    max-height: 90rem;
-    height: 95vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    border-radius: 14px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    font-size: 15px;
-    font-weight: 500;
-  }
-  .Left_side {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1030;
-    height: 100%;
-    width: 18rem;
-    border-right: 1px solid black;
-    transition: width 0.5s ease;
-  }
-  .Right_side {
-    padding-left: 18rem;
-    width: 100%;
-    height: 100%;
-    transition: padding-left 0.5s ease;
-  }
+  background-image: url(/dashboard/FondoInicioPeru.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+.Layer_1:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(245, 22, 22, 0.858) 100%
+  );
+  backdrop-filter: saturate(3);
+}
+
+.Dash {
+  background-color: rgb(255 255 255 / 31%);
+  max-width: 90rem;
+  max-height: 90rem;
+  height: 95vh;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14px;
+  backdrop-filter: blur(1px);
+  font-size: 15px;
+  font-weight: 500;
+}
+.Left_side {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  height: 100%;
+  width: 18rem;
+  border-right: 1px solid black;
+  transition: width 0.5s ease;
+}
+.Right_side {
+  padding-left: 18rem;
+  width: 100%;
+  height: 100%;
+  transition: padding-left 0.5s ease;
+}
+.Content{
+  background-color: rgb(255 255 255 / 31%);
+  height: 100%;
+  overflow: auto;
+  padding: 0.75rem;
+}

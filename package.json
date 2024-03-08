@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,9 +11,11 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@nextui-org/react": "^2.2.10",
+    "@nextui-org/system": "^2.0.15",
+    "@nextui-org/theme": "^2.1.18",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
-    "clsx": "^2.0.0",
+    "clsx": "^2.1.0",
     "framer-motion": "^11.0.8",
     "geist": "^1.2.2",
     "next": "14.1.3",
