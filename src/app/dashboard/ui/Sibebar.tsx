@@ -35,7 +35,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <div className="flex p-3 justify-between items-center">
+      <div className="flex p-3 justify-between items-center h-[8%]">
         <div className="flex items-center">
           <Image
             width={48}

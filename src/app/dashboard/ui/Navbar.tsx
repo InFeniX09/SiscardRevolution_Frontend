@@ -14,7 +14,7 @@ import { DarkModeSwitch } from "./DarkmodeSwitch";
 export const NavbarPage = () => {
   return (
     <Navbar
-      className="w-full bg-transparent rounded-[200px] border-"
+      className="w-full rounded-[200px] h-[8%]"
       classNames={{
         wrapper: "w-full max-w-full",
       }}

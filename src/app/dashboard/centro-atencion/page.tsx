@@ -1,94 +1,88 @@
 import React from "react";
-import classes from "./index.module.css";
-import { TicketIcon,ClipboardDocumentCheckIcon,DocumentIcon } from "@heroicons/react/24/solid";
+import {
+  TicketIcon,
+  ClipboardDocumentCheckIcon,
+  DocumentIcon,
+} from "@heroicons/react/24/solid";
+import CardinfoComponent from "./ui/Cardinfo";
 
 export default function page() {
+  const data = [
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+  ];
+  const data1 = [
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+    {
+      icon: <TicketIcon className="h-5" />,
+      cantidad: 3,
+      titulo: "Ticket Total",
+      dia: "Hoy",
+    },
+  ];
   return (
     <>
-      <div className={classes.div_centroatencion}>
-        <div className={classes.Tickets}>
-          <div className={classes.Card}>
-            <div>
-              <TicketIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Ticket Nuevos</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <TicketIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Ticket Pendientes</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <TicketIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Ticket Cerrados</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <ClipboardDocumentCheckIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Historial Tickets</h2>
-              <p>Siempre</p>
-            </div>
-          </div>
+      <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-4 gap-4">
+          {data.map((item, index) => (
+            <CardinfoComponent
+              key={index}
+              icon={item.icon}
+              cantidad={item.cantidad}
+              titulo={item.titulo}
+              dia={item.dia}
+            />
+          ))}
         </div>
-        <div className={classes.Requests}>
-          <div className={classes.Card}>
-            <div>
-              <DocumentIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Solicitudes Total</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <DocumentIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Solicitudes Pendientes</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <DocumentIcon className="h-5" />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Solicitudes Cerrados</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
-          <div className={classes.Card}>
-            <div>
-              <ClipboardDocumentCheckIcon className="h-5  " />
-              <h1>1</h1>
-            </div>
-            <div>
-              <h2>Solicitudes Cerrados</h2>
-              <p>Hoy</p>
-            </div>
-          </div>
+        <div className="grid grid-cols-4 gap-4">
+          {data1.map((item, index) => (
+            <CardinfoComponent
+              key={index}
+              icon={item.icon}
+              cantidad={item.cantidad}
+              titulo={item.titulo}
+              dia={item.dia}
+            />
+          ))}
         </div>
       </div>
     </>

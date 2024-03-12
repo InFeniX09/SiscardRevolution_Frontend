@@ -12,9 +12,7 @@ export const BreadcrumbComponent = () => {
     <div>
       <Breadcrumbs>
         {paths.map((path, index) => {
-          const href = `http://localhost:3000${paths
-            .slice(0, index + 1)
-            .join("/")}`;
+          const href = `http://localhost:3000${paths.slice(0, index + 1).join("/")}`;
           const text = path === "" ? "Home" : path;
 
           return (

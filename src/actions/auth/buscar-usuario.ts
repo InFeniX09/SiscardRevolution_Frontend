@@ -1,16 +1,22 @@
+
 import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:3100",
 });
 
-
-export const getlistarMarca = async (): Promise<Marca[]>  => {
+interface columns {
+  name: string;
+  uid: string;
+  sortable: boolean;
+}
+//
+export const getlistarMarca = async () => {
   const response = await api.get("/inventario-departamental/listarMarca");
-  return response.data.Query3 as Marca[];
+  return response.data.Query3;
 };
 
-interface Marca {
+export interface Marca {
   IdMarca: number;
   Marca: string;
   TipoEquipo: string;
@@ -18,19 +24,64 @@ interface Marca {
   Estado: string;
 }
 
-
-export const getbuscarUsuario = async () => {
-  const response = await api.get("/inventario-departamental/buscarUsuario");
-  return response.data.Query3;
-};
-export const columnslistarMarca = [
+export const columnslistarMarca: columns[] = [
   { name: "IdMarca", uid: "IdMarca", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
   { name: "Clasificacion", uid: "Clasificacion", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
+  { name: "ACTIONS", uid: "actions", sortable: false },
+];
+//
+export const getlistarModelo = async () => {
+  const response = await api.get("/inventario-departamental/listarModelo");
+  return response.data.Query3;
+};
+
+export interface Modelo {
+  IdModelo: number;
+  Modelo: string;
+  Marca: string;
+  TipoEquipo: string;
+  Clasificacion: string;
+  Estado: string;
+}
+
+export const columnslistarModelo: columns[] = [
+  { name: "IdModelo", uid: "IdModelo", sortable: true },
+  { name: "Modelo", uid: "Modelo", sortable: true },
+  { name: "Marca", uid: "Marca", sortable: true },
+  { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
+  { name: "Clasificacion", uid: "Clasificacion", sortable: true },
+  { name: "Estado", uid: "Estado", sortable: true },
+  { name: "ACTIONS", uid: "actions", sortable: false },
+];
+//
+export const getlistarTipoEquipo = async () => {
+  const response = await api.get("/inventario-departamental/listarTipoEquipo");
+  return response.data.Query3;
+};
+
+export interface TipoEquipo {
+  IdTipoEquipo: number;
+  TipoEquipo: string;
+  Clasificacion: string;
+  Estado: string;
+}
+
+export const columnslistarTipoEquipo = [
+  { name: "IdTipoEquipo", uid: "IdTipoEquipo", sortable: true },
+  { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
+  { name: "Clasificacion", uid: "Clasificacion", sortable: true },
+  { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
+//
+
+export const getbuscarUsuario = async () => {
+  const response = await api.get("/inventario-departamental/buscarUsuario");
+  return response.data.Query3;
+};
 
 export const statusOptions = [
   { name: "Active", uid: "active" },
@@ -55,17 +106,9 @@ export const animals = [
     description: "The largest land animal",
   },
 ];
-/*
+
 //inventario-departamental
 
-export const getlistarModelo = async () => {
-  const response = await api.get("/inventario-departamental/listarModelo");
-  return response.data.Query3;
-};
-export const getlistarTipoEquipo = async () => {
-  const response = await api.get("/inventario-departamental/listarTipoEquipo");
-  return response.data.Query3;
-};
 export const getlistarEquipo = async () => {
   const response = await api.get("/inventario-departamental/listarEquipo");
   return response.data.Query3;
@@ -87,25 +130,6 @@ export const getlistarEquipoDescuento = async () => {
   return response.data.Query3;
 };
 //centro-atencion
-
-
-export const columnslistarModelo = [
-  { name: "IdModelo", uid: "IdModelo", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
-  { name: "Clasificacion", uid: "Clasificacion", sortable: true },
-  { name: "Estado", uid: "Estado", sortable: true },
-  { name: "ACTIONS", uid: "actions" },
-];
-
-export const columnslistarTipoEquipo = [
-  { name: "IdTipoEquipo", uid: "IdTipoEquipo", sortable: true },
-  { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
-  { name: "Clasificacion", uid: "Clasificacion", sortable: true },
-  { name: "Estado", uid: "Estado", sortable: true },
-  { name: "ACTIONS", uid: "actions" },
-];
 
 export const columnslistarEquipo = [
   { name: "IdEquipo", uid: "IdEquipo", sortable: true },
@@ -169,9 +193,42 @@ export const columnslistarTicket = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
+/*NUEVOOOO*/
 
+import { signIn } from "@/src/auth.config";
 
+// ...
 
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    // await sleep(2);
 
+    await signIn("credentials", {
+      ...Object.fromEntries(formData),
+      redirect: false,
+    });
 
-*/
+    return "Success";
+  } catch (error) {
+    console.log(error);
+
+    return "CredentialsSignin";
+  }
+}
+
+export const login = async (email: string, password: string) => {
+  try {
+    await signIn("credentials", { email, password });
+
+    return { ok: true };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+      message: "No se pudo iniciar sesión",
+    };
+  }
+};

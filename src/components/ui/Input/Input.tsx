@@ -8,6 +8,7 @@ import { Input } from "@nextui-org/react";
 import React from "react";
 
 interface ImageProps {
+  name:string;
   tipo: string;
   titulo: string;
   placeholder: string;
@@ -16,6 +17,7 @@ interface ImageProps {
 }
 
 export default function InputComponent({
+  name,
   tipo,
   titulo,
   placeholder,
@@ -27,6 +29,7 @@ export default function InputComponent({
   const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <Input
+      name={name}
       type={tipo === "text" ? "text" : isVisible ? "text" : "password"}
       label={titulo}
       placeholder={placeholder}

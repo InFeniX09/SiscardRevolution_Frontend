@@ -45,13 +45,18 @@ export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
       async authorize(credentials) {
+
+        console.log('parte 1'+credentials)
+
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
+        console.log('parte 2'+parsedCredentials)
 
         if (!parsedCredentials.success) return null;
 
         const { email, password } = parsedCredentials.data;
+        console.log('parte 2'+email, password)
 
         // Buscar el correo
 

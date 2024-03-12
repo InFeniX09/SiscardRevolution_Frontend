@@ -1,14 +1,10 @@
-import { TablaMarcaComponent } from "@/src/components/ui/Table/Table";
-import { getlistarMarca } from "@/src/actions/auth/buscar-usuario";
-import React from "react";
+import TableTicketComponent from "@/src/components/ui/Table/table-ticket";
 
-export default async function MarcaPage() {
 
-  const marca = await getlistarMarca();
-
+export default function Page() {
   return (
     <>
-      <TablaMarcaComponent marca={marca} />
+      <TableTicketComponent/>
     </>
   );
 }

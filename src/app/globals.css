@@ -6,30 +6,43 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 0.9rem !important;
 }
 
 :root {
   /* Tema LightPeru */
   &.LightPeru {
-    --bg-login:url('/login/FondoPeruLogin.png');
-    --bg-login-card:rgba(199, 43, 64,0.5);
-    --bg-darkmode85:rgba(255,255,255,0.85);
-    --bg-darkmode50:rgba(255,255,255,0.50);
+    --bg-login: url("/login/FondoInicioPeru.png");
+    --bg-login-card: rgba(199, 43, 64, 0.5);
+    --bg-darkmode85: rgba(255, 255, 255, 0.85);
+    --bg-darkmode50: rgba(255, 255, 255, 0.5);
 
     --nextui-background-color: rgba(255, 255, 255, 0.65);
+
+    --dashboard-Layer: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(245, 22, 22, 0.858) 100%
+    );
+    --dashboard-Dash: rgb(255 255 255 / 31%);
+    --dashboard-fondo: url("/dashboard/FondoInicioPeru.png");
   }
   /* Tema DarkPeru */
   &.DarkPeru {
-    --nextui-background-color:rgba(0, 0, 0, 0.65);
-    --bg-darkmode85:rgba(0,0,0,0.85);
-    --bg-darkmode50:rgba(0,0,0,0.50);
+    --nextui-background-color: rgba(0, 0, 0, 0.65);
+    --bg-darkmode85: rgba(0, 0, 0, 0.85);
+    --bg-darkmode50: rgba(0, 0, 0, 0.5);
 
     --mi-app-primary-100: #0c5468;
+
+    --dashboard-Layer: none;
+    --dashboard-Dash: rgba(16 18 27 / 40%);
+    --dashboard-fondo: url("/dashboard/FondoInicioPeru.png");
   }
   /* Tema LightArgentin a */
   &.LightArgentina {
-    --bg-login:url('/login/FondoArgentinaLogin.png');
-    --bg-login-card:rgba(47, 145, 170,0.5);
+    --bg-login: url("/login/FondoArgentinaLogin.png");
+    --bg-login-card: rgba(47, 145, 170, 0.5);
     --mi-app-primary-100: #d9e2fe;
   }
   /* Tema DarkArgentina */
@@ -124,7 +137,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FB6C6A; /* Color del pulgar de la barra de desplazamiento */
+  background: #fb6c6a; /* Color del pulgar de la barra de desplazamiento */
   border-radius: 5px; /* Radio de borde del pulgar */
 }
 
