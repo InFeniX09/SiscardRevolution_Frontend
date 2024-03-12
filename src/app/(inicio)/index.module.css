@@ -1,22 +1,28 @@
-.Part_1 {
-  height: 100vh;
-  width: 100%;
-  background: url("/inicio/inicioperu.png");
-  background-size: 100% 100%;
-  padding: 2rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+/*Icono de esquina para abrir el menu*/
+.Topbar_menu {
+  background-color: #746a69;
+  position: fixed;
+  color: white;
+  right: 0;
+  top: 0.2rem;
+  padding: 1rem;
+  border-radius: 10px 0px 10px 10px;
+  z-index: 10;
+  display: none;
 }
-
+/*Barra superior*/
 .Topbar {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
+  position: fixed;
   color: white;
+  padding: 1rem 2rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2.5px);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  z-index: 11;
   .Topbar_title {
     letter-spacing: 3.5px;
     font-size: 1.5rem;
@@ -25,15 +31,29 @@
     display: flex;
     gap: 3rem;
   }
+  .Topbar_button{
+    display: flex;
+    gap: 1rem;
+    button{
+      border:1px solid white;
+      padding: 0.3rem;
+      border-radius: 0.6rem;
+    }
+  }
 }
-.Topbar_menu {
-  background-color: #746a69;
-  position: absolute;
-  color: white;
-  right: 0;
-  padding: 1rem;
-  border-radius: 10px 0px 10px 10px;
+
+.Part_1 {
+  height: 100vh;
+  width: 100%;
+  background: url("/inicio/inicioperu.png");
+  background-size: 100% 100%;
+  padding: 5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
+
 .Welcome {
   display: flex;
   flex-direction: column;
@@ -69,22 +89,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(116, 106, 105,0.3);
+    background: rgba(116, 106, 105, 0.3);
     backdrop-filter: blur(20px);
     max-width: 15rem;
     gap: 1rem;
     padding: 0.5rem;
     border-radius: 1rem;
     cursor: pointer;
-    
   }
-  .Card_img{
+  .Card_img {
     height: 50px;
     width: 50px;
     border-radius: 50%;
   }
 }
-.Card_nation:hover{
-    background: rgba(116, 106, 105,0.8);
+.Card_nation:hover {
+  background: rgba(116, 106, 105, 0.8);
+}
 
+.Section_spa {
+  background-color: red;
+  height: 100%;
 }

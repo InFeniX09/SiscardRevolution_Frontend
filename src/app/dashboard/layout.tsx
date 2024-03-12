@@ -2,6 +2,7 @@ import Image from "next/image";
 import classes from "./index.module.css";
 import { NavbarPage } from "./ui/Navbar";
 import { Sidebar } from "./ui/Sibebar";
+import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
 
 export default function Dashboard1Layout({
   children,
@@ -18,8 +19,8 @@ export default function Dashboard1Layout({
           <div className={classes.Right_side}>
             <NavbarPage />
             <div className={classes.Content}>
-            {children}
-            </div>
+              <BreadcrumbComponent/>
+              {children}</div>
           </div>
         </div>
       </div>
