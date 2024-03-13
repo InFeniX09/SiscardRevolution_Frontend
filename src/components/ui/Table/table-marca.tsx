@@ -32,9 +32,8 @@ import {
   columnslistarMarca,
   statusOptions,
   getlistarMarca,
-} from "@/app/lib/data";
-import { capitalize } from "./utils";
-import { AddTicket } from "@/components/ticket/add-ticket";
+} from "@/src/actions/auth/buscar-usuario";
+import { capitalize } from "./Utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",

@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { animals, getlistarMarca } from "@/src/actions/auth/buscar-usuario";
 import axios from "axios";
+import { environment } from '@/src/environments/environment'
 
 type User = {
   IdTicket: number;
@@ -49,7 +50,7 @@ export const ButtonAddComponent: React.FC<AddTicketProps> = ({
   const handleSubmit = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:3100/centro-atencion/crearTicket",
+        `${environment}/centro-atencion/crearTicket`,
         formData
       );
       console.log("Ticket created successfully:", data);

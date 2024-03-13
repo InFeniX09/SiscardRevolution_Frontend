@@ -1,4 +1,5 @@
 "use client";
+import { auth } from "@/src/auth.config";
 import classes from "./index.module.css";
 import { Image } from "@nextui-org/react";
 
@@ -10,10 +11,11 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  
 
   return (
     <>
-      <section className={classes.Part_1}>
+      <section className={classes.Part_1 }>
           <div></div>
           <div className={classes.Welcome}>
             <h4 className={classes.Text_1}>BIENVENIDO A</h4>

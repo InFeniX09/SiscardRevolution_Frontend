@@ -2,32 +2,34 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
-import clsx from "clsx";
-import InputComponent from "@/src/components/ui/Input/Input";
+
+import { authenticate } from "@/src/actions/auth/auth";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
-import classes from "../../index.module.css";
+import clsx from "clsx";
+
+import InputComponent from "@/src/components/ui/Input/Input";
+
 import CheckboxComponent from "@/src/components/ui/Checkbox/Checkbox";
 import { KeyIcon } from "@heroicons/react/24/solid";
-import { authenticate } from "@/src/actions/auth/buscar-usuario";
 
 export const LoginForm = () => {
   // const router = useRouter();
   const [state, dispatch] = useFormState(authenticate, undefined);
 
   console.log(state);
-  console.log(dispatch);
-
 
   useEffect(() => {
     if (state === "Success") {
-      // redireccionar
-      // router.replace('/');
-      window.location.replace("/");
+      window.location.replace("/dashboard");
     }
   }, [state]);
+
   return (
-    <form action={dispatch} className={classes.Form_sesion}>
-      <div className={classes.Inputs}>
+    <form
+      action={dispatch}
+      className="w-80 flex flex-col justify-center items-center  text-white"
+    >
+      <div className="flex flex-col gap-4 w-full">
         <InputComponent
           name="email"
           tipo="text"
@@ -52,19 +54,23 @@ export const LoginForm = () => {
       >
         {state === "CredentialsSignin" && (
           <div className="flex flex-row mb-2">
-            <UserCircleIcon className="h-5 w-5 text-red-500" />
-            <p className="text-sm text-red-500">
+            <UserCircleIcon className="h-5 w-5 text-white" />
+            <p className="text-sm text-white">
               Credenciales no son correctas
             </p>
           </div>
         )}
       </div>
-      <div className={classes.Actions}>
-        <div className={classes.Actions_clave}>
+      <div className="flex flex-col items-center justify-center w-full gap-6">
+        <div className="flex items-center justify-between w-full">
           <CheckboxComponent texto="Recordar clave" />
-          <Link href="auth/recuperar-clave">No recuerdas tu clave?</Link>
+          <Link href="/auth/recuperar-clave">No recuerdas tu clave?</Link>
         </div>
-        <LoginButton></LoginButton>
+        <div className="flex flex-col align-center items-center gap-3">
+          <LoginButton></LoginButton>
+          <CreateButton></CreateButton>
+
+        </div>
       </div>
     </form>
   );
@@ -79,11 +85,30 @@ function LoginButton() {
         clsx({
           "btn-primary": !pending,
           "btn-disabled": pending,
-        }) + `custom-btn`
+        }) + `custom-btn bg-red-500 p-3 px-5 border-white border-1 border-opacity-40  rounded-2xl`
       }
       disabled={pending}
     >
-      Ingresar
+      Iniciar Sesion
     </button>
+  );
+}
+function CreateButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Link href="/auth/registrarse">
+    <button
+      className={
+        clsx({
+          "btn-primary": !pending,
+          "btn-disabled": pending,
+        }) + `custom-btn bg-red-500 p-3 px-6 border-white border-1 border-opacity-40  rounded-2xl`
+      }
+      disabled={pending}
+    >
+      Registrarse
+    </button>
+    </Link>
   );
 }

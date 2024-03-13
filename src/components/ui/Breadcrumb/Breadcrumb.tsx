@@ -2,6 +2,7 @@
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { environment } from '@/src/environments/environment'
 
 export const BreadcrumbComponent = () => {
   const pathname = usePathname();
@@ -12,7 +13,7 @@ export const BreadcrumbComponent = () => {
     <div>
       <Breadcrumbs>
         {paths.map((path, index) => {
-          const href = `http://localhost:3000${paths.slice(0, index + 1).join("/")}`;
+          const href = `${environment.baseUrl}${paths.slice(0, index + 1).join("/")}`;
           const text = path === "" ? "Home" : path;
 
           return (

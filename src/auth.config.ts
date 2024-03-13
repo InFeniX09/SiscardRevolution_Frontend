@@ -3,8 +3,10 @@ import Credentials from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
 import { z } from "zod";
 import axios from "axios";
+import { environment } from "@/src/environments/environment";
+
 const api = axios.create({
-  baseURL: "http://localhost:3100",
+  baseURL: environment.baseUrl,
 });
 
 export const authConfig: NextAuthConfig = {
@@ -45,34 +47,43 @@ export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
       async authorize(credentials) {
-
-        console.log('parte 1'+credentials)
+        console.log("parte 1" + JSON.stringify(credentials));
 
         const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
+          .object({ email: z.string(), password: z.string() })
           .safeParse(credentials);
-        console.log('parte 2'+parsedCredentials)
+        console.log("parte 2" + JSON.stringify(parsedCredentials));
 
         if (!parsedCredentials.success) return null;
 
         const { email, password } = parsedCredentials.data;
-        console.log('parte 2'+email, password)
+        console.log("parte 2" + email, password);
 
         // Buscar el correo
 
         const getbuscarUsuario = async () => {
           const response = await api.get(
-            `/inventario-departamental/buscarUsuario?pUsuario=${email}`
+            `/auth/buscarUsuario?pUsuario=${email}`
           );
           return response.data.Query3;
         };
 
+        console.log("parte 3" + getbuscarUsuario);
+
         const user = await getbuscarUsuario();
 
+        console.log("parte 4" + JSON.stringify(user));
+
         if (!user) return null;
+        console.log("parte 5" + user);
+
+        console.log("parte 6" + "" + password + "" + user.Contrasena);
 
         // Comparar las contraseñas
-        if (!bcryptjs.compareSync(password, user.password)) return null;
+        // if (!bcryptjs.compareSync(password, '$2a$10$1vR8Pw13u1oRACoNUeOucuJJ/rN.xhGslJeWnkA8JNXH.5T1ILx5C')) return null;
+        if (password!==user.Contrasena) return null;
+
+        console.log("parte 7");
 
         // Regresar el usuario sin el password
         const { password: _, ...rest } = user;

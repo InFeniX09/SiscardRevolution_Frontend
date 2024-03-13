@@ -32,8 +32,8 @@ import {
   columnslistarTipoEquipo,
   statusOptions,
   getlistarTipoEquipo,
-} from "@/app/lib/data";
-import { capitalize } from "./utils";
+} from "@/src/actions/auth/buscar-usuario";
+import { capitalize } from "./Utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
