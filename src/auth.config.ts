@@ -4,7 +4,7 @@ import bcryptjs from "bcryptjs";
 import { z } from "zod";
 import axios from "axios";
 import { environment } from "@/src/environments/environment";
-
+import { getbuscarUsuario} from "@/src/actions/auth/buscar-usuario"
 const api = axios.create({
   baseURL: environment.baseUrl,
 });
@@ -61,16 +61,7 @@ export const authConfig: NextAuthConfig = {
 
         // Buscar el correo
 
-        const getbuscarUsuario = async () => {
-          const response = await api.get(
-            `/auth/buscarUsuario?pUsuario=${email}`
-          );
-          return response.data.Query3;
-        };
-
-        console.log("parte 3" + getbuscarUsuario);
-
-        const user = await getbuscarUsuario();
+        const user = await getbuscarUsuario(email);
 
         console.log("parte 4" + JSON.stringify(user));
 

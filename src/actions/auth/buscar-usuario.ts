@@ -78,10 +78,7 @@ export const columnslistarTipoEquipo = [
 ];
 //
 
-export const getbuscarUsuario = async () => {
-  const response = await api.get("/inventario-departamental/buscarUsuario");
-  return response.data.Query3;
-};
+
 
 export const statusOptions = [
   { name: "Active", uid: "active" },
@@ -193,3 +190,8 @@ export const columnslistarTicket = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
+
+export const getbuscarUsuario = async (email:string) => {
+  const response = await api.get(`/auth/buscarUsuario?pUsuario=${email}`);
+  return response.data.Query3;
+};
