@@ -10,7 +10,7 @@ export const BreadcrumbComponent = () => {
   const currentPageName = paths[paths.length - 1];
 
   return (
-    <div>
+    <div className="text-[0.8rem]">
       <Breadcrumbs>
         {paths.map((path, index) => {
           const href = `${environment.baseUrl}${paths.slice(0, index + 1).join("/")}`;

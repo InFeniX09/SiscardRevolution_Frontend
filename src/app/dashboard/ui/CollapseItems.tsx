@@ -14,7 +14,7 @@ export const CollapseItems = ({ icon, items, title }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex gap-4 h-full items-center cursor-pointer">
+    <div className="flex gap-4 h-full items-center cursor-pointer text-[0.8rem]">
       <Accordion className="px-0">
         <AccordionItem
           indicator={<ChevronUpIcon className="h-5" color="black" />}

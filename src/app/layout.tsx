@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s - Teslo | Shop",
     default: "Home - Teslo | Shop",
   },
-  description: "Una tienda virtual de productos",
+  description: "Siscard Peru",
 };
 
 export default function RootLayout({
