@@ -5,11 +5,11 @@ declare module "next-auth" {
     user: {
       IdUsuario:number,
       Usuario:string,
-      Contrasena:string,
+      password:string,
       Correo:string,
       Telefono:string,
       FcIngreso:string,
-      FcBaja:string,
+      FcBaja:string | null,
     } & DefaultSession["user"];
   }
 }

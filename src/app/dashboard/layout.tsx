@@ -2,20 +2,20 @@ import Image from "next/image";
 import { NavbarPage } from "./ui/Navbar";
 import { Sidebar } from "./ui/Sibebar";
 import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
-import { auth } from "@/src/auth.config";
 import { redirect } from 'next/navigation';
+/*import { auth } from "@/src/auth.config";*/
 
 export default async function Dashboard1Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
+/*
   const session = await auth();
 
   if (!session?.user) {
     redirect("/auth/iniciar-sesion");
-  }
+  }*/
 
   return (
     <>

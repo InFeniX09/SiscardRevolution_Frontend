@@ -1,5 +1,5 @@
 import axios from "axios";
-import { environment } from '@/src/environments/environment'
+import { environment } from "@/src/environments/environment";
 
 const api = axios.create({
   baseURL: environment.baseUrl,
@@ -78,10 +78,7 @@ export const columnslistarTipoEquipo = [
 ];
 //
 
-export const getbuscarUsuario = async () => {
-  const response = await api.get("/inventario-departamental/buscarUsuario");
-  return response.data.Query3;
-};
+
 
 export const statusOptions = [
   { name: "Active", uid: "active" },
@@ -192,4 +189,6 @@ export const columnslistarTicket = [
   { name: "idUsuario", uid: "idUsuario", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
+
+
 

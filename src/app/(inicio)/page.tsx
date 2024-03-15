@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/src/auth.config";
+import { auth } from "@/src/app/auth.config";
 import classes from "./index.module.css";
 import { Image } from "@nextui-org/react";
 
