@@ -10,12 +10,17 @@ export default async function Dashboard1Layout({
 }: {
   children: React.ReactNode;
 }) {
+<<<<<<< HEAD
 /*
   const session = await auth();
 
   if (!session?.user) {
     redirect("/auth/iniciar-sesion");
   }*/
+=======
+
+ 
+>>>>>>> d1d1bd8e2083145a38fbda2cf32e33d5cda8ebd9
 
   return (
     <>

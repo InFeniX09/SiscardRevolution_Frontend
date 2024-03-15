@@ -2,8 +2,17 @@ import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 /*import bcryptjs from "bcryptjs";*/
 import { z } from "zod";
+<<<<<<< HEAD:src/app/auth.config.ts
 import { getbuscarUsuario } from "../actions/auth/auth";
 
+=======
+import axios from "axios";
+import { environment } from "@/src/environments/environment";
+import { getbuscarUsuario} from "@/src/actions/auth/buscar-usuario"
+const api = axios.create({
+  baseURL: environment.baseUrl,
+});
+>>>>>>> d1d1bd8e2083145a38fbda2cf32e33d5cda8ebd9:src/auth.config.ts
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -54,6 +63,11 @@ export const authConfig: NextAuthConfig = {
         const { email, password } = parsedCredentials.data;
         console.log("parte 2" + email, password);
 
+<<<<<<< HEAD:src/app/auth.config.ts
+=======
+        // Buscar el correo
+
+>>>>>>> d1d1bd8e2083145a38fbda2cf32e33d5cda8ebd9:src/auth.config.ts
         const user = await getbuscarUsuario(email);
 
         console.log("parte 4" + JSON.stringify(user));
