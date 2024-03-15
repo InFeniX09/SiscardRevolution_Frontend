@@ -191,11 +191,8 @@ export const columnslistarTicket = [
 ];
 
 
-<<<<<<< HEAD
 
-=======
 export const getbuscarUsuario = async (email:string) => {
   const response = await api.get(`/auth/buscarUsuario?pUsuario=${email}`);
   return response.data.Query3;
 };
->>>>>>> d1d1bd8e2083145a38fbda2cf32e33d5cda8ebd9
