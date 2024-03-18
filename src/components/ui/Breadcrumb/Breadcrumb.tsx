@@ -13,7 +13,7 @@ export const BreadcrumbComponent = () => {
     <div className="text-[0.8rem]">
       <Breadcrumbs>
         {paths.map((path, index) => {
-          const href = `${environment.baseUrl}${paths.slice(0, index + 1).join("/")}`;
+          const href = `http://localhost:4000${paths.slice(0, index + 1).join("/")}`;
           const text = path === "" ? "Home" : path;
 
           return (
@@ -23,7 +23,7 @@ export const BreadcrumbComponent = () => {
           );
         })}
       </Breadcrumbs>
-      <h1 className="text-1xl uppercase">
+      <h1 className="text-1xl uppercase ">
         <strong>{currentPageName}</strong>
       </h1>
     </div>
