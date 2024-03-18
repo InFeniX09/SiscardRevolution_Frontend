@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import LayoutDashComponent from "./ui/LayoutDash";
 /*import { auth } from "@/src/auth.config";*/
 
-export default  function Dashboard1Layout({
+export default function Dashboard1Layout({
   children,
 }: {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export default  function Dashboard1Layout({
         style={{ backgroundImage: "url('/dashboard/FondoInicioPeru.png')" }}
       >
         <div className="bg-[var(--dashboard-Dash)] max-w-[95rem] max-h-[95rem] h-[95vh] w-[95%] flex flex-col overflow-hidden relative rounded-3xl backdrop-filter blur-1 font-semibold text-base">
-          <LayoutDashComponent children={children}></LayoutDashComponent>
+          <LayoutDashComponent >{children}</LayoutDashComponent>
         </div>
       </div>
     </>
