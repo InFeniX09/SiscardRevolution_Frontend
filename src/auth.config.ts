@@ -55,16 +55,24 @@ export const authConfig: NextAuthConfig = {
         if (!parsedCredentials.success) return null;
 
         const { email, Contrasena } = parsedCredentials.data;
+        console.log(email + ' - ' +Contrasena)
 
         try {
           const response = await api.post("/auth/buscarUsuario", {
-            email
+            pUsuario:email
           });
-          const user = response.data.user;
+          const user = response.data.Query3;
+        
+          console.log(response)
+          console.log(user)
+
 
           if (!user) {
             return null; // Handle invalid credentials
           }
+
+          if( Contrasena !== user.Contrasena ) return null;
+
 
           const { Contrasena: _, ...rest } = user; // Remove password from response
           return rest;
