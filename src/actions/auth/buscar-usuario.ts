@@ -192,8 +192,3 @@ export const columnslistarTicket = [
 
 
 
-export const getbuscarUsuario = async (email:string) => {
-  const response = await api.get(`/auth/buscarUsuario?pUsuario=${email}`);
-  return response.data.Query3;
-};
-

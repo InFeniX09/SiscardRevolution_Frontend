@@ -1,19 +1,19 @@
 "use client";
+
 import { useEffect } from "react";
 import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 
-import { authenticate } from "@/src/actions/auth/auth";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 
 import InputComponent from "@/src/components/ui/Input/Input";
-
 import CheckboxComponent from "@/src/components/ui/Checkbox/Checkbox";
 import { KeyIcon } from "@heroicons/react/24/solid";
+import { authenticate } from "@/src/actions/auth/auth";
 
 export const LoginForm = () => {
-  // const router = useRouter();
+
   const [state, dispatch] = useFormState(authenticate, undefined);
 
   console.log(state);
@@ -39,7 +39,7 @@ export const LoginForm = () => {
           icon1={"hidden"}
         ></InputComponent>
         <InputComponent
-          name="password"
+          name="Contrasena"
           tipo="pass"
           titulo="Clave"
           placeholder="Ingresar clave"
