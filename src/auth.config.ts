@@ -55,7 +55,8 @@ export const authConfig: NextAuthConfig = {
         if (!parsedCredentials.success) return null;
 
         const { email, Contrasena } = parsedCredentials.data;
-        console.log(email + ' - ' +Contrasena)
+        
+        console.log("paso 1 "+ email + ' - ' +Contrasena)
 
         try {
           const response = await api.post("/auth/buscarUsuario", {
@@ -63,8 +64,8 @@ export const authConfig: NextAuthConfig = {
           });
           const user = response.data.Query3;
         
-          console.log(response)
-          console.log(user)
+          
+          console.log("paso 2 " + JSON.stringify(user))
 
 
           if (!user) {
