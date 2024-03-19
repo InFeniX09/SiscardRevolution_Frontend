@@ -10,7 +10,7 @@ import SelectComponent from "@/src/components/ui/Select/Select";
 import CardComponent from "@/src/components/ui/Card/Card";
 
 export default async function page() {
-  interface Option {
+ /* interface Option {
     name: string;
     digit: number;
   }
@@ -42,7 +42,7 @@ export default async function page() {
     previousDays.push({ name: dayName, digit: i });
   }
 
-  console.log(previousDays);
+  console.log(previousDays);*/
 
   interface prop {
     Dia: string;
@@ -79,7 +79,6 @@ export default async function page() {
   ];
   return (
     <>
-      <SelectComponent array={previousDays} />
       <div className="flex flex-col gap-2 text-[0.8rem]">
         <div className="grid grid-cols-4 gap-4">
           {datar.map((item, index) => (
