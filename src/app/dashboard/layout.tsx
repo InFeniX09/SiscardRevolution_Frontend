@@ -4,13 +4,21 @@ import { Sidebar } from "./ui/Sibebar";
 import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
 import { redirect } from "next/navigation";
 import LayoutDashComponent from "./ui/LayoutDash";
+import { auth } from "@/src/auth.config";
 /*import { auth } from "@/src/auth.config";*/
 
-export default function Dashboard1Layout({
+export default async function Dashboard1Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const session = await auth();
+
+  if ( session?.user ) {
+    redirect('/');
+  }
+  
   return (
     <>
       <div
