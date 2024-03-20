@@ -1,11 +1,6 @@
-import Image from "next/image";
-import { NavbarPage } from "./ui/Navbar";
-import { Sidebar } from "./ui/Sibebar";
-import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
 import { redirect } from "next/navigation";
 import LayoutDashComponent from "./ui/LayoutDash";
 import { auth } from "@/src/auth.config";
-/*import { auth } from "@/src/auth.config";*/
 
 export default async function Dashboard1Layout({
   children,
@@ -20,6 +15,7 @@ export default async function Dashboard1Layout({
  if ( session?.user === null || session?.user === undefined) {
     redirect('/');
   }
+  
   console.log("Paso 3 Usuario iniciado" + JSON.stringify(session))
   
   return (
