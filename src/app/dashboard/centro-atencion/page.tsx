@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   TicketIcon,
@@ -8,8 +9,11 @@ import CardinfoComponent from "./ui/Cardinfo";
 import { getlistarTicketEstadoxFecha } from "@/src/actions/auth/centro-atencion";
 import SelectComponent from "@/src/components/ui/Select/Select";
 import CardComponent from "@/src/components/ui/Card/Card";
+import CardBlurComponent from "./ui/CardBlur";
 
 export default async function page() {
+  <></>;
+  /*
   interface Option {
     name: string;
     digit: number;
@@ -77,9 +81,9 @@ export default async function page() {
       dia: "Hoy",
     },
   ];
-  return (
-    <>
-      <SelectComponent array={previousDays} />
+  */
+  /*
+ <SelectComponent array={previousDays} />
       <div className="flex flex-col gap-2 text-[0.8rem]">
         <div className="grid grid-cols-4 gap-4">
           {datar.map((item, index) => (
@@ -115,6 +119,16 @@ export default async function page() {
         </div>
        
       </div>
+ */
+  return (
+    <>
+    <div className="flex justify-center items-center h-full w-full">
+    <div className="grid grid-cols-2 gap-[6rem]  ">
+        <CardBlurComponent label="Ticket" href="/dashboard/centro-atencion/ticket" src="https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
+        <CardBlurComponent label="Solicitud" href="/dashboard/centro-atencion/solicitud" src="/dashboard/centro-atencion/modelo.png"/>
+      </div>
+    </div>
+      
     </>
   );
 }
