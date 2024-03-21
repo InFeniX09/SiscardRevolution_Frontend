@@ -35,7 +35,6 @@ import {
 } from "@/src/actions/auth/buscar-usuario";
 import { capitalize } from "./Utils";
 
-
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
   paused: "danger",
@@ -294,7 +293,6 @@ export default function TableTicketComponent() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-
           </div>
         </div>
         <div className="flex justify-between items-center">

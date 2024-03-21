@@ -4,7 +4,9 @@ import {
   Bars4Icon,
   ChatBubbleLeftRightIcon,
   MegaphoneIcon,
-  IdentificationIcon
+  IdentificationIcon,
+  CurrencyDollarIcon,
+  BellIcon
 } from "@heroicons/react/24/solid";
 import { Avatar, Input, Navbar, NavbarContent } from "@nextui-org/react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
@@ -32,13 +34,28 @@ export const NavbarPage = () => {
         <div className="flex items-center gap-2 ">
           <IdentificationIcon className="h-5" />
         </div>
+        <div className="flex items-center gap-2 ">
+          <BellIcon className="h-5" />
+        </div>
       </NavbarContent>
       <NavbarContent
         justify="end"
-        className="w-fit data-[justify=end]:flex-grow-0 cursor-pointer"
+        className="w-fit data-[justify=end]:flex-grow-0 "
       >
-      <Avatar isBordered radius="full" src="https://i.pravatar.cc/150?u=a04258114e29026708c" className="h-10 w-10   sm:h-8 sm:w-8 " />
-      <span>Jcastillo</span>
+        <div className="flex items-center justify-center gap-1">
+          <CurrencyDollarIcon className="h-6" />
+          <p>S/200.00</p>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 cursor-pointer">
+          <Avatar
+            isBordered
+            radius="full"
+            src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+            className="h-10 w-10   sm:h-8 sm:w-8 "
+          />
+          <span>Jcastillo</span>
+        </div>
       </NavbarContent>
     </Navbar>
   );

@@ -3,6 +3,8 @@ import TableTicketComponent from "@/src/components/ui/Table/table-ticket";
 import CardinfoComponent from "../ui/Cardinfo";
 import { TicketIcon } from "@heroicons/react/24/solid";
 import SelectComponent from "@/src/components/ui/Select/Select";
+import ModalComponent from "@/src/components/ui/Modal/Modal";
+
 
 export default async function Page() {
   interface Option {
@@ -49,7 +51,7 @@ export default async function Page() {
     <>
       <div className="flex justify-between items-center">
         <SelectComponent array={previousDays} />
-        <button className="btn-11 custom-btn">Generar Ticket</button>
+        <ModalComponent/>
       </div>
       <div className="grid grid-cols-4 gap-4">
         {datar.map((item, index) => (

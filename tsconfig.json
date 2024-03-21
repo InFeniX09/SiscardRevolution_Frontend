@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/Table/Table.tsx", "src/app/dashboard/centro-atencion/solicitud/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/Table/Table.tsx", "src/app/dashboard/centro-atencion/solicitud/page.tsx", "src/app/dashboard/componentselect.jsx"],
   "exclude": ["node_modules"]
 }

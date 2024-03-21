@@ -1,8 +1,6 @@
-export default function DashboardPage() {
-    return (
-      <>
-  
-      </>
-    );
-  }
-  
+
+export default function Page() {
+  <>
+
+  </>;
+}
