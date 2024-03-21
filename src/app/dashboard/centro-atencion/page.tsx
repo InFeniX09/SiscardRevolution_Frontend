@@ -10,51 +10,12 @@ import { getlistarTicketEstadoxFecha } from "@/src/actions/auth/centro-atencion"
 import SelectComponent from "@/src/components/ui/Select/Select";
 import CardComponent from "@/src/components/ui/Card/Card";
 import CardBlurComponent from "./ui/CardBlur";
+import CardOptionComponent from "@/src/components/ui/Card/CardOption";
 
 export default async function page() {
   <></>;
   /*
-  interface Option {
-    name: string;
-    digit: number;
-  }
-
-  const today = new Date();
-  const days = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-  ];
-  const currentDayIndex = today.getDay(); // Índice del día actual
-  const previousDays: Option[] = [];
-
-  // Generar las opciones de los días anteriores
-  for (let i = 0; i < 7; i++) {
-    const dayIndex = (currentDayIndex - i + 7) % 7; // Calcula el índice del día anterior
-    const dayName =
-      i === 0
-        ? "Hoy"
-        : i === 1
-        ? "Ayer"
-        : i === 2
-        ? "Anteayer"
-        : `${days[dayIndex]} ${today.getDate() - i }`;
-    previousDays.push({ name: dayName, digit: i });
-  }
-
-
-  interface prop {
-    Dia: string;
-    Titulo: string;
-    cantidad: number;
-  }
-
-  const datar: prop[] = await getlistarTicketEstadoxFecha(0);
-
+ 
   const data1 = [
     {
       icon: <TicketIcon className="h-5" />,
@@ -83,19 +44,9 @@ export default async function page() {
   ];
   */
   /*
- <SelectComponent array={previousDays} />
+
       <div className="flex flex-col gap-2 text-[0.8rem]">
-        <div className="grid grid-cols-4 gap-4">
-          {datar.map((item, index) => (
-            <CardinfoComponent
-              key={index}
-              icon={<TicketIcon className="h-5" />}
-              cantidad={item.cantidad}
-              titulo={item.Titulo}
-              dia={item.Dia}
-            />
-          ))}
-        </div>
+       
         <div className="grid grid-cols-4 gap-4">
           {data1.map((item, index) => (
             <CardinfoComponent
@@ -122,11 +73,10 @@ export default async function page() {
  */
   return (
     <>
-    <div className="flex justify-center items-center h-full w-full">
-    <div className="grid grid-cols-2 gap-[6rem]  ">
-        <CardBlurComponent label="Ticket" href="/dashboard/centro-atencion/ticket" src="https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-        <CardBlurComponent label="Solicitud" href="/dashboard/centro-atencion/solicitud" src="/dashboard/centro-atencion/modelo.png"/>
-      </div>
+    <div className="flex gap-2 flex-col">
+        <CardOptionComponent href="centro-atencion/ticket" src="/ilustraciones/ilu1r.png" title="Ticket" label="Generación de ticket, problemas personalizados, registro de actividades"/>
+        <CardOptionComponent href="centro-atencion/solicitud" src="/ilustraciones/ilu2r.png" title="Solicitud" label="Generación de solicitud, problemas preestablecidos, registro de solicitudes"/>
+
     </div>
       
     </>

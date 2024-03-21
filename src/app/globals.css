@@ -12,7 +12,7 @@
   /* Tema LightPeru */
   &.LightPeru {
     /*Dashboard*/
-    --dashboard-bg:url('/dashboard/FondoInicioPeru.png');
+    --dashboard-bg:url('/dashboard/fondo1.jpg');
     /*Dashboard*/
 
     --bg-login: url("/login/FondoInicioPeru.png");
@@ -23,9 +23,9 @@
     --nextui-background-color: rgba(255, 255, 255, 0.65);
 
     --dashboard-Layer: linear-gradient(
-      180deg,
+      150deg,
       rgba(255, 255, 255, 0.72) 0%,
-      rgba(245, 22, 22, 0.858) 100%
+      rgba(245, 22, 22, 0.858) 90%
     );
     --dashboard-Dash: rgb(255 255 255 / 31%);
     --dashboard-Dash1: rgb(255 255 255 / 41%);
@@ -43,12 +43,15 @@
     --dashboard-Layer: none;
     --dashboard-Dash: rgba(16 18 27 / 40%);
     --dashboard-fondo: url("/dashboard/FondoInicioPeru.png");
+    --dashboard-bg:url('/dashboard/fondo1.jpg');
+
   }
   /* Tema LightArgentin a */
   &.LightArgentina {
     --bg-login: url("/login/FondoArgentinaLogin.png");
     --bg-login-card: rgba(47, 145, 170, 0.5);
     --mi-app-primary-100: #d9e2fe;
+
   }
   /* Tema DarkArgentina */
   &.DarkArgentina {

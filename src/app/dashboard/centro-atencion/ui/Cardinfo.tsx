@@ -9,7 +9,6 @@ export default function CardinfoComponent({
   icon,
   cantidad,
   titulo,
-  dia,
 }: Props) {
   return (
     <>
@@ -19,8 +18,7 @@ export default function CardinfoComponent({
           <h1>{cantidad}</h1>
         </div>
         <div>
-          <h2>{titulo}</h2>
-          <p>{dia}</p>
+          <span className="text-tiny">{titulo}</span>
         </div>
       </div>
     </>
