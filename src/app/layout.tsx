@@ -17,7 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" /> {/* Added the link tag */}
+      </head>
       <body className={GeistSans.className}>
         <Providers>{children}</Providers>
       </body>

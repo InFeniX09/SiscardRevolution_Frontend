@@ -19,15 +19,15 @@ export default function LayoutDashComponent({ children }: Props) {
      
       <div className={clsx(
           isSidebarCollapsed
-            ? "w-[18rem]"
-            : "w-[10rem]", "flex flex-col absolute top-0 bottom-0 left-0 z-[1030] h-full  transition-width duration-500 ease-in-out"
+            ? "w-[18rem] "
+            : "w-[10rem] ", "sm:flex hidden flex-col absolute top-0 bottom-0 left-0 z-[1030] h-full  transition-width duration-500 ease-in-out"
         )}>
         <Sidebar isSidebarCollapsed={isSidebarCollapsed} onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}  />
       </div>
       <div className={clsx(
           isSidebarCollapsed
-            ? "pl-[18rem]"
-            : "pl-[10rem]", " p-3 h-full transition-padding-left duration-500 ease-in-out"
+            ? "sm:pl-[18rem]"
+            : "sm:pl-[10rem]", "pl-[0rem] p-0 sm:p-3 h-full transition-padding-left duration-500 ease-in-out"
         )}>
         <div
           className="w-full h-full bg-cover rounded-2xl  flex flex-col gap-5 bg-[image:var(--dashboard-bg)]

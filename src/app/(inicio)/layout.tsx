@@ -1,8 +1,6 @@
-"use client";
 import { Bars4Icon } from "@heroicons/react/24/solid";
-import classes from "./index.module.css";
-import { Link } from "@nextui-org/react";
 import ButtonComponent from "@/src/components/ui/Button/Button";
+import Link from "next/link";
 
 export default function ShopLayout({
   children,
@@ -11,24 +9,24 @@ export default function ShopLayout({
 }) {
   return (
     <>
-      <div className={classes.Topbar_menu}>
+      <div className="bg-gray-700 fixed text-white right-0 top-0 p-4 rounded-l-full z-10 hidden ">
         <Bars4Icon className="h-7" />
       </div>
-      <div className={classes.Topbar}>
+      <div className="flex items-center justify-between w-full fixed text-white py-4 px-8 bg-black bg-opacity-80 border-b border-white z-11">
         <div>
-          <strong className={classes.Topbar_title}>SISCARD</strong>
+          <strong className="text-xl tracking-[3.5px]">SISCARD</strong>
         </div>
-        <div className={classes.Topbar_options}>
+        <div className="gap-12 hidden md:flex sm:hidden">
           <p>Inicio</p>
           <p>Contactanos</p>
           <p>Proyectos</p>
         </div>
-        <div className={classes.Topbar_button}>
+        <div className="flex gap-4">
           <Link href="/auth/iniciar-sesion">
-            <ButtonComponent texto="Iniciar Sesion"/>
+            <ButtonComponent texto="Iniciar Sesion" />
           </Link>
           <Link href="/auth/crear-cuenta">
-            <ButtonComponent texto="Registrarse"/>
+            <ButtonComponent texto="Registrarse" />
           </Link>
         </div>
       </div>

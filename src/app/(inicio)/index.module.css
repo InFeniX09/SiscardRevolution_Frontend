@@ -10,37 +10,9 @@
   z-index: 10;
   display: none;
 }
-/*Barra superior*/
-.Topbar {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  color: white;
-  padding: 1rem 2rem;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(2.5px);
-  border-bottom: 1px solid rgba(255,255,255,0.5);
-  z-index: 11;
-  .Topbar_title {
-    letter-spacing: 3.5px;
-    font-size: 1.5rem;
-  }
-  .Topbar_options {
-    display: flex;
-    gap: 3rem;
-  }
-  .Topbar_button{
-    display: flex;
-    gap: 1rem;
-    button{
-      border:1px solid white;
-      padding: 0.3rem;
-      border-radius: 0.6rem;
-    }
-  }
-}
+
+
+
 
 .Part_1 {
   height: 100vh;
