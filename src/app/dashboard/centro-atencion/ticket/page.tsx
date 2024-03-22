@@ -50,7 +50,6 @@ export default async function Page() {
   return (
     <>
       <div className="flex justify-between items-center">
-        <SelectComponent array={previousDays} />
         <ModalComponent/>
       </div>
       <div className="grid grid-cols-4 gap-4">
