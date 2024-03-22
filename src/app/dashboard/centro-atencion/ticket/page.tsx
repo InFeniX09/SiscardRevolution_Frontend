@@ -3,7 +3,7 @@ import TableTicketComponent from "@/src/components/ui/Table/table-ticket";
 import CardinfoComponent from "../ui/Cardinfo";
 import { TicketIcon } from "@heroicons/react/24/solid";
 import SelectComponent from "@/src/components/ui/Select/Select";
-import ModalComponent from "@/src/components/ui/Modal/Modal";
+import ModalComponent from "@/src/components/ui/Modal/ModalTicket";
 
 
 export default async function Page() {

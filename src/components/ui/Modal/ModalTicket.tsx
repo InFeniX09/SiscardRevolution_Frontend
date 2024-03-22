@@ -15,7 +15,7 @@ import {
 import { TicketIcon } from "@heroicons/react/24/solid";
 import { Textarea } from "@nextui-org/react";
 
-export default function ModalComponent() {
+export default function ModalTicketComponent() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
  
@@ -24,7 +24,7 @@ export default function ModalComponent() {
       <Button onPress={onOpen} color="primary">
         Crear Ticket
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center" className="backdrop-blur-xl bg-[rgba(255,255,255,0.3)]">
         <ModalContent>
           {(onClose) => (
             <>

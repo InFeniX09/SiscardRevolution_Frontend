@@ -176,10 +176,13 @@ export const columnslistarEquipoDescuento = [
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
+
+
+
+
 //
 export const getlistarTicket = async () => {
   const response = await api.get("/centro-atencion/listarTicket");
-  
   return response.data.Query3;
 };
 
@@ -188,7 +191,7 @@ export const columnslistarTicket = [
   { name: "Titulo", uid: "Titulo", sortable: true },
   { name: "Descripcion", uid: "Descripcion", sortable: true },
   { name: "idUsuario", uid: "idUsuario", sortable: true },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "ACTIONS", uid: "actions" , sortable: true },
 ];
 
 

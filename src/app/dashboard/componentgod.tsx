@@ -1,15 +1,25 @@
-"use client"
+"use client";
 import React from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, ChipProps, getKeyValue} from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  User,
+  Chip,
+  Tooltip,
+  ChipProps,
+  getKeyValue,
+} from "@nextui-org/react";
 import { TicketIcon } from "@heroicons/react/24/solid";
 
-
-const statusColorMap: Record<string, ChipProps["color"]>  = {
+const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
   paused: "danger",
   vacation: "warning",
 };
-
 
 type Column = {
   uid: string;
@@ -18,11 +28,13 @@ type Column = {
 interface Props {
   columns: Column[];
   users: any;
-  rowKey:any
+  rowKey: any;
 }
 
-export default function Tablasa({columns,users,rowKey}:Props) {
-  type User = typeof users[0];
+
+
+export default function Tablasa({ columns, users, rowKey }: Props) {
+  type User = (typeof users)[0];
 
   const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
@@ -31,7 +43,7 @@ export default function Tablasa({columns,users,rowKey}:Props) {
       case "name":
         return (
           <User
-            avatarProps={{radius: "lg", src: user.avatar}}
+            avatarProps={{ radius: "lg", src: user.avatar }}
             description={user.email}
             name={cellValue}
           >
@@ -42,12 +54,19 @@ export default function Tablasa({columns,users,rowKey}:Props) {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.team}</p>
+            <p className="text-bold text-sm capitalize text-default-400">
+              {user.team}
+            </p>
           </div>
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip
+            className="capitalize"
+            color={statusColorMap[user.status]}
+            size="sm"
+            variant="flat"
+          >
             {cellValue}
           </Chip>
         );
@@ -61,12 +80,12 @@ export default function Tablasa({columns,users,rowKey}:Props) {
             </Tooltip>
             <Tooltip content="Edit user">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <TicketIcon className="h-5"/>
+                <TicketIcon className="h-5" />
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <TicketIcon className="h-5"/>
+                <TicketIcon className="h-5" />
               </span>
             </Tooltip>
           </div>
@@ -77,10 +96,13 @@ export default function Tablasa({columns,users,rowKey}:Props) {
   }, []);
 
   return (
-  <Table aria-label="Example table with custom cells">
+    <Table aria-label="Example table with custom cells">
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "actions" ? "center" : "start"}
+          >
             {column.name}
           </TableColumn>
         )}
@@ -88,7 +110,9 @@ export default function Tablasa({columns,users,rowKey}:Props) {
       <TableBody items={users as any[]}>
         {(item) => (
           <TableRow key={rowKey}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
           </TableRow>
         )}
       </TableBody>
