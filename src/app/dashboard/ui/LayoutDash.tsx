@@ -20,7 +20,7 @@ export default function LayoutDashComponent({ children }: Props) {
       <div className={clsx(
           isSidebarCollapsed
             ? "w-[18rem] "
-            : "w-[10rem] ", "sm:flex hidden flex-col absolute top-0 bottom-0 left-0 z-[1030] h-full  transition-width duration-500 ease-in-out"
+            : "w-[10rem] ", "sm:flex hidden flex-col absolute top-0 bottom-0 left-0 z-[1] h-full  transition-width duration-500 ease-in-out"
         )}>
         <Sidebar isSidebarCollapsed={isSidebarCollapsed} onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}  />
       </div>

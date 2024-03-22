@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -8,23 +8,47 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Checkbox,
   Input,
-  Link,
+  ModalProps
 } from "@nextui-org/react";
 import { TicketIcon } from "@heroicons/react/24/solid";
 import { Textarea } from "@nextui-org/react";
+import SelectMultipleComponent from "../Select/SelectMultiple";
+import SelectComponent from "../Select/Select";
+import { getlistarArea,getlistarPrioridad} from "@/src/actions/select";
 
-export default function ModalTicketComponent() {
+export default  function ModalTicketComponent() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [scrollBehavior ] = React.useState<ModalProps["scrollBehavior"]>("inside");
 
- 
+  const [area, setAreas] = useState([]);
+  const [prioridad, setprioridades] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const areasData = await getlistarArea();
+        setAreas(areasData);
+        const priodidadesData = await getlistarPrioridad();
+        setprioridades(priodidadesData);
+        
+      } catch (error) {
+        console.error("Error fetching areas:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+
   return (
     <>
       <Button onPress={onOpen} color="primary">
         Crear Ticket
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center" className="backdrop-blur-xl bg-[rgba(255,255,255,0.3)]">
+      <Modal  isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        scrollBehavior={scrollBehavior} placement="top-center" className="overflow-hidden">
         <ModalContent>
           {(onClose) => (
             <>
@@ -49,19 +73,9 @@ export default function ModalTicketComponent() {
                   placeholder="Describe tu problema"
                   variant="bordered"
                 />
-       
-                <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
-                  <Link color="primary" href="#" size="sm">
-                    Forgot password?
-                  </Link>
-                </div>
+                <SelectComponent array={area} value="IdArea" text="Area" label="Area designada" placeholder="escoge un area"/>  
+                <SelectMultipleComponent/>
+                <SelectComponent array={prioridad} value="IdPrioridad" text="Prioridad" label="Prioridad" placeholder="seleccione la prioridad"/>             
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>

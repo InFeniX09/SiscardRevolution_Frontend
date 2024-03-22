@@ -18,7 +18,6 @@ export const authConfig: NextAuthConfig = {
 
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log({ auth });
       // const isLoggedIn = !!auth?.user;
 
       // const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
@@ -56,7 +55,6 @@ export const authConfig: NextAuthConfig = {
 
         const { email, Contrasena } = parsedCredentials.data;
         
-        console.log("paso 1 "+ email + ' - ' +Contrasena)
 
         try {
           const response = await api.post("/auth/buscarUsuario", {
@@ -65,7 +63,6 @@ export const authConfig: NextAuthConfig = {
           const user = response.data.Query3;
         
           
-          console.log("paso 2 " + JSON.stringify(user))
 
 
           if (!user) {

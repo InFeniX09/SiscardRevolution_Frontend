@@ -9,11 +9,11 @@ interface Props {
   href:string;
 }
 
-export default function CardOptionComponent({ src, title, label,href }: Props) {
+export default async function CardOptionComponent({ src, title, label,href }: Props) {
   return (
     <>
       <Link href={href}>
-        <div className="bg-white bg-opacity-70 rounded-xl shadow-2xl	 flex justify-between items-center h-[8rem] w-full pr-6 cursor-pointer hover:bg-red-400/50">
+        <div className="bg-white bg-opacity-70 rounded-xl shadow-2xl flex justify-between items-center h-[8rem] w-full pr-6 cursor-pointer hover:bg-red-400/50">
           <div className="h-full flex">
             <Image
               className="h-full"

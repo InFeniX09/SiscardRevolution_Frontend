@@ -9,14 +9,12 @@ export default async function Dashboard1Layout({
 }) {
 
   const session = await auth();
-  console.log('1'+JSON.stringify(session))
-  console.log('2'+JSON.stringify(session?.user))
+
 
  if ( session?.user === null || session?.user === undefined) {
     redirect('/');
   }
   
-  console.log("Paso 3 Usuario iniciado" + JSON.stringify(session))
   
   return (
     <>

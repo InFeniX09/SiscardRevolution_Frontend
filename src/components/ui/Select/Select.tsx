@@ -1,24 +1,26 @@
 "use client"
 import { Select, SelectItem } from "@nextui-org/react";
-import { animals } from "@/src/actions/auth/buscar-usuario";
 
-interface Props{    
-    array:Option[]
-}
-interface Option {
-    name: string;
-    digit: number;
+
+interface Props {
+  array: any;
+  value:string;
+  text:string;
+  label:string;
+  placeholder:string;
   }
-export default function SelectComponent({array}:Props) {
+
+export default function SelectComponent({array,value,text,label,placeholder}:Props) {
   return (
     <>
       <Select
-        items={array}
-        label="Dia"
-        placeholder="Selecciona un dia"
+        items={array as any[]}
+        label={label}
+        placeholder={placeholder}
         className="max-w-xs"
+        labelPlacement="outside"
       >
-        {(animal) => <SelectItem key={animal.digit}>{animal.name}</SelectItem>}
+        {(item) => <SelectItem key={item[value]}>{item[text]}</SelectItem>}
       </Select>
     </>
   );
