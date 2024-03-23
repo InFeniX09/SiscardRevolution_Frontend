@@ -1,7 +1,10 @@
+"use server";
+
 import axios from "axios";
 import { environment } from "@/src/environments/environment";
 const api = axios.create({
   baseURL: environment.baseUrl,
+  headers: { "Content-Type": "application/json" },
 });
 
 export const getlistarArea= async () => {
@@ -17,3 +20,6 @@ export const getlistarArea= async () => {
     return response.data.Query3;
   };
 
+
+ 
+  
