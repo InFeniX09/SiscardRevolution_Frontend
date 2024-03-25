@@ -1,23 +1,9 @@
-/*Icono de esquina para abrir el menu*/
-.Topbar_menu {
-  background-color: #746a69;
-  position: fixed;
-  color: white;
-  right: 0;
-  top: 0.2rem;
-  padding: 1rem;
-  border-radius: 10px 0px 10px 10px;
-  z-index: 10;
-  display: none;
-}
-
-
 
 
 .Part_1 {
   height: 100vh;
   width: 100%;
-  background: url("/inicio/inicioperu.png");
+  background: url("");
   background-size: 100% 100%;
   padding: 5rem 2.5rem;
   display: flex;

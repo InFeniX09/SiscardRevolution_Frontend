@@ -188,7 +188,7 @@ export const getlistarTicket = async () => {
 
 export const columnslistarTicket = [
   { name: "IdTicket", uid: "IdTicket", sortable: true },
-  { name: "Titulo", uid: "Titulo", sortable: true },
+  { name: "Asunto", uid: "Asunto", sortable: true },
   { name: "Descripcion", uid: "Descripcion", sortable: true },
   { name: "idUsuario", uid: "idUsuario", sortable: true },
   { name: "ACTIONS", uid: "actions" , sortable: true },

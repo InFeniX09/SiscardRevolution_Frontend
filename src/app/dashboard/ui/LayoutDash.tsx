@@ -1,15 +1,16 @@
 "use client"
 import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
-import { NavbarPage } from "./Navbar";
+import  NavbarPage  from "./Navbar";
 import { Sidebar } from "./Sibebar";
 import { useState } from "react";
 import clsx from "clsx";
 
 interface Props {
   children: React.ReactNode;
+  nombreusuario:string;
 }
 
-export default function LayoutDashComponent({ children }: Props) {
+export default function LayoutDashComponent({ children,nombreusuario }: Props) {
 
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
 
@@ -34,7 +35,7 @@ export default function LayoutDashComponent({ children }: Props) {
             before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen "
         >
           <div className="bg-[var(--dashboard-Dash)] h-full w-full flex flex-col p-2 gap-3 overflow-hidden relative rounded-2xl backdrop-filter blur-1 font-semibold text-base">
-            <NavbarPage />
+            <NavbarPage nombreusuario={nombreusuario}/>
             <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto p-3 flex flex-col gap-4 rounded-2xl">
               <BreadcrumbComponent />
               {children}

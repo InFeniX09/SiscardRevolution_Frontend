@@ -8,9 +8,10 @@ interface Props {
   text:string;
   label:string;
   placeholder:string;
+  name:string
   }
 
-export default function SelectComponent({array,value,text,label,placeholder}:Props) {
+export default function SelectComponent({array,value,text,label,placeholder,name}:Props) {
   return (
     <>
       <Select
@@ -19,6 +20,7 @@ export default function SelectComponent({array,value,text,label,placeholder}:Pro
         placeholder={placeholder}
         className="max-w-xs"
         labelPlacement="outside"
+        name={name}
       >
         {(item) => <SelectItem key={item[value]}>{item[text]}</SelectItem>}
       </Select>

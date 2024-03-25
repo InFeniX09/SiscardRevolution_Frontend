@@ -24,7 +24,6 @@ import {
 import { TicketIcon } from "@heroicons/react/24/solid";
 
 import { capitalize } from "./Utils";
-import ModalTicketComponent from "../Modal/ModalTicket";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -34,7 +33,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = [
   "IdTicket",
-  "Titulo",
+  "Asunto",
   "Descripcion",
   "idUsuario",
   "actions",
@@ -272,7 +271,6 @@ export default function TableComponent({ columns, users, rowKey }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalTicketComponent/>
           </div>
         </div>
         <div className="flex justify-between items-center">

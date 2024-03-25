@@ -12,7 +12,13 @@ import { Avatar, Input, Navbar, NavbarContent } from "@nextui-org/react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 
-export const NavbarPage = () => {
+
+interface Props {
+  nombreusuario:string;
+}
+
+
+export default function NavbarPage({ nombreusuario }: Props){
   return (
     <Navbar
       className="w-full rounded-[200px] h-[8%] "
@@ -54,7 +60,7 @@ export const NavbarPage = () => {
             src="https://i.pravatar.cc/150?u=a04258114e29026708c"
             className="h-10 w-10   sm:h-8 sm:w-8 "
           />
-          <span>Jcastillo</span>
+          <span>{nombreusuario}</span>
         </div>
       </NavbarContent>
     </Navbar>

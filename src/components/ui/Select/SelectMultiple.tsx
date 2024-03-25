@@ -235,6 +235,7 @@ export default function SelectMultipleComponent() {
   }, []);
   return (
     <Select
+      name="Ticketcc"
       items={usuario}
       label="Personas en copia"
       variant="bordered"
@@ -257,7 +258,7 @@ export default function SelectMultipleComponent() {
       }}
     >
       {(user) => (
-        <SelectItem key={user.IdUsuario} textValue={user.Usuario}>
+        <SelectItem key={user.IdUsuario} textValue={user.Usuario} >
           <div className="flex gap-2 items-center">
             <Avatar
               alt={user.Usuario}

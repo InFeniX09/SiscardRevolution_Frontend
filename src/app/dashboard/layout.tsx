@@ -24,7 +24,7 @@ export default async function Dashboard1Layout({
 
       >
         <div className="bg-[var(--dashboard-Dash)] max-w-[95rem] max-h-[95rem] h-full w-full sm:h-[95vh] sm:w-[95%] flex flex-col overflow-hidden relative sm:rounded-3xl rounded-none backdrop-filter blur-1 font-semibold text-base">
-          <LayoutDashComponent >{children}</LayoutDashComponent>
+          <LayoutDashComponent nombreusuario={session?.user.Usuario} >{children}</LayoutDashComponent>
         </div>
       </div>
     </>
