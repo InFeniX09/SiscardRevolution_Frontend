@@ -10,7 +10,7 @@ import clsx from "clsx";
 import InputComponent from "@/src/components/ui/Input/Input";
 import CheckboxComponent from "@/src/components/ui/Checkbox/Checkbox";
 import { KeyIcon } from "@heroicons/react/24/solid";
-import { authenticate } from "@/src/actions/auth/auth";
+import { authenticate } from "@/src/actions/auth";
 
 export const LoginForm = () => {
 

@@ -1,6 +1,5 @@
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcryptjs from "bcryptjs";
 import { z } from "zod";
 import axios from "axios";
 import { environment } from "@/src/environments/environment";

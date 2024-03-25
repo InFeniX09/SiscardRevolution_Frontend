@@ -1,30 +1,9 @@
-import axios from "axios";
-import { environment } from "@/src/environments/environment";
-
-const api = axios.create({
-  baseURL: environment.baseUrl,
-});
-
 interface columns {
   name: string;
   uid: string;
   sortable: boolean;
 }
-//
-export const getlistarMarca = async () => {
-  const response = await api.get("/inventario-departamental/listarMarca");
-  return response.data.Query3;
-};
-
-export interface Marca {
-  IdMarca: number;
-  Marca: string;
-  TipoEquipo: string;
-  Clasificacion: string;
-  Estado: string;
-}
-
-export const columnslistarMarca: columns[] = [
+export const columnsMarca: columns[] = [
   { name: "IdMarca", uid: "IdMarca", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
@@ -32,22 +11,7 @@ export const columnslistarMarca: columns[] = [
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: false },
 ];
-//
-export const getlistarModelo = async () => {
-  const response = await api.get("/inventario-departamental/listarModelo");
-  return response.data.Query3;
-};
-
-export interface Modelo {
-  IdModelo: number;
-  Modelo: string;
-  Marca: string;
-  TipoEquipo: string;
-  Clasificacion: string;
-  Estado: string;
-}
-
-export const columnslistarModelo: columns[] = [
+export const columnsModelo: columns[] = [
   { name: "IdModelo", uid: "IdModelo", sortable: true },
   { name: "Modelo", uid: "Modelo", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
@@ -56,79 +20,14 @@ export const columnslistarModelo: columns[] = [
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: false },
 ];
-//
-export const getlistarTipoEquipo = async () => {
-  const response = await api.get("/inventario-departamental/listarTipoEquipo");
-  return response.data.Query3;
-};
-
-export interface TipoEquipo {
-  IdTipoEquipo: number;
-  TipoEquipo: string;
-  Clasificacion: string;
-  Estado: string;
-}
-
-export const columnslistarTipoEquipo = [
+export const columnsTipoEquipo = [
   { name: "IdTipoEquipo", uid: "IdTipoEquipo", sortable: true },
   { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
   { name: "Clasificacion", uid: "Clasificacion", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
-//
-
-
-
-export const statusOptions = [
-  { name: "Active", uid: "active" },
-  { name: "Paused", uid: "paused" },
-  { name: "Vacation", uid: "vacation" },
-];
-
-export const animals = [
-  {
-    label: "Sistemas",
-    value: "cat",
-    description: "The second most popular pet in the world",
-  },
-  {
-    label: "Operaciones",
-    value: "dog",
-    description: "The most popular pet in the world",
-  },
-  {
-    label: "Logistica",
-    value: "elephant",
-    description: "The largest land animal",
-  },
-];
-
-//inventario-departamental
-
-export const getlistarEquipo = async () => {
-  const response = await api.get("/inventario-departamental/listarEquipo");
-  return response.data.Query3;
-};
-export const getlistarEquipoStock = async () => {
-  const response = await api.get("/inventario-departamental/listarEquipoStock");
-  return response.data.Query3;
-};
-export const getlistarEquipoControl = async () => {
-  const response = await api.get(
-    "/inventario-departamental/listarEquipoControl"
-  );
-  return response.data.Query3;
-};
-export const getlistarEquipoDescuento = async () => {
-  const response = await api.get(
-    "/inventario-departamental/listarEquipoDescuento"
-  );
-  return response.data.Query3;
-};
-//centro-atencion
-
-export const columnslistarEquipo = [
+export const columnsEquipo = [
   { name: "IdEquipo", uid: "IdEquipo", sortable: true },
   { name: "CodCliente", uid: "CodCliente", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
@@ -138,7 +37,7 @@ export const columnslistarEquipo = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
-export const columnslistarEquipoStock = [
+export const columnsEquipoStock = [
   { name: "IdEquipoStock", uid: "IdEquipoStock", sortable: true },
   { name: "CodCliente", uid: "CodCliente", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
@@ -150,7 +49,7 @@ export const columnslistarEquipoStock = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
-export const columnslistarEquipoControl = [
+export const columnsEquipoControl = [
   { name: "IdEquipoControl", uid: "IdEquipoControl", sortable: true },
   { name: "CodCliente", uid: "CodCliente", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
@@ -167,7 +66,7 @@ export const columnslistarEquipoControl = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
-export const columnslistarEquipoDescuento = [
+export const columnsEquipoDescuento = [
   { name: "IdEquipoDescuento", uid: "IdEquipoDescuento", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "Modelo", uid: "Modelo", sortable: true },
@@ -176,23 +75,10 @@ export const columnslistarEquipoDescuento = [
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
-
-
-
-
-//
-export const getlistarTicket = async () => {
-  const response = await api.get("/centro-atencion/listarTicket");
-  return response.data.Query3;
-};
-
-export const columnslistarTicket = [
+export const columnsTicket = [
   { name: "IdTicket", uid: "IdTicket", sortable: true },
   { name: "Asunto", uid: "Asunto", sortable: true },
   { name: "Descripcion", uid: "Descripcion", sortable: true },
   { name: "idUsuario", uid: "idUsuario", sortable: true },
-  { name: "ACTIONS", uid: "actions" , sortable: true },
+  { name: "ACTIONS", uid: "actions", sortable: true },
 ];
-
-
-

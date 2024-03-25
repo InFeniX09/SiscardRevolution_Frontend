@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -24,6 +24,8 @@ import {
 import { TicketIcon } from "@heroicons/react/24/solid";
 
 import { capitalize } from "./Utils";
+import ModalTicketComponent from "../Modal/ModalTicket";
+import { getlistarTicket } from "@/src/actions/auth/buscar-usuario";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -344,48 +346,66 @@ export default function TableComponent({ columns, users, rowKey }: Props) {
     }),
     []
   );
+  
+  const [userData, setUserData] = useState<any>([]);
+  useEffect(() => {
+    getlistarTicket()
+      .then((Que) => setUserData(Que))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  const updateUserData = (newData: any[]) => {
+    setUserData(newData);
+  };
 
   return (
-    <Table
-      isCompact
-      removeWrapper
-      aria-label="Example table with custom cells, pagination and sorting"
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      checkboxesProps={{
-        classNames: {
-          wrapper: "after:bg-foreground after:text-background text-background",
-        },
-      }}
-      classNames={classNames}
-      selectedKeys={selectedKeys}
-      selectionMode="multiple"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={headerColumns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems as any[]}>
-        {(item) => (
-          <TableRow key={item[rowKey]}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <div className="flex justify-between items-center">
+      <ModalTicketComponent userData={userData} updateUserData={updateUserData} />
+
+      </div>
+      <Table
+        isCompact
+        removeWrapper
+        aria-label="Example table with custom cells, pagination and sorting"
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        checkboxesProps={{
+          classNames: {
+            wrapper:
+              "after:bg-foreground after:text-background text-background",
+          },
+        }}
+        classNames={classNames}
+        selectedKeys={selectedKeys}
+        selectionMode="multiple"
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSelectionChange={setSelectedKeys}
+        onSortChange={setSortDescriptor}
+      >
+        <TableHeader columns={headerColumns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+              allowsSorting={column.sortable}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={"No users found"} items={sortedItems as any[]}>
+          {(item) => (
+            <TableRow key={item[rowKey]}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }

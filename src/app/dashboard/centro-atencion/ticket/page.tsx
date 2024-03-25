@@ -1,14 +1,12 @@
-import { getlistarTicketEstadoxFecha } from "@/src/actions/auth/centro-atencion";
-import TableTicketComponent from "@/src/components/ui/Table/table-ticket";
 import CardinfoComponent from "../ui/Cardinfo";
 import { TicketIcon } from "@heroicons/react/24/solid";
-import SelectComponent from "@/src/components/ui/Select/Select";
 import TableComponent from "@/src/components/ui/Table/Table";
 import {
-  columnslistarTicket,
   getlistarTicket,
-} from "@/src/actions/auth/buscar-usuario";
-import ModalTicketComponent from "@/src/components/ui/Modal/ModalTicket";
+  getlistarTicketEstadoxFecha,
+} from "@/src/actions/centro-atencion";
+import { columnsTicket } from "@/src/interfaces";
+import TableTicketComponent from "@/src/components/ui/Table/TableTicket";
 
 export default async function Page() {
   interface Option {
@@ -54,9 +52,6 @@ export default async function Page() {
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <ModalTicketComponent />
-      </div>
       <div className="grid grid-cols-4 gap-4">
         {datar.map((item, index) => (
           <CardinfoComponent
@@ -68,11 +63,7 @@ export default async function Page() {
           />
         ))}
       </div>
-      <TableComponent
-        columns={columnslistarTicket}
-        users={users1}
-        rowKey="IdTicket"
-      />
+      <TableTicketComponent/>
     </>
   );
 }

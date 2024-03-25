@@ -7,7 +7,7 @@ import {
   Chip,
   SelectedItems,
 } from "@nextui-org/react";
-import { getlistarUsuario } from "@/src/actions/select";
+import { getlistarUsuario } from "@/src/actions/centro-atencion";
 export const users = [
   {
     id: 1,
