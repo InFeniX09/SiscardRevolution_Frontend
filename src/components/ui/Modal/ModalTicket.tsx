@@ -16,7 +16,6 @@ import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectComponent from "../Select/Select";
 import { useFormState } from "react-dom";
 import {
-  
   getlistarArea,
   getlistarPrioridad,
   getlistarTicket,
@@ -36,8 +35,9 @@ export default function ModalTicketComponent({
   updateUserData,
 }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [state, dispatch] = useFormState(createTicketclient, initialstate);
+  const [state, dispatch] = useFormState(createTicketclient, undefined);
   console.log(state);
+
   useEffect(() => {
     if (state === "Success") {
       console.log("aea");
@@ -152,10 +152,10 @@ export default function ModalTicketComponent({
 
 async function createTicketclient(
   prevState: string | undefined,
-  formData: FormData,
+  formData: FormData
 ) {
   try {
-     /*
+    /*
     const session = await auth();
 
     const { Asunto, Descripcion, Area, Prioridad } = Object.fromEntries(
