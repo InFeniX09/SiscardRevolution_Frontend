@@ -1,5 +1,8 @@
+//Manejar estados
 import React, { useEffect, useState } from "react";
+//Componentes UI
 import {
+  Textarea,
   Modal,
   ModalContent,
   ModalHeader,
@@ -10,52 +13,46 @@ import {
   Input,
   ModalProps,
 } from "@nextui-org/react";
+//Iconos
 import { TicketIcon } from "@heroicons/react/24/solid";
-import { Textarea } from "@nextui-org/react";
+//Componentes
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectComponent from "../Select/Select";
-import { useFormState } from "react-dom";
+//Fetch
 import {
   getlistarArea,
   getlistarPrioridad,
   getlistarTicket,
 } from "@/src/actions/centro-atencion";
+//Intefaces
 import { Ticket } from "@/src/interfaces";
+//Alerta
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { auth } from "@/src/auth.config";
+//Formulario
+import { SubmitHandler, useForm } from "react-hook-form";
 
-interface Props {
-  userData: Ticket[]; // Define la interfaz para userData
-  updateUserData: (newData: Ticket[]) => void; // Define la interfaz para updateUserData
-}
 
-export default function ModalTicketComponent({
-  userData,
-  updateUserData,
-}: Props) {
+export default function ModalTicketComponent() {
+  //Apertura de modal
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [state, dispatch] = useFormState(createTicketclient, undefined);
-  console.log(state);
-
-  useEffect(() => {
-    if (state === "Success") {
-      console.log("aea");
-      onOpenChange();
-      getlistarTicket()
-        .then((newData) => {
-          updateUserData(newData);
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-      toast("Ticket Creado");
-    }
-  }, [state]);
-
+  //Scroll de modal
   const [scrollBehavior] =
     React.useState<ModalProps["scrollBehavior"]>("inside");
+  /*
+  useEffect(() => {
+    console.log("aea");
+    
+    getlistarTicket()
+      .then((newData) => {
+        updateUserData(newData);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+    
+  });*/
 
+  //Fetch de datos
   const [area, setAreas] = useState([]);
-
   const [prioridad, setprioridades] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -68,14 +65,27 @@ export default function ModalTicketComponent({
         console.error("Error fetching areas:", error);
       }
     };
-
     fetchData();
   }, []);
+  //Formulario
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Ticket>();
+
+  const onSubmit: SubmitHandler<Ticket> = async (data) => {
+    const { Asunto, Descripcion, idTicketcc, idArea, idPrioridad } = data;
+
+    console.log(Asunto, Descripcion, idTicketcc, idArea, idPrioridad);
+    onOpenChange();
+    toast("Ticket Creado");
+
+  };
 
   return (
     <>
       <ToastContainer />
-
       <Button onPress={onOpen} color="primary">
         Crear Ticket
       </Button>
@@ -93,7 +103,10 @@ export default function ModalTicketComponent({
               <ModalHeader className="flex flex-col gap-1">
                 Crear Ticket
               </ModalHeader>
-              <form action={dispatch} className="h-full overflow-hidden">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="h-full overflow-hidden"
+              >
                 <ModalBody className="h-[84%] overflow-auto">
                   <Input
                     autoFocus
@@ -104,7 +117,7 @@ export default function ModalTicketComponent({
                     placeholder="Ingresar Asunto"
                     labelPlacement="outside"
                     variant="bordered"
-                    name="Asunto"
+                    {...register("Asunto", { required: true })}
                   />
                   <Textarea
                     isRequired
@@ -112,17 +125,18 @@ export default function ModalTicketComponent({
                     labelPlacement="outside"
                     placeholder="Describe tu problema"
                     variant="bordered"
-                    name="Descripcion"
+                    {...register("Descripcion", { required: true })}
                   />
-
-                  <SelectMultipleComponent />
+                  <SelectMultipleComponent
+                    prop={{ ...register("idTicketcc", { required: true }) }}
+                  />
                   <SelectComponent
                     array={area}
                     value="IdArea"
                     text="Area"
                     label="Area designada"
                     placeholder="escoge un area"
-                    name="Area"
+                    prop={{ ...register("idArea", { required: true }) }}
                   />
                   <SelectComponent
                     array={prioridad}
@@ -130,7 +144,7 @@ export default function ModalTicketComponent({
                     text="Prioridad"
                     label="Prioridad"
                     placeholder="seleccione la prioridad"
-                    name="Prioridad"
+                    prop={{ ...register("idPrioridad", { required: true }) }}
                   />
                 </ModalBody>
                 <ModalFooter className="h-full">

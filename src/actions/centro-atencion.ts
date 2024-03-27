@@ -1,7 +1,7 @@
 "use server";
 import axios from "axios";
 import { environment } from "@/src/environments/environment";
-import { auth } from "../auth.config";
+import { Ticket } from "../interfaces";
 
 const api = axios.create({
   baseURL: environment.baseUrl,

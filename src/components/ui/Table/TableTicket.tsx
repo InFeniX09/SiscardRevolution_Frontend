@@ -1,5 +1,7 @@
 "use client";
+//Manejar estados
 import React, { useEffect, useState } from "react";
+//Componentes UI
 import {
   Table,
   TableHeader,
@@ -20,12 +22,17 @@ import {
   ChipProps,
   SortDescriptor,
 } from "@nextui-org/react";
+//Iconos
 import { TicketIcon } from "@heroicons/react/24/solid";
+//Extra
 import { capitalize } from "./Utils";
 /**/
 import { Ticket, columnsTicket } from "@/src/interfaces";
 import { getlistarTicket } from "@/src/actions/centro-atencion";
 import ModalTicketComponent from "../Modal/ModalTicket";
+/**/
+import useSWR from 'swr'
+
 
 const statusOptions = [
   { name: "Active", uid: "active" },
@@ -45,15 +52,11 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 
-/*Ticket*/
+
 
 export default function TableTicketComponent() {
-  const [userData, setUserData] = useState<Ticket[]>([]);
-  useEffect(() => {
-    getlistarTicket()
-      .then((Que) => setUserData(Que))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+
+  const {error,data:userData=[],mutate}=useSWR<Ticket[]>('/centro-atencion/listarTicket',getlistarTicket)
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -344,15 +347,11 @@ export default function TableTicketComponent() {
     }),
     []
   );
-  const updateUserData = (newData: Ticket[]) => {
-    setUserData(newData);
-  };
+
   return (
     <>
       <div className="flex justify-between items-center">
         <ModalTicketComponent
-          userData={userData}
-          updateUserData={updateUserData}
         />
       </div>
       <Table

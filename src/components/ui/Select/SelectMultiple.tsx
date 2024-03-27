@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   Select,
   SelectItem,
@@ -7,7 +7,7 @@ import {
   Chip,
   SelectedItems,
 } from "@nextui-org/react";
-import { getlistarUsuario } from "@/src/actions/centro-atencion";
+import { getlistarUsuario } from "@/src/actions/centro-atencion"
 export const users = [
   {
     id: 1,
@@ -210,6 +210,7 @@ export const users = [
     email: "mia.robinson@example.com",
   },
 ];
+import { FieldValues } from "react-hook-form";
 
 type User = {
   IdUsuario: number;
@@ -217,8 +218,11 @@ type User = {
   Correo: string;
   RutaImagen: string;
 };
+interface Props{
+  prop:FieldValues
+}
 
-export default function SelectMultipleComponent() {
+export default function SelectMultipleComponent({prop}:Props) {
   const [usuario, setusuarios] = useState([]);
 
   useEffect(() => {
@@ -234,8 +238,8 @@ export default function SelectMultipleComponent() {
     fetchData();
   }, []);
   return (
-    <Select
-      name="Ticketcc"
+    <Select 
+      {...prop}
       items={usuario}
       label="Personas en copia"
       variant="bordered"
