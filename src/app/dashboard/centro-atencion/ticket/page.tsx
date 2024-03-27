@@ -1,6 +1,5 @@
 import CardinfoComponent from "../ui/Cardinfo";
 import { TicketIcon } from "@heroicons/react/24/solid";
-import TableComponent from "@/src/components/ui/Table/Table";
 import {
   getlistarTicket,
   getlistarTicketEstadoxFecha,
