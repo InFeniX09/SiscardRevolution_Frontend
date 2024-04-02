@@ -3,12 +3,20 @@ import useSWR from "swr";
 import React from "react";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Page = () => {
-  const { data, error } = useSWR(
+  const { data, error, isLoading } = useSWR(
     "http://localhost:3100/centro-atencion/listarTicket",
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: true,
+      dedupe: true,
+      // Almacenar en caché los datos durante 10 minutos
+      cacheKey: "tickets",
+      refreshWhenHidden: true,
+      revalidateOnMount: true,
+    }
   );
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>loading ...</div>;
+  if (isLoading) return <div>loading ...</div>;
 
   return (
     <div>
