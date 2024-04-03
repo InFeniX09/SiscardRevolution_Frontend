@@ -10,7 +10,6 @@ export default async function Dashboard1Layout({
 
   const session = await auth();
 
-
  if ( session?.user === null || session?.user === undefined) {
     redirect('/');
   }

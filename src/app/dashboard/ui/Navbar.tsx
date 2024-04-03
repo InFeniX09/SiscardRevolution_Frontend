@@ -6,19 +6,18 @@ import {
   MegaphoneIcon,
   IdentificationIcon,
   CurrencyDollarIcon,
-  BellIcon
+  BellIcon,
 } from "@heroicons/react/24/solid";
 import { Avatar, Input, Navbar, NavbarContent } from "@nextui-org/react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
-
+import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
 
 interface Props {
-  nombreusuario:string;
+  nombreusuario: string;
 }
 
-
-export default function NavbarPage({ nombreusuario }: Props){
+export default function NavbarPage({ nombreusuario }: Props) {
   return (
     <Navbar
       className="w-full rounded-[200px] h-[8%] "
@@ -52,17 +51,8 @@ export default function NavbarPage({ nombreusuario }: Props){
           <CurrencyDollarIcon className="h-6" />
           <p>S/200.00</p>
         </div>
-
-        <div className="flex items-center justify-center gap-2 cursor-pointer">
-          <Avatar
-            isBordered
-            radius="full"
-            src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-            className="h-10 w-10   sm:h-8 sm:w-8 "
-          />
-          <span>{nombreusuario}</span>
-        </div>
+        <DropdownComponent name={nombreusuario} />
       </NavbarContent>
     </Navbar>
   );
-};
+}

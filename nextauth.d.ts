@@ -10,6 +10,7 @@ declare module "next-auth" {
       Telefono:string,
       FcIngreso:string,
       FcBaja:string | null,
+      idPuesto:number,
     } & DefaultSession["user"];
   }
 }

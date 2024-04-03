@@ -21,8 +21,12 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { Menu } from "@/src/interfaces";
+import { auth } from "@/src/auth.config";
+import { getlistarMenuxUsuarioxPerfil } from "@/src/actions/menu";
+import { useSession } from 'next-auth/react';
 
 interface Props {
   isSidebarCollapsed: boolean;
@@ -30,7 +34,80 @@ interface Props {
 }
 
 export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
-  const pathname = usePathname();
+  const [menuItems, setMenuItems] = useState<Menu[]>([]);
+  const { data: session, status } = useSession();
+
+ useEffect(() => {
+  const fetchData = async () => {
+    if (status === 'authenticated') {
+      try {
+        const response = await getlistarMenuxUsuarioxPerfil(session?.user.IdUsuario, session?.user.idPuesto);
+        setMenuItems(response);
+        console.log(session?.user.IdUsuario); // Log only once after successful authentication
+      } catch (error) {
+        console.error("Error fetching menu data:", error);
+      }
+    }
+  };
+
+  // Only call fetchData when session.status changes from any value to 'authenticated'
+  fetchData();
+}, [status]);
+
+
+  
+  
+  const renderMenuItems = () => {
+    return menuItems.map((menuItem) => {
+      switch (menuItem.idTipoMenu) {
+        case 1:
+          return (
+            <SidebarMenu key={menuItem.IdMenu} title={menuItem.Menu}>
+              {renderSubMenuItems(menuItem.IdMenu)}
+            </SidebarMenu>
+          );
+
+        default:
+          return null;
+      }
+    });
+  };
+
+  const renderSubMenuItems = (parentId: number) => {
+    return menuItems
+      .filter((menuItem) => menuItem.idPadre === parentId)
+      .map((menuItem) => {
+        switch (menuItem.idTipoMenu) {
+          case 2:
+            return (
+              <SidebarItem
+                key={menuItem.IdMenu}
+                title={menuItem.Menu}
+                icon={<HomeIcon className="h-5" />}
+                isActive={false} // Define tu lógica para establecer la activación del elemento
+                href={menuItem.Ruta}
+              />
+            );
+          case 3:
+            const subItems = menuItems.filter(
+              (item) => item.idPadre === menuItem.IdMenu
+            );
+            return (
+              <CollapseItems
+                key={menuItem.IdMenu}
+                title={menuItem.Menu}
+                icon={<ChartBarIcon className="h-5" />}
+                items={subItems.map((subItem) => ({
+                  name: subItem.Menu,
+                  url: subItem.Ruta,
+                }))}
+              />
+            );
+          default:
+            return null;
+        }
+      });
+  };
 
   return (
     <>
@@ -67,39 +144,8 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
       <div
         className={`w-full flex flex-col gap-1 h-full overflow-hidden text-[0.8rem] px-2 `}
       >
-        <SidebarItem
-          title="Inicio"
-          icon={<HomeIcon className="h-5" />}
-          isActive={pathname === "/dashboard"}
-          href="/dashboard"
-        />
-        <SidebarItem
-          title="Centro de atención"
-          icon={<TicketIcon className="h-5" />}
-          isActive={pathname === "/dashboard/centro-atencion"}
-          href="/dashboard/centro-atencion"
-        />
-        <SidebarItem
-          title="Inventario departamental"
-          icon={<InboxStackIcon className="h-5" />}
-          isActive={pathname === "/dashboard/inventario-departamental"}
-          href="/dashboard/inventario-departamental"
-        />
-        <SidebarItem
-          title="Usuarios"
-          icon={<UsersIcon className="h-5" />}
-          isActive={pathname === "/dashboard/usuarios"}
-          href="/dashboard/usuarios"
-        />
-        <SidebarMenu title="Logistica">
-          <CollapseItems
-            icon={<ChartBarIcon className="h-5 " />}
-            items={["Banks Accounts", "Credit Cards", "Loans"]}
-            title="Balances"
-          />
-        </SidebarMenu>
+        {renderMenuItems()}
       </div>
-      
     </>
   );
 };
