@@ -5,12 +5,12 @@ declare module "next-auth" {
     user: {
       IdUsuario:number,
       Usuario:string,
-      password:string,
+      Clave:string,
       Correo:string,
       Telefono:string,
       FcIngreso:string,
       FcBaja:string | null,
-      idPuesto:number,
+      Puesto_id:number,
     } & DefaultSession["user"];
   }
 }

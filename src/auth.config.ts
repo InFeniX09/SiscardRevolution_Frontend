@@ -68,7 +68,7 @@ export const authConfig: NextAuthConfig = {
             return null; // Handle invalid credentials
           }
 
-          if( Contrasena !== user.Contrasena ) return null;
+          if( Contrasena !== user.Clave ) return null;
 
 
           const { Contrasena: _, ...rest } = user; // Remove password from response
