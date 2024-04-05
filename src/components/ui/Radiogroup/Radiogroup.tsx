@@ -1,17 +1,19 @@
 "use client"
 import React from "react";
-import {RadioGroup, Radio} from "@nextui-org/react";
+import { RadioGroup, Radio } from "@nextui-org/react";
 
-export default function RadiogroupComponent() {
+interface Props {
+  data: any[];
+}
+
+export default function RadiogroupComponent({ data }: Props) {
   return (
-    <RadioGroup
-      label="Elige el albarán de salida a imprimir"
-    >
-      <Radio value="buenos-aires">Buenos Aires</Radio>
-      <Radio value="sydney">Sydney</Radio>
-      <Radio value="san-francisco">San Francisco</Radio>
-      <Radio value="london">London</Radio>
-      <Radio value="tokyo">Tokyo</Radio>
+    <RadioGroup label="Elige el albarán de salida a imprimir">
+      {data.map((item) => (
+        <Radio key={item.albaran_id} value={item.albaran_id} classNames={{label:"text-[0.85rem]"}}>
+          {item.albaran_id+' | '+item.dFcGeneracion+' | '+item.usuario_id+' | '+item.dFcUltimaImpresion}
+        </Radio>
+      ))}
     </RadioGroup>
   );
 }

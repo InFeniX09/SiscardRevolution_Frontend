@@ -1,5 +1,11 @@
 "use client";
-import { getlistarAlmacenxAlbaranSalida } from "@/src/actions/logistica/guia-remision";
+import {
+  generarpdf,
+  getlistarAlbaranSalidaxZona,
+  getlistarAlmacenxAlbaranSalida,
+  getlistarDatosPdfAlbaranSalida,
+} from "@/src/actions/logistica/guia-remision";
+import ButtonComponent from "@/src/components/ui/Button/Button";
 import RadiogroupComponent from "@/src/components/ui/Radiogroup/Radiogroup";
 import SelectComponent from "@/src/components/ui/Select/Select";
 import React, { useEffect, useState } from "react";
@@ -7,6 +13,8 @@ import { useForm } from "react-hook-form";
 
 export default function page() {
   const [Albaranes, setAlbaranes] = useState<any>([]);
+  const [radiogroupData, setRadiogroupData] = useState<any[]>([]);
+  const [selectedGroupValue, setSelectedGroupValue] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +30,39 @@ export default function page() {
     fetchData();
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<any>();
+  
 
+  const handleSelectChange = async (selectedValue: string) => {
+    try {
+      setSelectedGroupValue(selectedValue);
+      const response = await getlistarAlbaranSalidaxZona(selectedValue);
+      setRadiogroupData(response);
+      console.log(radiogroupData);
+    } catch (error) {
+      console.error("Error fetching radiogroup data:", error);
+    }
+  };
+
+  const handleGenerarPDF = async () => {
+    try {
+      const pdatos = await getlistarDatosPdfAlbaranSalida(selectedGroupValue);
+      console.log(pdatos);
+
+      const pdfBytes = await generarpdf(pdatos);
+      const pdfBlob = new Blob([new Uint8Array(pdfBytes.data)], { type: 'application/pdf' });
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'archivo.pdf';
+      document.body.appendChild(link);
+      link.click();
+
+    } catch (error) {
+      console.error("Error al generar el PDF:", error);
+    }
+  };
+  
   return (
     <>
       <SelectComponent
@@ -36,11 +71,13 @@ export default function page() {
         texts={["almacen_id", "sDsAlmacen", "cliente_id"]}
         label="Zona"
         placeholder="Seleccione una zona"
-        prop={{ ...register("Zona", { required: true }) }}
+        prop={{}}
+        onSelectChange={handleSelectChange}
       />
-      <div className="bg-white w-full h-[90%] border-[rgba(0,0,0,0.3)] border-2 rounded-xl p-4">
-        <RadiogroupComponent></RadiogroupComponent>
+      <div className="bg-white w-full  border-[rgba(0,0,0,0.3)] border-2 rounded-xl p-4">
+        <RadiogroupComponent data={radiogroupData} />
       </div>
+      <ButtonComponent texto="GenerarPDF" handleGenerarPDF={handleGenerarPDF}/>
     </>
   );
 }

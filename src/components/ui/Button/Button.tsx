@@ -1,12 +1,25 @@
-"use client";
 import { Button, ButtonGroup } from "@nextui-org/react";
+import { useCallback } from "react";
+
 interface ImageProps {
   texto: string;
+  handleGenerarPDF: () => void;
 }
 
-export default function ButtonComponent({ texto }: ImageProps) {
+export default function ButtonComponent({
+  texto,
+  handleGenerarPDF
+}: ImageProps) {
+  const onClickHandler = useCallback(() => {
+    handleGenerarPDF();
+  }, [handleGenerarPDF]);
+
   return (
-    <Button color="primary" variant="ghost" className="text-white px-2">
+    <Button
+      color="danger"
+      className="text-white px-2"
+      onClick={onClickHandler}
+    >
       {texto}
     </Button>
   );
