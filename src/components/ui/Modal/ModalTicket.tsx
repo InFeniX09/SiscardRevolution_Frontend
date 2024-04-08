@@ -82,7 +82,9 @@ export default function ModalTicketComponent() {
     toast("Ticket Creado");
 
   };
-
+  const handleSelectChange = async () => {
+    
+  };
   return (
     <>
       <ToastContainer />
@@ -133,18 +135,22 @@ export default function ModalTicketComponent() {
                   <SelectComponent
                     array={area}
                     value="IdArea"
-                    text="Area"
+                    texts={["Area"]}
                     label="Area designada"
                     placeholder="escoge un area"
                     prop={{ ...register("idArea", { required: true }) }}
+                    onSelectChange={handleSelectChange}
+
                   />
                   <SelectComponent
                     array={prioridad}
                     value="IdPrioridad"
-                    text="Prioridad"
+                    texts={["Prioridad"]}
                     label="Prioridad"
                     placeholder="seleccione la prioridad"
                     prop={{ ...register("idPrioridad", { required: true }) }}
+                    onSelectChange={handleSelectChange}
+
                   />
                 </ModalBody>
                 <ModalFooter className="h-full">

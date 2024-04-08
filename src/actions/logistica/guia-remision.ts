@@ -33,9 +33,10 @@ export const getlistarDatosPdfAlbaranSalida= async (palmacen_id:string) => {
   return response.data.Query3;
 };
 
-export const generarpdf = async (pdatos:any) => {
+export const generarpdf = async (pdatos:any,pdetalle:any) => {
   const response = await api.post("/logistica/generar-pdf",{
-    pdatos:pdatos
+    pdatos:pdatos,
+    pdetalle:pdetalle
   }, { responseType: "arraybuffer" });
   return response.data;
 };

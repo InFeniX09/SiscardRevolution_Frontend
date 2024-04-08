@@ -4,17 +4,18 @@ import {
   getlistarAlbaranSalidaxZona,
   getlistarAlmacenxAlbaranSalida,
   getlistarDatosPdfAlbaranSalida,
+  getlistarDetalleAlbaranSalida,
 } from "@/src/actions/logistica/guia-remision";
 import ButtonComponent from "@/src/components/ui/Button/Button";
 import RadiogroupComponent from "@/src/components/ui/Radiogroup/Radiogroup";
 import SelectComponent from "@/src/components/ui/Select/Select";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
-export default function page() {
+export default function Page() {
   const [Albaranes, setAlbaranes] = useState<any>([]);
   const [radiogroupData, setRadiogroupData] = useState<any[]>([]);
   const [selectedGroupValue, setSelectedGroupValue] = useState<string>("");
+  const [RadioGroupValue, setRadioGroupValue] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,13 +43,22 @@ export default function page() {
       console.error("Error fetching radiogroup data:", error);
     }
   };
+  const handleRadioChange = async (selectedValue: string) => {
+    try {
+      setRadioGroupValue(selectedValue);
+    } catch (error) {
+      console.error("Error fetching radiogroup data:", error);
+    }
+  };
+ 
+
 
   const handleGenerarPDF = async () => {
     try {
+      const pdetalle = await getlistarDetalleAlbaranSalida(RadioGroupValue);
       const pdatos = await getlistarDatosPdfAlbaranSalida(selectedGroupValue);
-      console.log(pdatos);
-
-      const pdfBytes = await generarpdf(pdatos);
+      
+      const pdfBytes = await generarpdf(pdatos,pdetalle);
       const pdfBlob = new Blob([new Uint8Array(pdfBytes.data)], { type: 'application/pdf' });
       const pdfUrl = URL.createObjectURL(pdfBlob);
 
@@ -75,7 +85,7 @@ export default function page() {
         onSelectChange={handleSelectChange}
       />
       <div className="bg-white w-full  border-[rgba(0,0,0,0.3)] border-2 rounded-xl p-4">
-        <RadiogroupComponent data={radiogroupData} />
+        <RadiogroupComponent data={radiogroupData}  onRadioChange={handleRadioChange}/>
       </div>
       <ButtonComponent texto="GenerarPDF" handleGenerarPDF={handleGenerarPDF}/>
     </>

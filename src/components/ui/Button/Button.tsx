@@ -1,4 +1,3 @@
-"use client"
 import { Button, ButtonGroup } from "@nextui-org/react";
 import { useCallback } from "react";
 
@@ -18,7 +17,7 @@ export default function ButtonComponent({
   return (
     <Button
       color="danger"
-      className="text-white px-2"
+      className="text-white px-2 overflow-visible"
       onClick={onClickHandler}
     >
       {texto}
