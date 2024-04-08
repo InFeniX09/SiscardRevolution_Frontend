@@ -1,0 +1,19 @@
+export interface Entidad {
+    IdEntidad:number,
+    Nombres:string,
+    Apellidos:string,
+    NombreCompleto:string,
+    TipoDocumento_id:number,
+    NroDocumento:string,
+    Correo:string,
+    Telefono:string,
+    Direccion:string,
+    Genero:string,
+    FcNacimiento:Date,
+    Area_id:number,
+    Puesto_id:number,
+    TipoEntidad_id:number,
+    FcIngreso:Date,
+    FcBaja:Date,
+    Estado:string
+};

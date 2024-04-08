@@ -7,8 +7,15 @@ import {
   IdentificationIcon,
   CurrencyDollarIcon,
   BellIcon,
+  WalletIcon,
 } from "@heroicons/react/24/solid";
-import { Avatar, Input, Navbar, NavbarContent } from "@nextui-org/react";
+import {
+  Avatar,
+  Input,
+  Navbar,
+  NavbarContent,
+  Tooltip,
+} from "@nextui-org/react";
 import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
@@ -31,16 +38,24 @@ export default function NavbarPage({ nombreusuario }: Props) {
       >
         <DarkModeSwitch />
         <div className="flex items-center gap-2 ">
-          <ChatBubbleLeftRightIcon className="h-5" />
+          <Tooltip content="Chat">
+            <ChatBubbleLeftRightIcon className="h-5" />
+          </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
-          <MegaphoneIcon className="h-5" />
+          <Tooltip content="Alertas">
+            <MegaphoneIcon className="h-5" />
+          </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
-          <IdentificationIcon className="h-5" />
+          <Tooltip content="Identificación">
+            <IdentificationIcon className="h-5" />
+          </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
-          <BellIcon className="h-5" />
+          <Tooltip content="Notificaciones">
+            <BellIcon className="h-5" />
+          </Tooltip>
         </div>
       </NavbarContent>
       <NavbarContent
@@ -48,7 +63,10 @@ export default function NavbarPage({ nombreusuario }: Props) {
         className="w-fit data-[justify=end]:flex-grow-0 "
       >
         <div className="flex items-center justify-center gap-1">
-          <CurrencyDollarIcon className="h-6" />
+          <Tooltip content="Billetera">
+            <WalletIcon className="h-6" />
+          </Tooltip>
+
           <p>S/200.00</p>
         </div>
         <DropdownComponent name={nombreusuario} />

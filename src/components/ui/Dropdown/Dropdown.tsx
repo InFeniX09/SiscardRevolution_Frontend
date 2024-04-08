@@ -1,11 +1,15 @@
 import React from "react";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User} from "@nextui-org/react";
+import { signOut } from "next-auth/react";
 
 interface Props{
     name:string
 }
 
 export default function DropdownComponent({name}:Props) {
+  const handleLogout = async () => {
+    await signOut()
+  }
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
@@ -29,7 +33,7 @@ export default function DropdownComponent({name}:Props) {
           <DropdownItem key="settings">
             Mi Configuración
           </DropdownItem>
-          <DropdownItem key="logout" color="danger">
+          <DropdownItem key="logout" color="danger" onClick={handleLogout}>
             Cerrar Sesión
           </DropdownItem>
         </DropdownMenu>
