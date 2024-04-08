@@ -1,6 +1,7 @@
 import { Bars4Icon } from "@heroicons/react/24/solid";
 import ButtonComponent from "@/src/components/ui/Button/Button";
 import Link from "next/link";
+import ButtonNormalComponent from "@/src/components/ui/Button/ButtonNormal";
 
 export default function ShopLayout({
   children,
@@ -23,10 +24,14 @@ export default function ShopLayout({
         </div>
         <div className="flex gap-4">
           <Link href="/auth/iniciar-sesion">
-            <ButtonComponent texto="Iniciar Sesion" />
+            <ButtonNormalComponent
+              texto="Iniciar Sesion"
+            />
           </Link>
           <Link href="/auth/crear-cuenta">
-            <ButtonComponent texto="Registrarse" />
+            <ButtonNormalComponent
+              texto="Registrarse"
+            />
           </Link>
         </div>
       </div>

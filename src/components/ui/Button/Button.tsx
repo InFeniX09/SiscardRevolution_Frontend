@@ -1,3 +1,4 @@
+"use client"
 import { Button, ButtonGroup } from "@nextui-org/react";
 import { useCallback } from "react";
 
