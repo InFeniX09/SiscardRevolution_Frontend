@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import LayoutDashComponent from "./ui/LayoutDash";
 import { auth } from "@/src/auth.config";
-import { io } from "socket.io-client";
 
 export default async function Dashboard1Layout({
   children,
@@ -10,7 +9,6 @@ export default async function Dashboard1Layout({
 }) {
 
   const session = await auth();
-  const socket = io("http://localhost:3100");
 
 
  if ( session?.user === null || session?.user === undefined) {
