@@ -1,6 +1,6 @@
 "use client";
 //Manejar estados
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 //Componentes UI
 import {
   Table,
@@ -30,9 +30,8 @@ import { capitalize } from "./Utils";
 import { Ticket, columnsTicket } from "@/src/interfaces";
 import { getlistarTicket } from "@/src/actions/centro-atencion";
 import ModalTicketComponent from "../Modal/ModalTicket";
+import { SocketContext } from "@/src/context/SocketContext";
 /**/
-import useSWR from 'swr'
-
 
 const statusOptions = [
   { name: "Active", uid: "active" },
@@ -52,11 +51,30 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 
-
-
 export default function TableTicketComponent() {
+  const [userData, setTickets] = useState<Ticket[]>([]);
 
-  const {error,data:userData=[],mutate}=useSWR<Ticket[]>('/centro-atencion/listarTicket',getlistarTicket)
+  const { socket } = useContext(SocketContext);
+
+  useEffect(() => {
+    socket?.on("listar-ticket", (asignados: any) => {
+      console.log("client", asignados);
+      console.log("client", JSON.stringify(asignados));
+
+      setTickets(asignados);
+    });
+
+    return () => {
+      socket?.off("ticket-asignado");
+    };
+  }, [socket]);
+
+  //Datos
+
+  useEffect(() => {
+    getlistarTicket().then((tickets) => setTickets(tickets));
+  }, []);
+  //FinDatos
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -267,13 +285,9 @@ export default function TableTicketComponent() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<TicketIcon className="h-5" />}
-              size="sm"
-            >
-              Add New
-            </Button>
+            <div className="flex justify-between items-center">
+              <ModalTicketComponent />
+            </div>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -350,10 +364,6 @@ export default function TableTicketComponent() {
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <ModalTicketComponent
-        />
-      </div>
       <Table
         isCompact
         removeWrapper

@@ -1,5 +1,6 @@
+"use client";
 //Manejar estados
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 //Componentes UI
 import {
   Textarea,
@@ -20,6 +21,7 @@ import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectComponent from "../Select/Select";
 //Fetch
 import {
+  createTicket,
   getlistarArea,
   getlistarPrioridad,
   getlistarTicket,
@@ -31,9 +33,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //Formulario
 import { SubmitHandler, useForm } from "react-hook-form";
-
+import SelectNormalComponent from "../Select/SelectNormal";
+import { useSession } from "next-auth/react";
+import { SocketContext } from "@/src/context/SocketContext";
 
 export default function ModalTicketComponent() {
+  const { data: session } = useSession();
+  const { socket } = useContext(SocketContext);
+
+  const [userData, setTickets] = useState<Ticket[]>([]);
+
   //Apertura de modal
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   //Scroll de modal
@@ -74,17 +83,36 @@ export default function ModalTicketComponent() {
     formState: { errors },
   } = useForm<Ticket>();
 
-  const onSubmit: SubmitHandler<Ticket> = async (data) => {
-    const { Asunto, Descripcion, idTicketcc, idArea, idPrioridad } = data;
+  const onSubmit = async (data: any) => {
+    if (session?.user.IdUsuario !== undefined) {
+      const { Asunto, Descripcion, idTicketcc, idArea, idPrioridad } = data;
 
-    console.log(Asunto, Descripcion, idTicketcc, idArea, idPrioridad);
-    onOpenChange();
-    toast("Ticket Creado");
+      // Crear el objeto de ticket
+      const ticket = {
+        Asunto,
+        Descripcion,
+        idUsuario: session.user.IdUsuario,
+        idTicketcc,
+        idArea,
+        idPrioridad,
+      };
 
+      onOpenChange();
+      toast("Ticket Creado");
+      console.log(ticket)
+      
+      socket?.emit("crear-ticket", ticket, (ticket: any) => {
+        console.log('aca',JSON.stringify(ticket))
+      });
+
+      console.log(userData);
+    } else {
+      // Manejar el caso donde session?.user.IdUsuario es undefined
+      // Por ejemplo, mostrar un mensaje de error o tomar otra acción
+      console.error("El ID de usuario es undefined en la sesión.");
+    }
   };
-  const handleSelectChange = async () => {
-    
-  };
+
   return (
     <>
       <ToastContainer />
@@ -105,10 +133,7 @@ export default function ModalTicketComponent() {
               <ModalHeader className="flex flex-col gap-1">
                 Crear Ticket
               </ModalHeader>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="h-full overflow-hidden"
-              >
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalBody className="h-[84%] overflow-auto">
                   <Input
                     autoFocus
@@ -132,25 +157,21 @@ export default function ModalTicketComponent() {
                   <SelectMultipleComponent
                     prop={{ ...register("idTicketcc", { required: true }) }}
                   />
-                  <SelectComponent
+                  <SelectNormalComponent
                     array={area}
                     value="IdArea"
                     texts={["Area"]}
                     label="Area designada"
                     placeholder="escoge un area"
                     prop={{ ...register("idArea", { required: true }) }}
-                    onSelectChange={handleSelectChange}
-
                   />
-                  <SelectComponent
+                  <SelectNormalComponent
                     array={prioridad}
                     value="IdPrioridad"
                     texts={["Prioridad"]}
                     label="Prioridad"
                     placeholder="seleccione la prioridad"
                     prop={{ ...register("idPrioridad", { required: true }) }}
-                    onSelectChange={handleSelectChange}
-
                   />
                 </ModalBody>
                 <ModalFooter className="h-full">
@@ -168,48 +189,4 @@ export default function ModalTicketComponent() {
       </Modal>
     </>
   );
-}
-
-async function createTicketclient(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  try {
-    /*
-    const session = await auth();
-
-    const { Asunto, Descripcion, Area, Prioridad } = Object.fromEntries(
-      formData
-    ) as {
-      Asunto?: string;
-      Descripcion?: string;
-      Area?: number;
-      Prioridad?: number;
-    };
-
-    // Obtener los valores de Ticketcc como un array
-    const ticketccValues = formData.getAll("Ticketcc");
-
-    console.log('Valor de "Area":', Area || "");
-    console.log('Valor de "Prioridad":', Prioridad || "");
-    console.log('Valores de "Ticketcc":', ticketccValues);
-
-   
-    // Llamar a createTicket con los argumentos correctos
-    createTicket(
-      Asunto || "",
-      Descripcion || "",
-      session?.user.IdUsuario || 0,
-      Area || 0,
-      0,
-      Prioridad || 0
-    );*/
-
-    console.log("pavita");
-
-    return "Success";
-  } catch (error) {
-    console.log(error);
-    return "Error";
-  }
 }

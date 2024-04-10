@@ -4,7 +4,6 @@ import {
   getlistarTicket,
   getlistarTicketEstadoxFecha,
 } from "@/src/actions/centro-atencion";
-import { columnsTicket } from "@/src/interfaces";
 import TableTicketComponent from "@/src/components/ui/Table/TableTicket";
 
 export default async function Page() {
@@ -62,7 +61,7 @@ export default async function Page() {
           />
         ))}
       </div>
-      <TableTicketComponent/>
+      <TableTicketComponent />
     </>
   );
 }

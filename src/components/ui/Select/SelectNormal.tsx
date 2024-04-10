@@ -9,28 +9,18 @@ interface Props {
   label: string;
   placeholder: string;
   prop: FieldValues;
-  onSelectChange: (selectedValue: string) => void; // Agregar onSelectChange al tipo Props
 }
 
-export default function SelectComponent({
+export default function SelectNormalComponent({
   array,
   value,
   texts,
   label,
   placeholder,
   prop,
-  onSelectChange,
 }: Props) {
 
-  const handleSelectChange = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedValue = event.target.value;
-      if (onSelectChange) {
-        onSelectChange(selectedValue); // Llamar a onSelectChange si está definido
-      }
-    },
-    [onSelectChange]
-  );
+
   
 
   return (
@@ -42,7 +32,6 @@ export default function SelectComponent({
         placeholder={placeholder}
         className=""
         labelPlacement="outside"
-        onChange={handleSelectChange}
       >
         {(item) => (
           <SelectItem key={item[value]}>
