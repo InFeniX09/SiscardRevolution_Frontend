@@ -123,7 +123,7 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
           <span
             className={clsx(
               isSidebarCollapsed ? "block" : "hidden",
-              "text-[1.5rem]"
+              "text-[1.5rem] text-[var(--color-neutral)]"
             )}
           >
             <strong>Siscard</strong>

@@ -11,6 +11,8 @@
 :root {
   /* Tema LightPeru */
   &.LightPeru {
+    --color-neutral:black;
+
     /*Dashboard*/
     --dashboard-bg:url('/dashboard/fondo1.jpg');
     /*Dashboard*/
@@ -34,6 +36,8 @@
   }
   /* Tema DarkPeru */
   &.DarkPeru {
+    --color-neutral:white;
+
     --nextui-background-color: rgba(0, 0, 0, 0.65);
     --bg-darkmode85: rgba(0, 0, 0, 0.85);
     --bg-darkmode50: rgba(0, 0, 0, 0.5);

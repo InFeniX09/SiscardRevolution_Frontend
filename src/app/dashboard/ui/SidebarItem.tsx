@@ -35,7 +35,7 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
         {icon}
         <span className={clsx(
           isActive
-            ? "text-[#FFFFFF]"
+            ? "text-red-400"
             : "text-[#000000]",
           ""
         )}>{title}</span>
