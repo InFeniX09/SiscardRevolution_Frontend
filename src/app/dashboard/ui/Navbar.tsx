@@ -19,6 +19,7 @@ import {
 import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
+import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
 
 interface Props {
   nombreusuario: string;
@@ -38,18 +39,16 @@ export default function NavbarPage({ nombreusuario }: Props) {
       >
         <DarkModeSwitch />
         <div className="flex items-center gap-2 ">
-          <Tooltip content="Chat">
-            <ChatBubbleLeftRightIcon className="h-5" />
+          <Tooltip content="Identificación">
+            <IdentificationIcon className="h-5" />
           </Tooltip>
+        </div>
+        <div className="flex items-center gap-2 ">
+          <ModalChatComponent />
         </div>
         <div className="flex items-center gap-2 ">
           <Tooltip content="Alertas">
             <MegaphoneIcon className="h-5" />
-          </Tooltip>
-        </div>
-        <div className="flex items-center gap-2 ">
-          <Tooltip content="Identificación">
-            <IdentificationIcon className="h-5" />
           </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
