@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -77,13 +77,19 @@ export default function ModalChatComponent() {
     };
     socket?.emit("mensaje-personal", data1);
     reset();
-
   };
 
   const formatDate = (timestamp: string) => {
     const date = new Date(timestamp);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chat]);
   return (
     <>
       <Badge
@@ -109,21 +115,22 @@ export default function ModalChatComponent() {
               </div>
               <div className="w-[70%] h-full bg-blue-500">
                 <div className="w-full h-[90vh] bg-white/40 flex flex-col items-start space-y-2 overflow-auto p-3">
-                    {chat.map((item: any, key: any) => (
-                      <div
-                        key={key}
-                        className={`p-2 rounded-lg max-w-[80%] ${
-                          item.DeUsuario_id === session?.user.IdUsuario
-                            ? "bg-blue-500 text-white self-end"
-                            : "bg-gray-200 text-gray-800 self-start"
-                        }`}
-                      >
-                        <p className="mb-1">{item.Mensaje}</p>
-                        <span className="text-xs text-gray-900">
+                  {chat.map((item: any, key: any) => (
+                    <div
+                      ref={key === chat.length - 1 ? lastMessageRef : null}
+                      key={key}
+                      className={`p-2 rounded-lg max-w-[80%] ${
+                        item.DeUsuario_id === session?.user.IdUsuario
+                          ? "bg-blue-500 text-white self-end"
+                          : "bg-gray-200 text-gray-800 self-start"
+                      }`}
+                    >
+                      <p className="mb-1">{item.Mensaje}</p>
+                      <span className="text-xs text-gray-900">
                         {formatDate(item.FechaCreacion)}
-                        </span>
-                      </div>
-                    ))}
+                      </span>
+                    </div>
+                  ))}
                 </div>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
