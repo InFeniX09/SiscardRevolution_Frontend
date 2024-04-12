@@ -81,7 +81,7 @@ export default function ModalTicketComponent() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Ticket>();
+  } = useForm();
 
   const onSubmit = async (data: any) => {
     if (session?.user.IdUsuario !== undefined) {

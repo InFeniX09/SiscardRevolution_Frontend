@@ -30,8 +30,7 @@ import { capitalize } from "./Utils";
 import ModalTicketComponent from "../Modal/ModalTicket";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
-import { Ticket } from "@/src/interfaces";
-
+import { Solicitud } from "@/src/interfaces/solicitud.interface";
 /**/
 
 const statusOptions = [
@@ -46,24 +45,24 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdTicket",
-  "Asunto",
-  "Descripcion",
-  "idUsuario",
+  "IdSolicitud",
+  "TipoSolicitud",
+  "TipoMotivo",
+  "Usuario",
   "actions",
 ];
-export const columnsTicket = [
-  { name: "IdTicket", uid: "IdTicket", sortable: true },
-  { name: "Asunto", uid: "Asunto", sortable: true },
-  { name: "Descripcion", uid: "Descripcion", sortable: true },
-  { name: "idUsuario", uid: "idUsuario", sortable: true },
+export const columnsSolicitud = [
+  { name: "IdSolicitud", uid: "IdSolicitud", sortable: true },
+  { name: "TipoSolicitud", uid: "TipoSolicitud", sortable: true },
+  { name: "TipoMotivo", uid: "TipoMotivo", sortable: true },
+  { name: "Usuario", uid: "Usuario", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  DataTicket: Ticket[];
+  userData: Solicitud[];
 }
 
-export default function TableTicketComponent({ DataTicket }: Props) {
+export default function TableSolicitudComponent({ userData }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -79,24 +78,24 @@ export default function TableTicketComponent({ DataTicket }: Props) {
   });
   const [page, setPage] = React.useState(1);
 
-  const pages = Math.ceil(DataTicket.length / rowsPerPage);
+  const pages = Math.ceil(userData.length / rowsPerPage);
 
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columnsTicket;
+    if (visibleColumns === "all") return columnsSolicitud;
 
-    return columnsTicket.filter((column) =>
+    return columnsSolicitud.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...DataTicket];
+    let filteredUsers = [...userData];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.Descripcion.toLowerCase().includes(filterValue.toLowerCase())
+        user.TipoMotivo.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -109,7 +108,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
     }
 
     return filteredUsers;
-  }, [DataTicket, filterValue, statusFilter]);
+  }, [userData, filterValue, statusFilter]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -119,9 +118,9 @@ export default function TableTicketComponent({ DataTicket }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Ticket, b: Ticket) => {
-      const first = a[sortDescriptor.column as keyof Ticket] as number;
-      const second = b[sortDescriptor.column as keyof Ticket] as number;
+    return [...items].sort((a: Solicitud, b: Solicitud) => {
+      const first = a[sortDescriptor.column as keyof Solicitud] as number;
+      const second = b[sortDescriptor.column as keyof Solicitud] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -129,21 +128,21 @@ export default function TableTicketComponent({ DataTicket }: Props) {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (user: Ticket, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Ticket];
+    (user: Solicitud, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof Solicitud];
 
       switch (columnKey) {
         case "name":
           return (
             <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Descripcion }}
+              avatarProps={{ radius: "full", size: "sm", src: user.TipoMotivo }}
               classNames={{
                 description: "text-default-500",
               }}
-              description={user.Descripcion}
+              description={user.TipoMotivo}
               name={cellValue}
             >
-              {user.Descripcion}
+              {user.TipoMotivo}
             </User>
           );
         case "role":
@@ -151,7 +150,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
             <div className="flex flex-col">
               <p className="text-bold text-small capitalize">{cellValue}</p>
               <p className="text-bold text-tiny capitalize text-default-500">
-                {user.Descripcion}
+                {user.TipoMotivo}
               </p>
             </div>
           );
@@ -159,7 +158,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
           return (
             <Chip
               className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.Descripcion]}
+              color={statusColorMap[user.TipoMotivo]}
               size="sm"
               variant="dot"
             >
@@ -269,7 +268,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
                 selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
-                {columnsTicket.map((column) => (
+                {columnsSolicitud.map((column) => (
                   <DropdownItem key={column.uid} className="capitalize">
                     {capitalize(column.name)}
                   </DropdownItem>
@@ -280,7 +279,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {DataTicket.length} users
+            Total {userData.length} users
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -302,7 +301,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    DataTicket.length,
+    userData.length,
     hasSearchFilter,
   ]);
 
@@ -352,7 +351,7 @@ export default function TableTicketComponent({ DataTicket }: Props) {
 
   return (
     <>
-      <h1>Mis Tickets</h1>
+      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         removeWrapper
@@ -386,8 +385,8 @@ export default function TableTicketComponent({ DataTicket }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: Ticket) => (
-            <TableRow key={item.IdTicket}>
+          {(item: Solicitud) => (
+            <TableRow key={item.IdSolicitud}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

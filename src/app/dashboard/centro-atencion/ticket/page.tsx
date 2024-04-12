@@ -1,12 +1,25 @@
+"use client";
 import CardinfoComponent from "../ui/Cardinfo";
 import { TicketIcon } from "@heroicons/react/24/solid";
 import {
-  getlistarTicket,
   getlistarTicketEstadoxFecha,
 } from "@/src/actions/centro-atencion";
 import TableTicketComponent from "@/src/components/ui/Table/TableTicket";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
+export default function Page() {
+  interface prop {
+    Dia: string;
+    Titulo: string;
+    cantidad: number;
+  }
+
+  const [datar, setDatar] = useState<prop[]>([]);
+  
+  useEffect(() => {
+    getlistarTicketEstadoxFecha(0).then((dato) => setDatar(dato));
+  });
+
   interface Option {
     name: string;
     digit: number;
@@ -39,17 +52,9 @@ export default async function Page() {
     previousDays.push({ name: dayName, digit: i });
   }
 
-  interface prop {
-    Dia: string;
-    Titulo: string;
-    cantidad: number;
-  }
-
-  const datar: prop[] = await getlistarTicketEstadoxFecha(0);
-  const users1 = await getlistarTicket();
-
   return (
     <>
+      <h1>Estado Tickets</h1>
       <div className="grid grid-cols-4 gap-4">
         {datar.map((item, index) => (
           <CardinfoComponent
