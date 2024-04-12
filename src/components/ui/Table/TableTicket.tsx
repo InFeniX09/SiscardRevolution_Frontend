@@ -49,14 +49,14 @@ const INITIAL_VISIBLE_COLUMNS = [
   "IdTicket",
   "Asunto",
   "Descripcion",
-  "idUsuario",
+  "Usuario_id",
   "actions",
 ];
 export const columnsTicket = [
   { name: "IdTicket", uid: "IdTicket", sortable: true },
   { name: "Asunto", uid: "Asunto", sortable: true },
   { name: "Descripcion", uid: "Descripcion", sortable: true },
-  { name: "idUsuario", uid: "idUsuario", sortable: true },
+  { name: "Usuario_id", uid: "Usuario_id", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {

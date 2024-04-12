@@ -43,7 +43,6 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
       try {
         const response = await getlistarMenuxUsuarioxPerfil(session?.user.IdUsuario, session?.user.Puesto_id);
         setMenuItems(response);
-        console.log(session?.user.IdUsuario); // Log only once after successful authentication
       } catch (error) {
         console.error("Error fetching menu data:", error);
       }

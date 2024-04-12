@@ -50,7 +50,6 @@ export default function ModalTicketComponent() {
     React.useState<ModalProps["scrollBehavior"]>("inside");
   /*
   useEffect(() => {
-    console.log("aea");
     
     getlistarTicket()
       .then((newData) => {
@@ -91,7 +90,7 @@ export default function ModalTicketComponent() {
       const ticket = {
         Asunto,
         Descripcion,
-        idUsuario: session.user.IdUsuario,
+        Usuario_id: session.user.IdUsuario,
         idTicketcc,
         idArea,
         idPrioridad,
@@ -99,13 +98,10 @@ export default function ModalTicketComponent() {
 
       onOpenChange();
       toast("Ticket Creado");
-      console.log(ticket)
-      
+
       socket?.emit("crear-ticket", ticket, (ticket: any) => {
-        console.log('aca',JSON.stringify(ticket))
       });
 
-      console.log(userData);
     } else {
       // Manejar el caso donde session?.user.IdUsuario es undefined
       // Por ejemplo, mostrar un mensaje de error o tomar otra acción

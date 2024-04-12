@@ -41,8 +41,7 @@ export default function ModalChatComponent() {
   }, [socket]);
 
   useEffect(() => {
-    console.log(usuariochat);
-    console.log("aya");
+
   }, [usuariochat]);
 
   const handleOpen = () => {

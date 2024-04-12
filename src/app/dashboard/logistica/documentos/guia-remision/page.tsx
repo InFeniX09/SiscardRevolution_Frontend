@@ -38,7 +38,6 @@ export default function Page() {
       setSelectedGroupValue(selectedValue);
       const response = await getlistarAlbaranSalidaxZona(selectedValue);
       setRadiogroupData(response);
-      console.log(radiogroupData);
     } catch (error) {
       console.error("Error fetching radiogroup data:", error);
     }
