@@ -21,9 +21,10 @@ import {
   Selection,
   ChipProps,
   SortDescriptor,
+  Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon } from "@heroicons/react/24/solid";
+import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -31,6 +32,8 @@ import ModalTicketComponent from "../Modal/ModalTicket";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
 import { Solicitud } from "@/src/interfaces/solicitud.interface";
+import ModalSolicitudComponent from "../Modal/ModalSolicitud";
+import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 /**/
 
 const statusOptions = [
@@ -59,10 +62,10 @@ export const columnsSolicitud = [
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  userData: Solicitud[];
+  array: Solicitud[];
 }
 
-export default function TableSolicitudComponent({ userData }: Props) {
+export default function TableSolicitudComponent({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -78,7 +81,7 @@ export default function TableSolicitudComponent({ userData }: Props) {
   });
   const [page, setPage] = React.useState(1);
 
-  const pages = Math.ceil(userData.length / rowsPerPage);
+  const pages = Math.ceil(array.length / rowsPerPage);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -91,7 +94,7 @@ export default function TableSolicitudComponent({ userData }: Props) {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...userData];
+    let filteredUsers = [...array];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -108,7 +111,7 @@ export default function TableSolicitudComponent({ userData }: Props) {
     }
 
     return filteredUsers;
-  }, [userData, filterValue, statusFilter]);
+  }, [array, filterValue, statusFilter]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -167,19 +170,8 @@ export default function TableSolicitudComponent({ userData }: Props) {
           );
         case "actions":
           return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown className="bg-background border-1 border-default-200">
-                <DropdownTrigger>
-                  <Button isIconOnly radius="full" size="sm" variant="light">
-                    <TicketIcon className="h-5" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+            <div className="relative flex items-center gap-2">
+                <ModalAtenderTicketComponent datosolicitud={user.TipoSolicitud} datomotivo={user.TipoMotivo}/>
             </div>
           );
         default:
@@ -275,11 +267,12 @@ export default function TableSolicitudComponent({ userData }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
+            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {userData.length} users
+            Total {array.length} users
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -301,7 +294,7 @@ export default function TableSolicitudComponent({ userData }: Props) {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    userData.length,
+    array.length,
     hasSearchFilter,
   ]);
 

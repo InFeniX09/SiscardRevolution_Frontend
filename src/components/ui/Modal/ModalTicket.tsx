@@ -15,7 +15,7 @@ import {
   ModalProps,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon } from "@heroicons/react/24/solid";
+import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Componentes
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectComponent from "../Select/Select";
@@ -99,9 +99,7 @@ export default function ModalTicketComponent() {
       onOpenChange();
       toast("Ticket Creado");
 
-      socket?.emit("crear-ticket", ticket, (ticket: any) => {
-      });
-
+      socket?.emit("crear-ticket", ticket, (ticket: any) => {});
     } else {
       // Manejar el caso donde session?.user.IdUsuario es undefined
       // Por ejemplo, mostrar un mensaje de error o tomar otra acción
@@ -112,8 +110,13 @@ export default function ModalTicketComponent() {
   return (
     <>
       <ToastContainer />
-      <Button onPress={onOpen} color="primary">
-        Crear Ticket
+      <Button
+        onPress={onOpen}
+        className="bg-foreground text-background"
+        endContent={<UserPlusIcon className="h-5" />}
+        size="sm"
+      >
+        Crear nuevo ticket
       </Button>
       <Modal
         isOpen={isOpen}
@@ -126,11 +129,11 @@ export default function ModalTicketComponent() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1 h-[10%]">
                 Crear Ticket
               </ModalHeader>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <ModalBody className="h-[84%] overflow-auto">
+              <form onSubmit={handleSubmit(onSubmit)} className="h-[90%]">
+                <ModalBody className="h-[85%] overflow-auto">
                   <Input
                     autoFocus
                     endContent={
@@ -170,12 +173,12 @@ export default function ModalTicketComponent() {
                     prop={{ ...register("idPrioridad", { required: true }) }}
                   />
                 </ModalBody>
-                <ModalFooter className="h-full">
+                <ModalFooter className="h-[15%]">
                   <Button color="danger" variant="flat" onPress={onClose}>
-                    Close
+                    Cerrar
                   </Button>
                   <Button color="primary" type="submit">
-                    Sign in
+                    Crear
                   </Button>
                 </ModalFooter>
               </form>

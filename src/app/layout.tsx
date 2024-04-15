@@ -5,10 +5,10 @@ import { Providers } from "../components/providers/Providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Teslo | Shop",
-    default: "Home - Teslo | Shop",
+    template: "Siscard Revolution",
+    default: "Siscard Revolution",
   },
-  description: "Siscard Peru",
+  description: "Siscard Revolution",
 };
 
 export default function RootLayout({

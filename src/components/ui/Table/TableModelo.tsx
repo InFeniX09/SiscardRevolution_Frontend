@@ -21,17 +21,15 @@ import {
   Selection,
   ChipProps,
   SortDescriptor,
+  Tooltip,
 } from "@nextui-org/react";
 //Iconos
 import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalTicketComponent from "../Modal/ModalTicket";
-import { SocketContext } from "@/src/context/SocketContext";
-import { useSession } from "next-auth/react";
-import { Ticket } from "@/src/interfaces";
-
+import ModalSolicitudComponent from "../Modal/ModalSolicitud";
+import { Modelo } from "@/src/interfaces";
 /**/
 
 const statusOptions = [
@@ -46,24 +44,24 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdTicket",
-  "Asunto",
-  "Descripcion",
-  "Usuario_id",
-  "actions",
+  "IdModelo",
+  "Modelo",
+  "Marca",
+  "Estado",
+  "actions"
 ];
-export const columnsTicket = [
-  { name: "IdTicket", uid: "IdTicket", sortable: true },
-  { name: "Asunto", uid: "Asunto", sortable: true },
-  { name: "Descripcion", uid: "Descripcion", sortable: true },
-  { name: "Usuario_id", uid: "Usuario_id", sortable: true },
+export const columnsSolicitud = [
+  { name: "IdModelo", uid: "IdModelo", sortable: true },
+  { name: "Modelo", uid: "Modelo", sortable: true },
+  { name: "Marca", uid: "Marca", sortable: true },
+  { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  array: Ticket[];
+  array: Modelo[];
 }
 
-export default function TableTicketComponent({ array }: Props) {
+export default function TableModeloComponent({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -84,9 +82,9 @@ export default function TableTicketComponent({ array }: Props) {
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columnsTicket;
+    if (visibleColumns === "all") return columnsSolicitud;
 
-    return columnsTicket.filter((column) =>
+    return columnsSolicitud.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
@@ -96,7 +94,7 @@ export default function TableTicketComponent({ array }: Props) {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.Descripcion.toLowerCase().includes(filterValue.toLowerCase())
+        user.Modelo.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -119,9 +117,9 @@ export default function TableTicketComponent({ array }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Ticket, b: Ticket) => {
-      const first = a[sortDescriptor.column as keyof Ticket] as number;
-      const second = b[sortDescriptor.column as keyof Ticket] as number;
+    return [...items].sort((a: Modelo, b: Modelo) => {
+      const first = a[sortDescriptor.column as keyof Modelo] as number;
+      const second = b[sortDescriptor.column as keyof Modelo] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -129,21 +127,21 @@ export default function TableTicketComponent({ array }: Props) {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (user: Ticket, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Ticket];
+    (user: Modelo, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof Modelo];
 
       switch (columnKey) {
         case "name":
           return (
             <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Descripcion }}
+              avatarProps={{ radius: "full", size: "sm", src: user.Modelo }}
               classNames={{
                 description: "text-default-500",
               }}
-              description={user.Descripcion}
+              description={user.Modelo}
               name={cellValue}
             >
-              {user.Descripcion}
+              {user.Modelo}
             </User>
           );
         case "role":
@@ -151,7 +149,7 @@ export default function TableTicketComponent({ array }: Props) {
             <div className="flex flex-col">
               <p className="text-bold text-small capitalize">{cellValue}</p>
               <p className="text-bold text-tiny capitalize text-default-500">
-                {user.Descripcion}
+                {user.Modelo}
               </p>
             </div>
           );
@@ -159,7 +157,7 @@ export default function TableTicketComponent({ array }: Props) {
           return (
             <Chip
               className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.Descripcion]}
+              color={statusColorMap[user.Modelo]}
               size="sm"
               variant="dot"
             >
@@ -168,19 +166,7 @@ export default function TableTicketComponent({ array }: Props) {
           );
         case "actions":
           return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown className="bg-background border-1 border-default-200">
-                <DropdownTrigger>
-                  <Button isIconOnly radius="full" size="sm" variant="light">
-                    <TicketIcon className="h-5" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+            <div className="relative flex items-center gap-2">
             </div>
           );
         default:
@@ -269,14 +255,14 @@ export default function TableTicketComponent({ array }: Props) {
                 selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
-                {columnsTicket.map((column) => (
+                {columnsSolicitud.map((column) => (
                   <DropdownItem key={column.uid} className="capitalize">
                     {capitalize(column.name)}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalTicketComponent/>
+            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -353,7 +339,7 @@ export default function TableTicketComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Mis Tickets</h1>
+      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         removeWrapper
@@ -387,8 +373,8 @@ export default function TableTicketComponent({ array }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: Ticket) => (
-            <TableRow key={item.IdTicket}>
+          {(item: Modelo) => (
+            <TableRow key={item.IdModelo}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

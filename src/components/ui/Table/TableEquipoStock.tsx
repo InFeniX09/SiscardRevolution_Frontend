@@ -21,6 +21,7 @@ import {
   Selection,
   ChipProps,
   SortDescriptor,
+  Tooltip,
 } from "@nextui-org/react";
 //Iconos
 import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
@@ -30,7 +31,11 @@ import { capitalize } from "./Utils";
 import ModalTicketComponent from "../Modal/ModalTicket";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
-import { Ticket } from "@/src/interfaces";
+import { Solicitud } from "@/src/interfaces/solicitud.interface";
+import ModalSolicitudComponent from "../Modal/ModalSolicitud";
+import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
+import { Equipo } from "@/src/interfaces/equipo.interface";
+import { EquipoStock } from "@/src/interfaces/equipostock.interface";
 
 /**/
 
@@ -46,24 +51,32 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdTicket",
-  "Asunto",
-  "Descripcion",
-  "Usuario_id",
+  "IdEquipoStock",
+  "Marca",
+  "Modelo",
+  "CodCliente",
+  "Usuario",
+  "StockActual",
+  "StockDisponible",
+  "StockNoDisponible",
   "actions",
 ];
-export const columnsTicket = [
-  { name: "IdTicket", uid: "IdTicket", sortable: true },
-  { name: "Asunto", uid: "Asunto", sortable: true },
-  { name: "Descripcion", uid: "Descripcion", sortable: true },
-  { name: "Usuario_id", uid: "Usuario_id", sortable: true },
+export const columnsSolicitud = [
+  { name: "IdEquipoStock", uid: "IdEquipoStock", sortable: true },
+  { name: "Marca", uid: "Marca", sortable: true },
+  { name: "Modelo", uid: "Modelo", sortable: true },
+  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Usuario", uid: "Usuario", sortable: true },
+  { name: "StockActual", uid: "StockActual", sortable: true },
+  { name: "StockDisponible", uid: "StockDisponible", sortable: true },
+  { name: "StockNoDisponible", uid: "StockNoDisponible", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  array: Ticket[];
+  array: EquipoStock[];
 }
 
-export default function TableTicketComponent({ array }: Props) {
+export default function TableEquipoStockComponent({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -84,9 +97,9 @@ export default function TableTicketComponent({ array }: Props) {
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columnsTicket;
+    if (visibleColumns === "all") return columnsSolicitud;
 
-    return columnsTicket.filter((column) =>
+    return columnsSolicitud.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
@@ -96,7 +109,7 @@ export default function TableTicketComponent({ array }: Props) {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.Descripcion.toLowerCase().includes(filterValue.toLowerCase())
+        user.Marca.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -104,7 +117,7 @@ export default function TableTicketComponent({ array }: Props) {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.Estado)
+        Array.from(statusFilter).includes(user.StockActual)
       );
     }
 
@@ -119,76 +132,62 @@ export default function TableTicketComponent({ array }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Ticket, b: Ticket) => {
-      const first = a[sortDescriptor.column as keyof Ticket] as number;
-      const second = b[sortDescriptor.column as keyof Ticket] as number;
+    return [...items].sort((a: EquipoStock, b: EquipoStock) => {
+      const first = a[sortDescriptor.column as keyof EquipoStock] as number;
+      const second = b[sortDescriptor.column as keyof EquipoStock] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback(
-    (user: Ticket, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Ticket];
+  const renderCell = React.useCallback((user: EquipoStock, columnKey: React.Key) => {
+    const cellValue = user[columnKey as keyof EquipoStock];
 
-      switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Descripcion }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.Descripcion}
-              name={cellValue}
-            >
-              {user.Descripcion}
-            </User>
-          );
-        case "role":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{cellValue}</p>
-              <p className="text-bold text-tiny capitalize text-default-500">
-                {user.Descripcion}
-              </p>
-            </div>
-          );
-        case "status":
-          return (
-            <Chip
-              className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.Descripcion]}
-              size="sm"
-              variant="dot"
-            >
-              {cellValue}
-            </Chip>
-          );
-        case "actions":
-          return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown className="bg-background border-1 border-default-200">
-                <DropdownTrigger>
-                  <Button isIconOnly radius="full" size="sm" variant="light">
-                    <TicketIcon className="h-5" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          );
-        default:
-          return cellValue;
-      }
-    },
-    []
-  );
+    switch (columnKey) {
+      case "name":
+        return (
+          <User
+            avatarProps={{
+              radius: "full",
+              size: "sm",
+              src: user.Marca,
+            }}
+            classNames={{
+              description: "text-default-500",
+            }}
+            description={user.StockActual}
+            name={cellValue}
+          >
+            {user.StockActual}
+          </User>
+        );
+      case "role":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
+            <p className="text-bold text-tiny capitalize text-default-500">
+              {user.StockActual}
+            </p>
+          </div>
+        );
+      case "status":
+        return (
+          <Chip
+            className="capitalize border-none gap-1 text-default-600"
+            color={statusColorMap[user.StockActual]}
+            size="sm"
+            variant="dot"
+          >
+            {cellValue}
+          </Chip>
+        );
+      case "actions":
+        return <div className="relative flex items-center gap-2"></div>;
+      default:
+        return cellValue;
+    }
+  }, []);
 
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -269,14 +268,14 @@ export default function TableTicketComponent({ array }: Props) {
                 selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
-                {columnsTicket.map((column) => (
+                {columnsSolicitud.map((column) => (
                   <DropdownItem key={column.uid} className="capitalize">
                     {capitalize(column.name)}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalTicketComponent/>
+            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -353,7 +352,7 @@ export default function TableTicketComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Mis Tickets</h1>
+      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         removeWrapper
@@ -387,8 +386,8 @@ export default function TableTicketComponent({ array }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: Ticket) => (
-            <TableRow key={item.IdTicket}>
+          {(item: EquipoStock) => (
+            <TableRow key={item.IdEquipoStock}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
