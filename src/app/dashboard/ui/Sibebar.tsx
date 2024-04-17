@@ -82,7 +82,7 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
               <SidebarItem
                 key={menuItem.IdMenu}
                 title={menuItem.Menu}
-                icon={<HomeIcon className="h-5" />}
+                icon={menuItem.RutaImagen}
                 isActive={false} // Define tu lógica para establecer la activación del elemento
                 href={menuItem.Ruta}
               />

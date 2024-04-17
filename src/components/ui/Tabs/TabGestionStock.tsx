@@ -5,6 +5,7 @@ import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
 import TableEquipoStockComponent from "../Table/TableEquipoStock";
 import TableEquipoControlComponent from "../Table/TablaEquipoControl";
+import TableEquipoSerieComponent from "../Table/TableEquipoSerie";
 
 export default function TabGestionStock() {
   const { socket } = useContext(SocketContext);
@@ -12,6 +13,7 @@ export default function TabGestionStock() {
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
   const [dataequipostock, setEquipoStock] = useState([]);
   const [dataequipocontrol, setEquipoControl] = useState([]);
+  const [dataequiposerie, setEquipoSerie] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -33,7 +35,14 @@ export default function TabGestionStock() {
         } else {
         }
         break;
-      
+      case 3:
+        if (dataequiposerie.length === 0) {
+          socket?.emit("listar-equiposerie", "", (EquipoSerie: any) => {
+            setEquipoSerie(EquipoSerie);
+          });
+        } else {
+        }
+        break;
     }
   };
   return (
@@ -54,11 +63,17 @@ export default function TabGestionStock() {
         <Tab key="2" title="EquipoControl">
           <Card>
             <CardBody>
-              <TableEquipoControlComponent array={dataequipocontrol}/>
+              <TableEquipoControlComponent array={dataequipocontrol} />
             </CardBody>
           </Card>
         </Tab>
-        
+        <Tab key="3" title="EquipoSerie">
+          <Card>
+            <CardBody>
+              <TableEquipoSerieComponent array={dataequiposerie} />
+            </CardBody>
+          </Card>
+        </Tab>
       </Tabs>
     </div>
   );

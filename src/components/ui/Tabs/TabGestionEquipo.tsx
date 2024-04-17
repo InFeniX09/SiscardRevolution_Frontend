@@ -47,7 +47,7 @@ export default function TabGestionEquipo() {
         } else {
         }
         break;
-        case 4:
+      case 4:
         if (dataequipo.length === 0) {
           socket?.emit("listar-equipo", "", (Equipo: any) => {
             setEquipo(Equipo);
@@ -55,14 +55,14 @@ export default function TabGestionEquipo() {
         } else {
         }
         break;
-        case 5:
-          if (dataequipodescuento.length === 0) {
-            socket?.emit("listar-equipodescuento", "", (EquipoDescuento: any) => {
-              setEquipoDescuento(EquipoDescuento);
-            });
-          } else {
-          }
-          break;
+      case 5:
+        if (dataequipodescuento.length === 0) {
+          socket?.emit("listar-equipodescuento", "", (EquipoDescuento: any) => {
+            setEquipoDescuento(EquipoDescuento);
+          });
+        } else {
+        }
+        break;
     }
   };
   return (
@@ -90,37 +90,24 @@ export default function TabGestionEquipo() {
         <Tab key="3" title="Modelo">
           <Card>
             <CardBody>
-              <TableModeloComponent array={datamodelo}/>
+              <TableModeloComponent array={datamodelo} />
             </CardBody>
           </Card>
         </Tab>
         <Tab key="4" title="Equipo">
           <Card>
             <CardBody>
-              <TableEquipoComponent array={dataequipo}/>
+              <TableEquipoComponent array={dataequipo} />
             </CardBody>
           </Card>
         </Tab>
         <Tab key="5" title="EquipoDescuento">
           <Card>
             <CardBody>
-              <TableEquipoDescuentoComponent array={dataequipodescuento}/>
+              <TableEquipoDescuentoComponent array={dataequipodescuento} />
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="6" title="EquipoDescuentoEquipoDescuento">
-          <Card>
-            <CardBody>
-            </CardBody>
-          </Card>
-        </Tab>
-        <Tab key="7" title="daEquipoDescuentoEquipoDescuentoEquipoDescuentosd">
-          <Card>
-            <CardBody>
-            </CardBody>
-          </Card>
-        </Tab>
-       
       </Tabs>
     </div>
   );
