@@ -34,7 +34,6 @@ export default function Page() {
           Sign in
         </Button>
       </form>
-      <TableEntidadComponent />
       <button onClick={nuevoticket}>Ticket</button>
       <h1>{ticket.numero}</h1>
     </>

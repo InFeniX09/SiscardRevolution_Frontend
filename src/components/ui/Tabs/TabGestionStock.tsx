@@ -1,20 +1,18 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
-import TableTipoEquipoComponent from "@/src/components/ui/Table/TableTipoEquipo";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
-import TableMarcaComponent from "../Table/TableMarca";
-import TableModeloComponent from "../Table/TableModelo";
 import TableEquipoStockComponent from "../Table/TableEquipoStock";
+import TableEquipoControlComponent from "../Table/TablaEquipoControl";
 
 export default function TabGestionStock() {
   const { socket } = useContext(SocketContext);
   const { data: session } = useSession();
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
   const [dataequipostock, setEquipoStock] = useState([]);
-  const [datamarca, setMarca] = useState([]);
-  const [datamodelo, setModelo] = useState([]);
+  const [dataequipocontrol, setEquipoControl] = useState([]);
+
   useEffect(() => {
     if (session) {
       socket?.emit("listar-equipostock", "", (TipoEquipo: any) => {
@@ -28,21 +26,14 @@ export default function TabGestionStock() {
       case 1:
         break;
       case 2:
-        if (datamarca.length === 0) {
-          socket?.emit("listar-marca", "", (Marca: any) => {
-            setMarca(Marca);
+        if (dataequipocontrol.length === 0) {
+          socket?.emit("listar-equipocontrol", "", (EquipoControl: any) => {
+            setEquipoControl(EquipoControl);
           });
         } else {
         }
         break;
-      case 3:
-        if (datamodelo.length === 0) {
-          socket?.emit("listar-modelo", "", (Modelo: any) => {
-            setModelo(Modelo);
-          });
-        } else {
-        }
-        break;
+      
     }
   };
   return (
@@ -53,25 +44,21 @@ export default function TabGestionStock() {
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
       >
-        <Tab key="1" title="TipoEquipo">
+        <Tab key="1" title="EquipoStock">
           <Card>
             <CardBody>
               <TableEquipoStockComponent array={dataequipostock} />
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="2" title="Marca">
+        <Tab key="2" title="EquipoControl">
           <Card>
             <CardBody>
+              <TableEquipoControlComponent array={dataequipocontrol}/>
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="3" title="Modelo">
-          <Card>
-            <CardBody>
-            </CardBody>
-          </Card>
-        </Tab>
+        
       </Tabs>
     </div>
   );

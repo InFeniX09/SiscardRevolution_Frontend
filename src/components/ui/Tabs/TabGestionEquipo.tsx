@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import TableMarcaComponent from "../Table/TableMarca";
 import TableModeloComponent from "../Table/TableModelo";
 import TableEquipoComponent from "../Table/TableEquipo";
+import TableEquipoDescuentoComponent from "../Table/TableEquipoDescuento";
 
 export default function TabGestionEquipo() {
   const { socket } = useContext(SocketContext);
@@ -16,6 +17,7 @@ export default function TabGestionEquipo() {
   const [datamarca, setMarca] = useState([]);
   const [datamodelo, setModelo] = useState([]);
   const [dataequipo, setEquipo] = useState([]);
+  const [dataequipodescuento, setEquipoDescuento] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -53,6 +55,14 @@ export default function TabGestionEquipo() {
         } else {
         }
         break;
+        case 5:
+          if (dataequipodescuento.length === 0) {
+            socket?.emit("listar-equipodescuento", "", (EquipoDescuento: any) => {
+              setEquipoDescuento(EquipoDescuento);
+            });
+          } else {
+          }
+          break;
     }
   };
   return (
@@ -91,6 +101,26 @@ export default function TabGestionEquipo() {
             </CardBody>
           </Card>
         </Tab>
+        <Tab key="5" title="EquipoDescuento">
+          <Card>
+            <CardBody>
+              <TableEquipoDescuentoComponent array={dataequipodescuento}/>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="6" title="EquipoDescuentoEquipoDescuento">
+          <Card>
+            <CardBody>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="7" title="daEquipoDescuentoEquipoDescuentoEquipoDescuentosd">
+          <Card>
+            <CardBody>
+            </CardBody>
+          </Card>
+        </Tab>
+       
       </Tabs>
     </div>
   );

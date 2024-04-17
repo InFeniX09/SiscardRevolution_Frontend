@@ -35,7 +35,8 @@ import { Solicitud } from "@/src/interfaces/solicitud.interface";
 import ModalSolicitudComponent from "../Modal/ModalSolicitud";
 import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 import { Equipo } from "@/src/interfaces/equipo.interface";
-import { EquipoStock } from "@/src/interfaces/equipostock.interface";
+import { EquipoControl } from "@/src/interfaces/equipocontrol.interface";
+
 
 /**/
 
@@ -51,32 +52,40 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipoStock",
+  "IdEquipoControl",
   "Marca",
   "Modelo",
   "CodCliente",
   "Usuario",
-  "StockActual",
-  "StockDisponible",
-  "StockNoDisponible",
+  "Serie",
+  "Identificacion",
+  "TiempoVida",
+  "FcAsignado",
+  "FcBaja",
+  "Observacion",
+  "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdEquipoStock", uid: "IdEquipoStock", sortable: true },
+  { name: "IdEquipoControl", uid: "IdEquipoControl", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "Modelo", uid: "Modelo", sortable: true },
   { name: "CodCliente", uid: "CodCliente", sortable: true },
   { name: "Usuario", uid: "Usuario", sortable: true },
-  { name: "StockActual", uid: "StockActual", sortable: true },
-  { name: "StockDisponible", uid: "StockDisponible", sortable: true },
-  { name: "StockNoDisponible", uid: "StockNoDisponible", sortable: true },
+  { name: "Serie", uid: "Serie", sortable: true },
+  { name: "Identificacion", uid: "Identificacion", sortable: true },
+  { name: "TiempoVida", uid: "TiempoVida", sortable: true },
+  { name: "FcAsignado", uid: "FcAsignado", sortable: true },
+  { name: "FcBaja", uid: "FcBaja", sortable: true },
+  { name: "Observacion", uid: "Observacion", sortable: true },
+  { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  array: EquipoStock[];
+  array: EquipoControl[];
 }
 
-export default function TableEquipoStockComponent({ array }: Props) {
+export default function TableEquipoControlComponent({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -117,7 +126,7 @@ export default function TableEquipoStockComponent({ array }: Props) {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.StockActual)
+        Array.from(statusFilter).includes(user.CodCliente)
       );
     }
 
@@ -132,62 +141,65 @@ export default function TableEquipoStockComponent({ array }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: EquipoStock, b: EquipoStock) => {
-      const first = a[sortDescriptor.column as keyof EquipoStock] as number;
-      const second = b[sortDescriptor.column as keyof EquipoStock] as number;
+    return [...items].sort((a: EquipoControl, b: EquipoControl) => {
+      const first = a[sortDescriptor.column as keyof EquipoControl] as number;
+      const second = b[sortDescriptor.column as keyof EquipoControl] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user: EquipoStock, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof EquipoStock];
+  const renderCell = React.useCallback(
+    (user: EquipoControl, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof EquipoControl];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{
-              radius: "full",
-              size: "sm",
-              src: user.Marca,
-            }}
-            classNames={{
-              description: "text-default-500",
-            }}
-            description={user.StockActual}
-            name={cellValue}
-          >
-            {user.StockActual}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">
-              {user.StockActual}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize border-none gap-1 text-default-600"
-            color={statusColorMap[user.StockActual]}
-            size="sm"
-            variant="dot"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return <div className="relative flex items-center gap-2"></div>;
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "name":
+          return (
+            <User
+              avatarProps={{
+                radius: "full",
+                size: "sm",
+                src: user.Marca,
+              }}
+              classNames={{
+                description: "text-default-500",
+              }}
+              description={user.CodCliente}
+              name={cellValue}
+            >
+              {user.CodCliente}
+            </User>
+          );
+        case "role":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{cellValue}</p>
+              <p className="text-bold text-tiny capitalize text-default-500">
+                {user.CodCliente}
+              </p>
+            </div>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize border-none gap-1 text-default-600"
+              color={statusColorMap[user.CodCliente]}
+              size="sm"
+              variant="dot"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return <div className="relative flex items-center gap-2"></div>;
+        default:
+          return cellValue;
+      }
+    },
+    []
+  );
 
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -386,8 +398,8 @@ export default function TableEquipoStockComponent({ array }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: EquipoStock) => (
-            <TableRow key={item.IdEquipoStock}>
+          {(item: EquipoControl) => (
+            <TableRow key={item.IdEquipoControl}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
