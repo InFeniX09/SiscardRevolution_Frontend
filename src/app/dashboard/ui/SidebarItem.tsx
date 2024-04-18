@@ -32,19 +32,19 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
     // Agrega más casos según los iconos que puedas tener en tu base de datos
     switch (iconText) {
       case "TicketIcon":
-        return <TicketIcon className="h-6 w-6" />;
+        return <TicketIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "HomeIcon":
-        return <HomeIcon className="h-6 w-6" />;
+        return <HomeIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "UsersIcon":
-        return <UsersIcon className="h-6 w-6" />;
+        return <UsersIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "DocumentArrowDownIcon":
-        return <DocumentArrowDownIcon className="h-6 w-6" />;
+        return <DocumentArrowDownIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "GiftTopIcon":
-        return <GiftTopIcon className="h-6 w-6" />;
+        return <GiftTopIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "ComputerDesktopIcon":
-        return <ComputerDesktopIcon className="h-6 w-6" />;
+        return <ComputerDesktopIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "HandRaisedIcon":
-        return <HandRaisedIcon className="h-6 w-6" />;
+        return <HandRaisedIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       default:
         return null; // Si el icono no coincide con ninguno conocido, devuelve null
     }
@@ -57,8 +57,8 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
       <div
         className={clsx(
           isActive
-            ? "bg-[#FD696E] bg-opacity-70  [&_svg_path]:fill-[#FFFFFF] border-opacity-70 border-1 border-white rounded-2xl"
-            : "hover:bg-default-100 hover:rounded-2xl",
+            ? "bg-[#FD696E] bg-opacity-10  [&_svg_path]:fill-[#FFFFFF] border-opacity-70 border-1 border-white rounded-2xl"
+            : "hover:bg-[var(--colorcontra-neutral)]   hover:rounded-2xl",
           "flex items-center w-full px-3 py-[0.10rem] gap-3"
         )}
         onClick={handleClick}
@@ -73,7 +73,7 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
           />
         )}
         <span
-          className={clsx(isActive ? "text-red-400" : "text-[#000000]", "")}
+          className={clsx(isActive ? "text-red-400" : "text-[var(--color-neutral)]", "")}
         >
           {title}
         </span>
