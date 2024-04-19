@@ -28,7 +28,7 @@ interface Props {
 export default function NavbarPage({ nombreusuario }: Props) {
   return (
     <Navbar
-      className="w-full rounded-[200px] h-[8%] "
+      className="w-full rounded-[200px] h-[8%] bg-[var(--colorcontra-neutral)]"
       classNames={{
         wrapper: "w-full max-w-full px-3",
       }}
@@ -40,7 +40,7 @@ export default function NavbarPage({ nombreusuario }: Props) {
         <DarkModeSwitch />
         <div className="flex items-center gap-2 ">
           <Tooltip content="Identificación">
-            <IdentificationIcon className="h-5" />
+            <IdentificationIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
@@ -48,12 +48,12 @@ export default function NavbarPage({ nombreusuario }: Props) {
         </div>
         <div className="flex items-center gap-2 ">
           <Tooltip content="Alertas">
-            <MegaphoneIcon className="h-5" />
+            <MegaphoneIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </div>
         <div className="flex items-center gap-2 ">
           <Tooltip content="Notificaciones">
-            <BellIcon className="h-5" />
+            <BellIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </div>
       </NavbarContent>
@@ -63,10 +63,10 @@ export default function NavbarPage({ nombreusuario }: Props) {
       >
         <div className="flex items-center justify-center gap-1">
           <Tooltip content="Billetera">
-            <WalletIcon className="h-6" />
+            <WalletIcon className="h-6 text-[var(--color-neutral)]" />
           </Tooltip>
 
-          <p>S/200.00</p>
+          <p className="text-[var(--color-neutral)]">S/200.00</p>
         </div>
         <DropdownComponent name={nombreusuario} />
       </NavbarContent>

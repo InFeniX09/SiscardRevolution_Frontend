@@ -8,7 +8,8 @@ import TableMarcaComponent from "../Table/TableMarca";
 import TableModeloComponent from "../Table/TableModelo";
 import TableEquipoComponent from "../Table/TableEquipo";
 import TableEquipoDescuentoComponent from "../Table/TableEquipoDescuento";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function TabGestionEquipo() {
   const { socket } = useContext(SocketContext);
   const { data: session } = useSession();
@@ -20,12 +21,18 @@ export default function TabGestionEquipo() {
   const [dataequipodescuento, setEquipoDescuento] = useState([]);
 
   useEffect(() => {
+    toast.error("Selecciona una de las opciones para empezar", {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "colored",
+    });
     if (session) {
       socket?.emit("listar-tipoequipo", "", (TipoEquipo: any) => {
         setTipoEquipo(TipoEquipo);
       });
     }
-  }, [session, socket]);
+  }, [session]);
+
   const handleTabChange = (key: any) => {
     setSelectedTab(key);
     switch (Number(key)) {
@@ -67,11 +74,12 @@ export default function TabGestionEquipo() {
   };
   return (
     <div className="flex w-full flex-col">
+    
       <Tabs
         disabledKeys={["music"]}
-        aria-label="Disabled Options"
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
+        
       >
         <Tab key="1" title="TipoEquipo">
           <Card>

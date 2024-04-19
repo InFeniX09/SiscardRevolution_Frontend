@@ -98,7 +98,7 @@ export default function ModalChatComponent() {
         shape="circle"
       >
         <Button radius="full" isIconOnly variant="light">
-          <ChatBubbleLeftRightIcon className="h-5" onClick={handleOpen} />
+          <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-neutral)]" onClick={handleOpen} />
         </Button>
       </Badge>
       <Modal size="full" isOpen={isOpen} onClose={onClose}>

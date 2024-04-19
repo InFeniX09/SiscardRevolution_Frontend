@@ -34,6 +34,7 @@ export default function InputComponent({
       label={titulo}
       placeholder={placeholder}
       startContent={icon}
+      labelPlacement="outside"
       endContent={
         <button
           className={`focus:outline-none ${icon1}`}
