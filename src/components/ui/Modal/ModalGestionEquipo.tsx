@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/react";
 import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
@@ -42,8 +42,6 @@ export default function ModalGestionEquipo() {
   const [modomarca, setModoMarca] = useState(false);
   const [modomodelo, setModoModelo] = useState(false);
 
-
-
   const [precioPorMes, setPrecioPorMes] = useState<any>(0);
   const [cantidadMeses, setCantidadMeses] = useState<any>(0);
   const [meses, setMeses] = useState<any>([]);
@@ -64,6 +62,7 @@ export default function ModalGestionEquipo() {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
   const onSubmit = async (dato: any) => {
@@ -99,9 +98,6 @@ export default function ModalGestionEquipo() {
     }
   };
 
-
-  
-
   const handleStart = () => {
     const newMeses = Array.from({ length: cantidadMeses }, (_, i) => ({
       label: `${i + 1} mes`,
@@ -111,9 +107,16 @@ export default function ModalGestionEquipo() {
     setMeses(newMeses);
   };
 
-  const handleChangeCantidadMeses = (event:any) => {
+  const handleChangeCantidadMeses = (event: any) => {
     setCantidadMeses(parseInt(event.target.value));
   };
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "preciosPorMes",
+  });
+
+
   return (
     <>
       <Button
@@ -303,24 +306,22 @@ export default function ModalGestionEquipo() {
                     <Button onClick={handleStart}>Iniciar</Button>
                   </div>
                   <Divider className="my-4" />
-                  <form>
-                    {meses.map((mes:any) => (
-                      <div key={mes.value} className="flex gap-3">
-                        <Input
-                          label={`${mes.label} Precio`}
-                          labelPlacement="outside"
-                          type="number"
-                          value={mes.precio}
-                          disabled
-                        />
-                        <Input
-                          label={`${mes.label} Mes`}
-                          labelPlacement="outside"
-                          type="number"
-                          defaultValue="0"
-                        />
-                      </div>
-                    ))}
+                  <form >
+                    <h1>Escoger los precios en función al mes</h1>
+                    <br />
+                    <div className="grid grid-cols-2 gap-3">
+                    {meses.map((mes: any, index: number) => (
+                        <div key={mes.value} className="flex gap-3">
+                          <Input
+                            label={`${mes.label}`}
+                            labelPlacement="outside"
+                            type="number"
+                            defaultValue="0"
+                            {...register(`preciosPorMes[${index}].precio`)}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </form>
                 </ModalBody>
                 <ModalFooter className="h-[16%]">
