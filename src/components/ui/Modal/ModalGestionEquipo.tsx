@@ -115,6 +115,11 @@ export default function ModalGestionEquipo() {
     control,
     name: "preciosPorMes",
   });
+  
+  const handleGuardarPrecios = () => {
+    console.log("Precios por mes:");
+    console.log(meses);
+  };
 
 
   return (
@@ -322,6 +327,13 @@ export default function ModalGestionEquipo() {
                         </div>
                       ))}
                     </div>
+                    <Button
+                      type="button"
+                      onClick={handleGuardarPrecios}
+                      color="primary"
+                    >
+                      Guardar Precios
+                    </Button>
                   </form>
                 </ModalBody>
                 <ModalFooter className="h-[16%]">

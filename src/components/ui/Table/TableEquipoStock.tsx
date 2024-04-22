@@ -36,6 +36,7 @@ import ModalSolicitudComponent from "../Modal/ModalSolicitud";
 import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 import { Equipo } from "@/src/interfaces/equipo.interface";
 import { EquipoStock } from "@/src/interfaces/equipostock.interface";
+import ModalEquipoStockComponent from "../Modal/ModalEquipoStock";
 
 /**/
 
@@ -275,7 +276,7 @@ export default function TableEquipoStockComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
+            <ModalEquipoStockComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -352,7 +353,7 @@ export default function TableEquipoStockComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Stock por Area</h1>
+      <h1>Equipo Stock</h1>
       <Table
         isCompact
         removeWrapper
