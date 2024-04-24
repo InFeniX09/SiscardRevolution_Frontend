@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 
@@ -23,6 +23,8 @@ export const LoginForm = () => {
       window.location.replace("/dashboard");
     }
   }, [state]);
+
+  const [recordar,setRecordar]=useState(false)
 
   return (
     <form
@@ -63,7 +65,7 @@ export const LoginForm = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-full gap-6">
         <div className="flex items-center justify-between w-full">
-          <CheckboxComponent texto="Recordar clave" />
+          <CheckboxComponent texto="Recordar clave" isSelected={recordar} onValueChange={setRecordar}/>
           <Link href="/auth/recuperar-clave">No recuerdas tu clave?</Link>
         </div>
         <div className="flex flex-col align-center items-center gap-3">
