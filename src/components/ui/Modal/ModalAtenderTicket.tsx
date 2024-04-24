@@ -24,14 +24,18 @@ import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
 import SelectComponent from "../Select/Select";
+import CheckboxComponent from "../Checkbox/Checkbox";
+import RadiogroupComponent from "../Radiogroup/Radiogroup";
 
 interface Props {
   datosolicitud: string;
   datomotivo: string;
-
 }
 
-export default function ModalAtenderTicketComponent({datosolicitud,datomotivo}:Props) {
+export default function ModalAtenderTicketComponent({
+  datosolicitud,
+  datomotivo,
+}: Props) {
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
   const {
@@ -39,6 +43,10 @@ export default function ModalAtenderTicketComponent({datosolicitud,datomotivo}:P
     onOpen: onOpen1,
     onOpenChange: onOpenChange1,
   } = useDisclosure();
+
+  const [estadocelular, setEstadoCelular] = useState(false);
+  const [estadochip, setEstadoChip] = useState(false);
+  const [estadolaptop, setEstadoLaptop] = useState(false);
 
   return (
     <>
@@ -66,20 +74,36 @@ export default function ModalAtenderTicketComponent({datosolicitud,datomotivo}:P
                     <Tab key="1" title="1er Paso">
                       <Card>
                         <CardBody>
-                          <h1 className="text-red-500">Asignación</h1>
-                          <h2>Stock Técnico</h2>
-                          <div className="flex flex-col">
-                            <select title="Celular" className="bg-blue-500">
-                              <option>celular</option>
-                            </select>
-                            <select title="Celular">
-                              <option>laptop</option>
-                            </select>
-                            <select title="Celular">
-                              <option>hola</option>
-                            </select>
+                          <h2>Asignando Items</h2>
+                          <div>
+                            <div>
+                              <h1>Celular</h1>
+                              <CheckboxComponent
+                                texto=""
+                                isSelected={estadocelular}
+                                onValueChange={setEstadoCelular}
+                              />
+                            </div>
+                            <div>
+                              <h1>Chip</h1>
+                              <CheckboxComponent
+                                texto=""
+                                isSelected={estadochip}
+                                onValueChange={setEstadoChip}
+                              />
+                            </div>
+                            <div>
+                              <h1>Laptop</h1>
+                              <CheckboxComponent
+                                texto=""
+                                isSelected={estadolaptop}
+                                onValueChange={setEstadoLaptop}
+                              />
+                            </div>
+                            <div>
+                              <h1>Accesorios</h1>
+                            </div>
                           </div>
-                          <h2>Stock Sistemas</h2>
                         </CardBody>
                       </Card>
                     </Tab>

@@ -73,6 +73,9 @@ export default function TabCentroAtencion() {
         break;
     }
   };
+
+
+  
   return (
     <div className="flex w-full flex-col">
       <Tabs
