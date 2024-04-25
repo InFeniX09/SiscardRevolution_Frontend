@@ -8,6 +8,8 @@ import {
   CurrencyDollarIcon,
   BellIcon,
   WalletIcon,
+  TicketIcon,
+  WindowIcon,
 } from "@heroicons/react/24/solid";
 import {
   Avatar,
@@ -23,9 +25,11 @@ import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
 
 interface Props {
   nombreusuario: string;
+  issidebarcollapsedmobile: boolean;
+  onToggleSidebarMobile: () => void;
 }
 
-export default function NavbarPage({ nombreusuario }: Props) {
+export default function NavbarPage({ nombreusuario,issidebarcollapsedmobile,onToggleSidebarMobile }: Props) {
   return (
     <Navbar
       className="w-full rounded-[200px] h-[8%] bg-[var(--colorcontra-neutral)]"
@@ -37,6 +41,11 @@ export default function NavbarPage({ nombreusuario }: Props) {
         justify="start"
         className="w-fit data-[justify=end]:flex-grow-0"
       >
+        {issidebarcollapsedmobile ? (
+         <WindowIcon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
+        ) : (
+          <TicketIcon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
+        )}
         <DarkModeSwitch />
         <div className="flex items-center gap-2 ">
           <Tooltip content="Identificación">

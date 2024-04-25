@@ -15,6 +15,8 @@ import {
   Tab,
   Card,
   CardBody,
+  CheckboxGroup,
+  Checkbox,
 } from "@nextui-org/react";
 import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
@@ -47,6 +49,19 @@ export default function ModalAtenderTicketComponent({
   const [estadocelular, setEstadoCelular] = useState(false);
   const [estadochip, setEstadoChip] = useState(false);
   const [estadolaptop, setEstadoLaptop] = useState(false);
+  const [selected, setSelected] = React.useState(["buenos-aires", "sydney"]);
+
+  const [equipoaccesorio, setEquipoAccesorio] = useState<any>([]);
+
+  useEffect(() => {
+    socket?.emit(
+      "listar-equipoxclasificacion",
+      "",
+      (equipoxclasificacion: any) => {
+        setEquipoAccesorio(equipoxclasificacion);
+      }
+    );
+  }, []);
 
   return (
     <>
@@ -102,6 +117,18 @@ export default function ModalAtenderTicketComponent({
                             </div>
                             <div>
                               <h1>Accesorios</h1>
+                              <CheckboxGroup
+                                label="Escoger Accesorios"
+                                color="warning"
+                                value={selected}
+                                onValueChange={setSelected}
+                              >
+                                {equipoaccesorio.map((item: any, key: any) => (
+                                  <Checkbox key={key} value={item.IdEquipo}>
+                                    {item.Modelo}
+                                  </Checkbox>
+                                ))}
+                              </CheckboxGroup>
                             </div>
                           </div>
                         </CardBody>

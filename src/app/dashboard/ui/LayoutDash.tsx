@@ -16,14 +16,16 @@ export default function LayoutDashComponent({
   nombreusuario,
 }: Props) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
-  
+  const [issidebarcollapsedmobile, setIsSidebarCollapsedMobile] =
+    useState(false);
 
   return (
     <>
       <div
         className={clsx(
+          "flex flex-col absolute top-0 bottom-0 left-0 z-[1] h-full  transition-width duration-500 ease-in-out",
           isSidebarCollapsed ? "w-[18rem] " : "w-[10rem] ",
-          "sm:flex hidden flex-col absolute top-0 bottom-0 left-0 z-[1] h-full  transition-width duration-500 ease-in-out"
+          issidebarcollapsedmobile ? "block bg-red-500 z-[100]" : "hidden"
         )}
       >
         <Sidebar
@@ -42,8 +44,14 @@ export default function LayoutDashComponent({
             before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen "
         >
           <div className="bg-[var(--dashboard-Dash)] h-full w-full flex flex-col p-2 gap-3 overflow-hidden relative rounded-2xl backdrop-filter blur-1 font-semibold text-base">
-            <NavbarPage nombreusuario={nombreusuario} />
-            <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto p-3 flex flex-col gap-4 rounded-2xl">
+            <NavbarPage
+              nombreusuario={nombreusuario}
+              issidebarcollapsedmobile={issidebarcollapsedmobile}
+              onToggleSidebarMobile={() =>
+                setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
+              }
+            />
+            <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto p-3 flex flex-col gap-4 rounded-2xl ">
               <BreadcrumbComponent />
               {children}
             </div>

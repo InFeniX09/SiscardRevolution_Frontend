@@ -9,23 +9,20 @@ import {
   Button,
   useDisclosure,
   Input,
-  Textarea,
   Select,
   SelectItem,
   Divider,
 } from "@nextui-org/react";
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
-import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
 import SelectComponent from "../Select/Select";
 import InputComponent from "../Input/Input";
 import CheckboxComponent from "../Checkbox/Checkbox";
-import TextAreaComponent from "../Textarea/TextAreaNormal";
 import TextAreaNormalComponent from "../Textarea/TextAreaNormal";
+import SelectStateComponent from "../Select/SelectState";
 
 export default function ModalGestionEquipo() {
   const { data: session } = useSession();
@@ -53,8 +50,9 @@ export default function ModalGestionEquipo() {
     socket?.emit("listar-cliente", null, (cliente: any) => {
       setCliente(cliente);
     });
-    socket?.emit("listar-marca", null, (marca: any) => {
+    socket?.emit("listar-MarcaxTipoEquipo", null, (marca: any) => {
       setMarca(marca);
+      console.log("blon", marca);
     });
   }, []);
   //Formulario
@@ -115,12 +113,11 @@ export default function ModalGestionEquipo() {
     control,
     name: "preciosPorMes",
   });
-  
+
   const handleGuardarPrecios = () => {
     console.log("Precios por mes:");
     console.log(meses);
   };
-
 
   return (
     <>
@@ -129,8 +126,9 @@ export default function ModalGestionEquipo() {
         endContent={<UserPlusIcon className="h-5" />}
         size="sm"
         color="danger"
+        className="w-full"
       >
-        Crear Equipo Completo
+        Crear Nuevo Equipo
       </Button>
       <Modal
         isOpen={isOpen}
@@ -189,14 +187,21 @@ export default function ModalGestionEquipo() {
                         </Button>
                       </div>
                     ) : (
-                      <SelectNormalComponent
-                        array={tipoequipo}
-                        value="IdTipoEquipo"
-                        texts={["TipoEquipo"]}
-                        label="Tipo de Equipo"
-                        placeholder="Seleccionar"
-                        prop={{}}
-                      />
+                      <>
+                        <SelectStateComponent
+                          array={tipoequipo}
+                          label="Tipo de Equipo"
+                          placeholder="Seleccionar"
+                        />
+                        <SelectNormalComponent
+                          array={tipoequipo}
+                          value="IdTipoEquipo"
+                          texts={["TipoEquipo"]}
+                          label="Tipo de Equipo"
+                          placeholder="Seleccionar"
+                          prop={{}}
+                        />
+                      </>
                     )}
                   </div>
                   <Divider className="my-4" />
@@ -311,11 +316,11 @@ export default function ModalGestionEquipo() {
                     <Button onClick={handleStart}>Iniciar</Button>
                   </div>
                   <Divider className="my-4" />
-                  <form >
+                  <form>
                     <h1>Escoger los precios en función al mes</h1>
                     <br />
                     <div className="grid grid-cols-2 gap-3">
-                    {meses.map((mes: any, index: number) => (
+                      {meses.map((mes: any, index: number) => (
                         <div key={mes.value} className="flex gap-3">
                           <Input
                             label={`${mes.label}`}
