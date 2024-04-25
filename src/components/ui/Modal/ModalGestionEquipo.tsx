@@ -43,6 +43,8 @@ export default function ModalGestionEquipo() {
   const [cantidadMeses, setCantidadMeses] = useState<any>(0);
   const [meses, setMeses] = useState<any>([]);
 
+  const [idTipoEquipo, setidTipoEquipo] = React.useState<any>([]);
+
   useEffect(() => {
     socket?.emit("listar-tipoequipo", null, (tipoequipo: any) => {
       setTipoEquipo(tipoequipo);
@@ -56,15 +58,12 @@ export default function ModalGestionEquipo() {
     });
   }, []);
   //Formulario
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
+  const { register:r, handleSubmit:h } = useForm();
 
-  const onSubmit = async (dato: any) => {
-    console.log("from activo");
+  const enviarctp = async (dato: any) => {
+    console.log(dato);
+
     const { tipomotivo } = dato;
     const DeUsuario_id = session?.user.IdUsuario;
     const data = {
@@ -80,6 +79,11 @@ export default function ModalGestionEquipo() {
       }
     });
   };
+
+  const enviarctp1 = async (dato: any) => {
+    console.log(dato);
+  };
+
   const handleSelectChange = async (selectedValue: string) => {
     try {
       console.log(selectedValue);
@@ -95,7 +99,6 @@ export default function ModalGestionEquipo() {
       console.error("Error fetching radiogroup data:", error);
     }
   };
-
   const handleStart = () => {
     const newMeses = Array.from({ length: cantidadMeses }, (_, i) => ({
       label: `${i + 1} mes`,
@@ -109,11 +112,6 @@ export default function ModalGestionEquipo() {
     setCantidadMeses(parseInt(event.target.value));
   };
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "preciosPorMes",
-  });
-
   const handleGuardarPrecios = () => {
     console.log("Precios por mes:");
     console.log(meses);
@@ -126,7 +124,7 @@ export default function ModalGestionEquipo() {
         endContent={<UserPlusIcon className="h-5" />}
         size="sm"
         color="danger"
-        className="w-full"
+        className=" overflow-visible"
       >
         Crear Nuevo Equipo
       </Button>
@@ -143,7 +141,7 @@ export default function ModalGestionEquipo() {
               <ModalHeader className="flex flex-col gap-1 h-[10%]">
                 Crear Equipo Completo
               </ModalHeader>
-              <form onSubmit={handleSubmit(onSubmit)} className="h-[90%]">
+              <form  className="h-[90%]">
                 <ModalBody className="h-[84%] overflow-auto">
                   <Divider className="my-4" />
 
@@ -154,7 +152,7 @@ export default function ModalGestionEquipo() {
                       onValueChange={setModoTipoequipo}
                     />
                     {modotipoequipo ? (
-                      <div className="flex justify-center items-center flex-col w-full gap-3">
+                      <form className="flex justify-center items-center flex-col w-full gap-3">
                         <InputComponent
                           name=""
                           tipo="text"
@@ -182,24 +180,28 @@ export default function ModalGestionEquipo() {
                             Accesorio
                           </SelectItem>
                         </Select>
-                        <Button type="submit" color="danger">
+                        <Input
+                            label={"2"}
+                            labelPlacement="outside"
+                            type="number"
+                            defaultValue="0"
+                            {...r(`papi`)}
+                          />
+                        <Button
+                          color="danger"
+                          onClick={h(enviarctp1)}
+                        >
                           Añadir
                         </Button>
-                      </div>
+                      </form>
                     ) : (
                       <>
                         <SelectStateComponent
                           array={tipoequipo}
-                          label="Tipo de Equipo"
-                          placeholder="Seleccionar"
-                        />
-                        <SelectNormalComponent
-                          array={tipoequipo}
-                          value="IdTipoEquipo"
+                          index="IdTipoEquipo"
                           texts={["TipoEquipo"]}
                           label="Tipo de Equipo"
                           placeholder="Seleccionar"
-                          prop={{}}
                         />
                       </>
                     )}
@@ -345,7 +347,7 @@ export default function ModalGestionEquipo() {
                   <Button color="danger" variant="flat" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button color="primary" type="submit">
+                  <Button color="primary" onClick={handleSubmit(enviarctp)}>
                     Crear
                   </Button>
                 </ModalFooter>

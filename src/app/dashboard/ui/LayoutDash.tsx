@@ -21,18 +21,25 @@ export default function LayoutDashComponent({
 
   return (
     <>
-      <div
-        className={clsx(
-          "flex flex-col absolute top-0 bottom-0 left-0 z-[1] h-full  transition-width duration-500 ease-in-out",
-          isSidebarCollapsed ? "w-[18rem] " : "w-[10rem] ",
-          issidebarcollapsedmobile ? "block bg-red-500 z-[100]" : "hidden"
-        )}
-      >
-        <Sidebar
-          isSidebarCollapsed={isSidebarCollapsed}
-          onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        />
-      </div>
+    
+        <div
+          className={clsx(
+            "max-sm:hidden flex flex-col absolute top-0 bottom-0 left-0 z-[1] h-full  transition-width duration-500 ease-in-out",
+            isSidebarCollapsed ? "w-[18rem] " : "w-[10rem] ",
+            issidebarcollapsedmobile ? "!block !z-[100] bg-red-500" : ""
+          )}
+        >
+          <Sidebar
+            isSidebarCollapsed={isSidebarCollapsed}
+            onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            issidebarcollapsedmobile={issidebarcollapsedmobile}
+            onToggleSidebarMobile={() =>
+              setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
+            }
+          />
+        </div>
+     
+
       <div
         className={clsx(
           isSidebarCollapsed ? "sm:pl-[18rem]" : "sm:pl-[10rem]",

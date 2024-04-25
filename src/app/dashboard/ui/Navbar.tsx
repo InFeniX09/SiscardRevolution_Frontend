@@ -42,9 +42,9 @@ export default function NavbarPage({ nombreusuario,issidebarcollapsedmobile,onTo
         className="w-fit data-[justify=end]:flex-grow-0"
       >
         {issidebarcollapsedmobile ? (
-         <WindowIcon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
+         <Bars4Icon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
         ) : (
-          <TicketIcon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
+          <Bars4Icon className="hidden max-sm:block h-5"  onClick={onToggleSidebarMobile}/>
         )}
         <DarkModeSwitch />
         <div className="flex items-center gap-2 ">

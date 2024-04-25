@@ -8,6 +8,7 @@ import {
   UsersIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { SidebarItem } from "./SidebarItem";
 import { usePathname } from "next/navigation";
@@ -26,36 +27,42 @@ import clsx from "clsx";
 import { Menu } from "@/src/interfaces";
 import { auth } from "@/src/auth.config";
 import { getlistarMenuxUsuarioxPerfil } from "@/src/actions/menu";
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 
 interface Props {
   isSidebarCollapsed: boolean;
   onToggleSidebar: () => void;
+  issidebarcollapsedmobile: boolean;
+  onToggleSidebarMobile: () => void;
 }
 
-export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
+export const Sidebar = ({
+  isSidebarCollapsed,
+  onToggleSidebar,
+  issidebarcollapsedmobile,
+  onToggleSidebarMobile,
+}: Props) => {
   const [menuItems, setMenuItems] = useState<Menu[]>([]);
   const { data: session, status } = useSession();
 
- useEffect(() => {
-  const fetchData = async () => {
-    if (status === 'authenticated') {
-      try {
-        const response = await getlistarMenuxUsuarioxPerfil(session?.user.IdUsuario, session?.user.Puesto_id);
-        setMenuItems(response);
-      } catch (error) {
-        console.error("Error fetching menu data:", error);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (status === "authenticated") {
+        try {
+          const response = await getlistarMenuxUsuarioxPerfil(
+            session?.user.IdUsuario,
+            session?.user.Puesto_id
+          );
+          setMenuItems(response);
+        } catch (error) {
+          console.error("Error fetching menu data:", error);
+        }
       }
-    }
-  };
+    };
 
-  // Only call fetchData when session.status changes from any value to 'authenticated'
-  fetchData();
-}, [status]);
-
-
-  
-  
+    // Only call fetchData when session.status changes from any value to 'authenticated'
+    fetchData();
+  }, [status]);
   const renderMenuItems = () => {
     return menuItems.map((menuItem) => {
       switch (menuItem.idTipoMenu) {
@@ -71,7 +78,6 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
       }
     });
   };
-
   const renderSubMenuItems = (parentId: number) => {
     return menuItems
       .filter((menuItem) => menuItem.idPadre === parentId)
@@ -107,7 +113,6 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
         }
       });
   };
-
   return (
     <>
       <div className="flex p-3 justify-between items-center h-[12%] w-full">
@@ -128,7 +133,9 @@ export const Sidebar = ({ isSidebarCollapsed, onToggleSidebar }: Props) => {
             <strong>Siscard</strong>
           </span>
         </div>
-        {isSidebarCollapsed ? (
+        {issidebarcollapsedmobile ? (
+          <XMarkIcon className="h-5 " onClick={onToggleSidebarMobile} />
+        ) : isSidebarCollapsed ? (
           <ChevronLeftIcon
             className="h-5 cursor-pointer"
             onClick={onToggleSidebar}
