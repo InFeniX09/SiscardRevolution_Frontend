@@ -23,44 +23,31 @@ import InputComponent from "../Input/Input";
 import CheckboxComponent from "../Checkbox/Checkbox";
 import TextAreaNormalComponent from "../Textarea/TextAreaNormal";
 import SelectStateComponent from "../Select/SelectState";
+import TabCrearEquipo from "../Tabs/TabCrearEquipo";
 
 export default function ModalGestionEquipo() {
+  /*Context*/
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
-  const [tipoequipo, setTipoEquipo] = useState<any>([]);
-  const [cliente, setCliente] = useState<any>([]);
-  const [marca, setMarca] = useState<any>([]);
-  const [modelo, setModelo] = useState<any>([]);
-
+  /*NextUI*/
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  /*Estados*/
+
   const [tipomotivo, setTipoMotivo] = useState([]);
+  /*Modo Estado*/
   const [selecttiposolicitud, setSelectTipoSolicitud] = useState("");
   const [modotipoequipo, setModoTipoequipo] = useState(false);
   const [modomarca, setModoMarca] = useState(false);
   const [modomodelo, setModoModelo] = useState(false);
-
+  /*Extra Estado*/
   const [precioPorMes, setPrecioPorMes] = useState<any>(0);
   const [cantidadMeses, setCantidadMeses] = useState<any>(0);
   const [meses, setMeses] = useState<any>([]);
 
-  const [idTipoEquipo, setidTipoEquipo] = React.useState<any>([]);
-
-  useEffect(() => {
-    socket?.emit("listar-tipoequipo", null, (tipoequipo: any) => {
-      setTipoEquipo(tipoequipo);
-    });
-    socket?.emit("listar-cliente", null, (cliente: any) => {
-      setCliente(cliente);
-    });
-    socket?.emit("listar-MarcaxTipoEquipo", null, (marca: any) => {
-      setMarca(marca);
-      console.log("blon", marca);
-    });
-  }, []);
   //Formulario
   const { register, handleSubmit } = useForm();
-  const { register:r, handleSubmit:h } = useForm();
 
+  /*Acciones Form*/
   const enviarctp = async (dato: any) => {
     console.log(dato);
 
@@ -79,11 +66,14 @@ export default function ModalGestionEquipo() {
       }
     });
   };
-
-  const enviarctp1 = async (dato: any) => {
-    console.log(dato);
+  
+  
+  const actionModelo = async (dato: any) => {
+    socket?.emit("crear-marca", dato, (marca: any) => {
+      console.log("blon", marca);
+    });
   };
-
+  /*Acciones Extra*/
   const handleSelectChange = async (selectedValue: string) => {
     try {
       console.log(selectedValue);
@@ -92,7 +82,6 @@ export default function ModalGestionEquipo() {
       };
       socket?.emit("listar-modelo", data, (modelo: any) => {
         console.log(modelo);
-        setModelo(modelo);
         console.log("yupi", modelo);
       });
     } catch (error) {
@@ -107,11 +96,9 @@ export default function ModalGestionEquipo() {
     }));
     setMeses(newMeses);
   };
-
   const handleChangeCantidadMeses = (event: any) => {
     setCantidadMeses(parseInt(event.target.value));
   };
-
   const handleGuardarPrecios = () => {
     console.log("Precios por mes:");
     console.log(meses);
@@ -141,152 +128,42 @@ export default function ModalGestionEquipo() {
               <ModalHeader className="flex flex-col gap-1 h-[10%]">
                 Crear Equipo Completo
               </ModalHeader>
-              <form  className="h-[90%]">
+              <TabCrearEquipo />
+              <form className="h-[90%]">
                 <ModalBody className="h-[84%] overflow-auto">
                   <Divider className="my-4" />
-
                   <div className="flex justify-center items-center">
                     <CheckboxComponent
                       texto=""
-                      isSelected={modotipoequipo}
+                      isselected={modotipoequipo}
                       onValueChange={setModoTipoequipo}
                     />
-                    {modotipoequipo ? (
-                      <form className="flex justify-center items-center flex-col w-full gap-3">
-                        <InputComponent
-                          name=""
-                          tipo="text"
-                          titulo="Nuevo Tipo de Equipo"
-                          placeholder=""
-                          icon
-                          icon1={"hidden"}
-                        />
-                        <Select
-                          label="Especificación"
-                          className="w-full"
-                          labelPlacement="outside"
-                          placeholder="Seleccionar"
-                        >
-                          <SelectItem key={1} value="Seriado">
-                            Seriado
-                          </SelectItem>
-                          <SelectItem key={2} value="Consumible">
-                            Consumible
-                          </SelectItem>
-                          <SelectItem key={3} value="Sustituible">
-                            Sustituible
-                          </SelectItem>
-                          <SelectItem key={4} value="Accesorio">
-                            Accesorio
-                          </SelectItem>
-                        </Select>
-                        <Input
-                            label={"2"}
-                            labelPlacement="outside"
-                            type="number"
-                            defaultValue="0"
-                            {...r(`papi`)}
-                          />
-                        <Button
-                          color="danger"
-                          onClick={h(enviarctp1)}
-                        >
-                          Añadir
-                        </Button>
-                      </form>
-                    ) : (
-                      <>
-                        <SelectStateComponent
-                          array={tipoequipo}
-                          index="IdTipoEquipo"
-                          texts={["TipoEquipo"]}
-                          label="Tipo de Equipo"
-                          placeholder="Seleccionar"
-                        />
-                      </>
-                    )}
+
+                   
                   </div>
                   <Divider className="my-4" />
-
                   <div className="flex justify-center items-center">
-                    <SelectNormalComponent
-                      array={cliente}
-                      value="IdCliente"
-                      texts={["CodCliente"]}
-                      label="Cliente"
-                      placeholder="Seleccionar un cliente"
-                      prop={{}}
-                    />
+                   
                   </div>
                   <Divider className="my-4" />
-
                   <div className="flex justify-center items-center">
                     <CheckboxComponent
                       texto=""
-                      isSelected={modomarca}
+                      isselected={modomarca}
                       onValueChange={setModoMarca}
                     />
-                    {modomarca ? (
-                      <div className="flex justify-center items-center flex-col w-full gap-3">
-                        <InputComponent
-                          name=""
-                          tipo="text"
-                          titulo="Nueva Marca"
-                          placeholder=""
-                          icon
-                          icon1={"hidden"}
-                        />
-                        <SelectNormalComponent
-                          array={tipoequipo}
-                          value="IdTipoEquipo"
-                          texts={["TipoEquipo"]}
-                          label="Tipo de Equipo"
-                          placeholder="Seleccionar"
-                          prop={{}}
-                        />
-                        <Button type="submit" color="danger">
-                          Añadir
-                        </Button>
-                      </div>
-                    ) : (
-                      <SelectComponent
-                        array={marca}
-                        value="IdMarca"
-                        texts={["Marca"]}
-                        label="Marca"
-                        placeholder="Seleccione una Marca"
-                        prop={{}}
-                        onSelectChange={handleSelectChange}
-                      />
-                    )}
+                   
+                      
+                    
                   </div>
                   <Divider className="my-4" />
-
                   <div className="flex justify-center items-center">
                     <CheckboxComponent
                       texto=""
-                      isSelected={modomodelo}
+                      isselected={modomodelo}
                       onValueChange={setModoModelo}
                     />
-                    {modomodelo ? (
-                      <InputComponent
-                        name=""
-                        tipo="text"
-                        titulo="Modelo"
-                        placeholder=""
-                        icon
-                        icon1={"hidden"}
-                      />
-                    ) : (
-                      <SelectNormalComponent
-                        array={modelo}
-                        value="IdModelo"
-                        texts={["Modelo"]}
-                        label="Modelo"
-                        placeholder="Seleccione un Modelo"
-                        prop={{}}
-                      />
-                    )}
+                    
                   </div>
                   <Divider className="my-4" />
                   <TextAreaNormalComponent label="Especificación" />

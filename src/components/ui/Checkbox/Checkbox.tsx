@@ -4,13 +4,13 @@ import { useCallback } from "react";
 
 interface ImageProps {
   texto: string;
-  isSelected: boolean;
-  onValueChange: (isSelected: boolean) => void;
+  isselected: boolean;
+  onValueChange: (isselected: boolean) => void;
 }
 
 export default function CheckboxComponent({
   texto,
-  isSelected,
+  isselected,
   onValueChange,
 }: ImageProps) {
   return (
@@ -18,7 +18,7 @@ export default function CheckboxComponent({
       defaultSelected
       color="danger"
       classNames={{ label: "text-[var(--color-neutral)]" }}
-      isSelected={isSelected}
+      isSelected={isselected}
       onValueChange={onValueChange}
       icon={<PlusIcon className="h-5"/>}
     >
