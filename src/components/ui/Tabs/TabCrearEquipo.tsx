@@ -5,29 +5,29 @@ import {
   Tab,
   Card,
   CardBody,
-  CardHeader,
   Select,
   SelectItem,
   Button,
+  Input,
 } from "@nextui-org/react";
-import TableTipoEquipoComponent from "@/src/components/ui/Table/TableTipoEquipo";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
-import TableMarcaComponent from "../Table/TableMarca";
-import TableModeloComponent from "../Table/TableModelo";
-import TableEquipoComponent from "../Table/TableEquipo";
-import TableEquipoDescuentoComponent from "../Table/TableEquipoDescuento";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InputComponent from "../Input/Input";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import SelectNormalComponent from "../Select/SelectNormal";
-import SelectStateComponent from "../Select/SelectState";
-import SelectComponent from "../Select/Select";
+import TextAreaNormalComponent from "../Textarea/TextAreaNormal";
 export default function TabCrearEquipo() {
   const { socket } = useContext(SocketContext);
   const { data: session } = useSession();
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
+  const [equipo, setEquipo] = useState<any>([]);
+  const [tipoequipo, setTipoEquipo] = useState<any>([]);
+  const [cliente, setCliente] = useState<any>([]);
+  const [marca, setMarca] = useState<any>([]);
+  const [modelo, setModelo] = useState<any>([]);
+  const [btnguardar, setBtnGuardar] = useState<any>(true);
 
   useEffect(() => {
     toast.error("Selecciona una de las opciones para empezar", {
@@ -45,7 +45,6 @@ export default function TabCrearEquipo() {
   const handleTabChange = (key: any) => {
     setSelectedTab(key);
     switch (Number(key)) {
-      
     }
   };
 
@@ -67,11 +66,49 @@ export default function TabCrearEquipo() {
       console.log("blon", marca);
     });
   };
+  const { register: rEquipo, handleSubmit: fEquipo } = useForm();
+  const actionEquipo = async (dato: any) => {
+    socket?.emit("crear-equipo", dato, (marca: any) => {
+      console.log("blon", marca);
+    });
+  };
 
-  const [tipoequipo, setTipoEquipo] = useState<any>([]);
-  const [cliente, setCliente] = useState<any>([]);
-  const [marca, setMarca] = useState<any>([]);
-  const [modelo, setModelo] = useState<any>([]);
+  const {
+    register: rEquipoDescuento,
+    handleSubmit: fEquipoDescuento,
+    control,
+    reset,
+  } = useForm();
+  const { fields, append, prepend, remove, swap, move, insert, replace } =
+    useFieldArray({
+      control,
+      name: "test",
+    });
+
+  const actionEquipoDescuento = async (dato: any) => {
+    console.log("ysy", dato);
+    socket?.emit("crear-equipodescuento", dato, (equipodescuento: any) => {
+      console.log("blon", equipodescuento);
+    });
+    remove();
+    setBtnGuardar(true);
+  };
+
+  const {
+    register: rLogicaEquipoDescuento,
+    handleSubmit: fLogicaEquipoDescuento,
+  } = useForm();
+
+  const actionLogicaEquipoDescuento = async (dato: any) => {
+    for (let i = 0; i < dato.CMes; i++) {
+      insert(i, {
+        Equipo: dato.IdEquipo,
+        Tiempo: dato.CMes,
+        Precio: "",
+      });
+    }
+    setBtnGuardar(false);
+  };
 
   /*UseEffect*/
   useEffect(() => {
@@ -81,11 +118,20 @@ export default function TabCrearEquipo() {
     socket?.emit("listar-cliente", null, (cliente: any) => {
       setCliente(cliente);
     });
-    socket?.emit("listar-MarcaxTipoEquipo", null, (marca: any) => {
+    socket?.emit("listar-marca", null, (marca: any) => {
       setMarca(marca);
       console.log("blon", marca);
     });
+    socket?.emit("listar-modelo", null, (modelo: any) => {
+      setModelo(modelo);
+      console.log("blon", modelo);
+    });
+    socket?.emit("listar-equipo", null, (equipo: any) => {
+      setEquipo(equipo);
+      console.log("blon", equipo);
+    });
   }, []);
+
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -93,7 +139,75 @@ export default function TabCrearEquipo() {
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
       >
-        <Tab key="1" title="TipoEquipo">
+        <Tab key="1" title="Equipo">
+          <Card>
+            <CardBody>
+              <form className="flex justify-center items-center flex-col w-full gap-3">
+                <SelectNormalComponent
+                  array={cliente}
+                  value="IdCliente"
+                  texts={["CodCliente"]}
+                  label="Cliente"
+                  placeholder="Seleccionar un cliente"
+                  prop={{ ...rEquipo("Cliente") }}
+                />
+                <SelectNormalComponent
+                  array={tipoequipo}
+                  value="IdTipoEquipo"
+                  texts={["TipoEquipo"]}
+                  label="Tipo de Equipo"
+                  placeholder="Seleccionar"
+                  prop={{ ...rEquipo("TipoEquipo") }}
+                />
+                <SelectNormalComponent
+                  array={marca}
+                  value="IdMarca"
+                  texts={["Marca"]}
+                  label="Marca"
+                  placeholder="Seleccione una Marca"
+                  prop={{ ...rEquipo("Marca") }}
+                />
+                <SelectNormalComponent
+                  array={modelo}
+                  value="IdModelo"
+                  texts={["Modelo"]}
+                  label="Modelo"
+                  placeholder="Seleccione un Modelo"
+                  prop={{ ...rEquipo("Modelo") }}
+                />
+                <TextAreaNormalComponent
+                  label="Especificación"
+                  prop={{ ...rEquipo("Especificacion") }}
+                />
+                <Select
+                  label="Gamma"
+                  className="w-full"
+                  labelPlacement="outside"
+                  placeholder="Seleccionar"
+                  {...rEquipo("Gamma")}
+                >
+                  <SelectItem key={1} value="Alta">
+                    Alta
+                  </SelectItem>
+                  <SelectItem key={2} value="Media">
+                    Media
+                  </SelectItem>
+                  <SelectItem key={3} value="Baja">
+                    Baja
+                  </SelectItem>
+                </Select>
+                <Button
+                  type="button"
+                  onClick={fEquipo(actionEquipo)}
+                  color="primary"
+                >
+                  Guardar Precios
+                </Button>
+              </form>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="2" title="TipoEquipo">
           <Card>
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
@@ -132,7 +246,7 @@ export default function TabCrearEquipo() {
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="2" title="Marca">
+        <Tab key="3" title="Marca">
           <Card>
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
@@ -151,7 +265,7 @@ export default function TabCrearEquipo() {
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="3" title="Modelo">
+        <Tab key="4" title="Modelo">
           <Card>
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
@@ -170,48 +284,84 @@ export default function TabCrearEquipo() {
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="4" title="Equipo">
-          <Card>
-            <CardBody>
-              <form className="flex justify-center items-center flex-col w-full gap-3">
-                <SelectNormalComponent
-                  array={cliente}
-                  value="IdCliente"
-                  texts={["CodCliente"]}
-                  label="Cliente"
-                  placeholder="Seleccionar un cliente"
-                  prop={{}}
-                />
-                <SelectStateComponent
-                  array={tipoequipo}
-                  index="IdTipoEquipo"
-                  texts={["TipoEquipo"]}
-                  label="Tipo de Equipo"
-                  placeholder="Seleccionar"
-                />
-                <SelectNormalComponent
-                  array={marca}
-                  value="IdMarca"
-                  texts={["Marca"]}
-                  label="Marca"
-                  placeholder="Seleccione una Marca"
-                  prop={{}}
-                />
-                <SelectNormalComponent
-                  array={modelo}
-                  value="IdModelo"
-                  texts={["Modelo"]}
-                  label="Modelo"
-                  placeholder="Seleccione un Modelo"
-                  prop={{}}
-                />
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
         <Tab key="5" title="EquipoDescuento">
           <Card>
-            <CardBody></CardBody>
+            <CardBody>
+              <h1>Escoger los precios en función al mes</h1>
+              <br />
+              <form className="flex flex-col justify-center items-center">
+                <SelectNormalComponent
+                  array={equipo}
+                  value="IdEquipo"
+                  texts={["IdEquipo", "CodCliente", "Marca", "Modelo"]}
+                  label="Equipo"
+                  placeholder="Seleccionar"
+                  prop={{ ...rLogicaEquipoDescuento(`IdEquipo`) }}
+                />
+                <Input
+                  label="Cantidad de Meses"
+                  labelPlacement="outside"
+                  type="number"
+                  {...rLogicaEquipoDescuento(`CMes`)}
+                />
+                <div className="flex gap-5 py-3">
+                  <Button
+                    onClick={fLogicaEquipoDescuento(
+                      actionLogicaEquipoDescuento
+                    )}
+                  >
+                    Iniciar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      remove();
+                      setBtnGuardar(true);
+                    }}
+                  >
+                    Resetear
+                  </Button>
+                </div>
+              </form>
+              <form>
+                <ul>
+                  {fields.map((item, index) => {
+                    return (
+                      <li key={item.id}>
+                        <Input
+                          label={`Equipo ${index + 1}`}
+                          labelPlacement="outside"
+                          type="text"
+                          className="hidden"
+                          {...rEquipoDescuento(`test.${index}.Equipo`)}
+                        />
+                        <Input
+                          label={`Tiempo ${index + 1}`}
+                          labelPlacement="outside"
+                          type="text"
+                          className="hidden"
+                          {...rEquipoDescuento(`test.${index}.Tiempo`)}
+                        />
+                        <Input
+                          label={`Precio ${index + 1}`}
+                          labelPlacement="outside"
+                          type="text"
+                          {...rEquipoDescuento(`test.${index}.Precio`)}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <Button
+                  type="button"
+                  onClick={fEquipoDescuento(actionEquipoDescuento)}
+                  color="primary"
+                  isDisabled={btnguardar}
+                >
+                  Guardar Precios
+                </Button>
+              </form>
+            </CardBody>
           </Card>
         </Tab>
       </Tabs>

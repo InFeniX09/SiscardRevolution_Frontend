@@ -7,6 +7,8 @@ interface Props {
   texts: string[];
   label: string;
   placeholder: string;
+  value: any; // Nuevo prop para establecer el valor seleccionado
+  onChange: (value: any) => void;
 }
 
 export default function SelectStateComponent({
@@ -15,19 +17,19 @@ export default function SelectStateComponent({
   texts,
   label,
   placeholder,
+  value, // Nuevo prop para establecer el valor seleccionado
+  onChange, 
 }: Props) {
 
-  const [idTipoEquipo, setidTipoEquipo] = React.useState<any>([]);
 
   return (
     <div className="flex w-full max-w-xs flex-col gap-2">
       <Select
         label={label}
         placeholder={placeholder}
-        className="max-w-xs"
         labelPlacement="outside"
-        onSelectionChange={(keys) => setidTipoEquipo(Array.from(keys))}
-        selectedKeys={idTipoEquipo}
+        onSelectionChange={(keys) => onChange(Array.from(keys))}
+        selectedKeys={value}
       >
         {array.map((item) => (
           <SelectItem key={item[index]} value={item[index]}>
@@ -35,7 +37,6 @@ export default function SelectStateComponent({
           </SelectItem>
         ))}
       </Select>
-      <p className="text-small text-default-500">Selected: {idTipoEquipo}</p>
     </div>
   );
 }
