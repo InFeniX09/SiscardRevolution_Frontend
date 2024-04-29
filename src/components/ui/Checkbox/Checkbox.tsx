@@ -15,12 +15,11 @@ export default function CheckboxComponent({
 }: ImageProps) {
   return (
     <Checkbox
-      defaultSelected
       color="danger"
       classNames={{ label: "text-[var(--color-neutral)]" }}
       isSelected={isselected}
       onValueChange={onValueChange}
-      icon={<PlusIcon className="h-5"/>}
+      icon={<PlusIcon className="h-5" />}
     >
       {texto}
     </Checkbox>
