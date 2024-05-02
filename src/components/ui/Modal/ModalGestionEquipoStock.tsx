@@ -15,8 +15,9 @@ import {useForm } from "react-hook-form";
 import { SocketContext } from "@/src/context/SocketContext";
 
 import TabCrearEquipo from "../Tabs/TabCrearEquipo";
+import TabCrearEquipoStock from "../Tabs/TabCrearEquipoStock";
 
-export default function ModalGestionEquipo() {
+export default function ModalGestionEquipoStock() {
   /*Context*/
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
@@ -67,7 +68,7 @@ export default function ModalGestionEquipo() {
         color="danger"
         className=" overflow-visible"
       >
-        Creaciones
+        Ingresar Stock
       </Button>
       <Modal
         isOpen={isOpen}
@@ -83,7 +84,7 @@ export default function ModalGestionEquipo() {
                 Crear Equipo Completo
               </ModalHeader>
               <ModalBody className="h-[84%] overflow-auto">
-                <TabCrearEquipo />
+                <TabCrearEquipoStock/>
               </ModalBody>
               <ModalFooter className="h-[16%]">
                 <Button color="danger" variant="flat" onPress={onClose}>

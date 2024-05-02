@@ -272,7 +272,6 @@ export default function TableEquipoDescuentoComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -349,7 +348,6 @@ export default function TableEquipoDescuentoComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Stock por Area</h1>
       <Table
         isCompact
         removeWrapper

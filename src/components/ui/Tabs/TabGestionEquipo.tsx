@@ -32,6 +32,7 @@ export default function TabGestionEquipo() {
       });
     }
   }, [session]);
+  
 
   const handleTabChange = (key: any) => {
     setSelectedTab(key);

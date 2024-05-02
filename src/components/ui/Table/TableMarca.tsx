@@ -265,7 +265,6 @@ export default function TableMarcaComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -342,7 +341,6 @@ export default function TableMarcaComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         removeWrapper

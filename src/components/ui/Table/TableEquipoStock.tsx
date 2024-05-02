@@ -28,15 +28,7 @@ import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalTicketComponent from "../Modal/ModalTicket";
-import { SocketContext } from "@/src/context/SocketContext";
-import { useSession } from "next-auth/react";
-import { Solicitud } from "@/src/interfaces/solicitud.interface";
-import ModalSolicitudComponent from "../Modal/ModalSolicitud";
-import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
-import { Equipo } from "@/src/interfaces/equipo.interface";
 import { EquipoStock } from "@/src/interfaces/equipostock.interface";
-import ModalEquipoStockComponent from "../Modal/ModalEquipoStock";
 
 /**/
 
@@ -276,7 +268,6 @@ export default function TableEquipoStockComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalEquipoStockComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">

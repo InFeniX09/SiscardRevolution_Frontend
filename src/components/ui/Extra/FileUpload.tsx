@@ -1,4 +1,5 @@
 import { SocketContext } from "@/src/context/SocketContext";
+import { Button, Input } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { read, utils } from "xlsx";
 
@@ -31,10 +32,10 @@ export default function ExcelCarga() {
   };
 
   return (
-    <div>
-      <h1>Subir archivo Excel</h1>
-      <input type="file" onChange={handleFileUpload} />
-      <button onClick={logData}>Mostrar datos</button>
+    <div className="flex flex-col gap-3 items-center justify-center">
+      <h1>Sube tu archivo en <span className="text-green-600">Excel</span> </h1>
+      <Input type="file" onChange={handleFileUpload} />
+      <Button onClick={logData}>Cargar datos</Button>
     </div>
   );
 }

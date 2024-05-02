@@ -103,7 +103,7 @@ export default function TabCrearEquipo() {
     for (let i = 0; i < dato.CMes; i++) {
       insert(i, {
         Equipo: dato.IdEquipo,
-        Tiempo: dato.CMes,
+        Tiempo: i + 1,
         Precio: "",
       });
     }
@@ -293,7 +293,7 @@ export default function TabCrearEquipo() {
                 <SelectNormalComponent
                   array={equipo}
                   value="IdEquipo"
-                  texts={["IdEquipo", "CodCliente", "Marca", "Modelo"]}
+                  texts={[ "CodCliente", "Marca", "Modelo"]}
                   label="Equipo"
                   placeholder="Seleccionar"
                   prop={{ ...rLogicaEquipoDescuento(`IdEquipo`) }}
