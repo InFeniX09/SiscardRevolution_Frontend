@@ -23,13 +23,14 @@ export default function SelectStateComponent({
 
 
   return (
-    <div className="flex w-full max-w-xs flex-col gap-2">
+    <div className="flex w-full  flex-col gap-2">
       <Select
         label={label}
         placeholder={placeholder}
         labelPlacement="outside"
         onSelectionChange={(keys) => onChange(Array.from(keys))}
         selectedKeys={value}
+        color="danger"
       >
         {array.map((item) => (
           <SelectItem key={item[index]} value={item[index]}>

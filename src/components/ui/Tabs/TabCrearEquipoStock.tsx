@@ -26,8 +26,10 @@ export default function TabCrearEquipoStock() {
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
   const [equipo, setEquipo] = useState<any>([]);
 
+  const [clasificacionequipo, setClasificacionEquipo] = useState<any>([]);
   const [tipoequipo, setTipoEquipo] = useState<any>([]);
   const [cliente, setCliente] = useState<any>([]);
+  const [selectclasificacionequipo, setSelectClasificacionEquipo] = useState<any>([]);
   const [selecttipoequipo, setSelectTipoEquipo] = useState<any>([]);
   const [selectcliente, setSelectCliente] = useState<any>([]);
   const [btnguardar, setBtnGuardar] = useState<any>(true);
@@ -52,21 +54,22 @@ export default function TabCrearEquipoStock() {
   };
 
   const {
-    register: rEquipoDescuento,
-    handleSubmit: fEquipoDescuento,
+    register: rEquipoStock,
+    handleSubmit: fEquipoStock,
     control,
     reset,
   } = useForm();
+
   const { fields, append, prepend, remove, swap, move, insert, replace } =
     useFieldArray({
       control,
       name: "test",
     });
 
-  const actionEquipoDescuento = async (dato: any) => {
-    console.log("ysy", dato);
-    socket?.emit("crear-equipodescuento", dato, (equipodescuento: any) => {
-      console.log("blon", equipodescuento);
+  const actionEquipoStock = async (dato: any) => {
+
+    socket?.emit("ingresar-stock", dato, (equipostock: any) => {
+      console.log("blon", equipostock);
     });
     remove();
     setBtnGuardar(true);
@@ -81,8 +84,6 @@ export default function TabCrearEquipoStock() {
     for (let i = 0; i < dato.Cantidad; i++) {
       insert(i, {
         Equipo: dato.IdEquipo,
-        Tiempo: i + 1,
-        Precio: "",
       });
     }
     setBtnGuardar(false);
@@ -90,13 +91,24 @@ export default function TabCrearEquipoStock() {
 
   /*UseEffect*/
   useEffect(() => {
-    socket?.emit("listar-tipoequipo", null, (tipoequipo: any) => {
-      setTipoEquipo(tipoequipo);
-    });
     socket?.emit("listar-cliente", null, (cliente: any) => {
       setCliente(cliente);
     });
+    socket?.emit("listar-clasificacionequipo", null, (clasificacionequipo: any) => {
+      setClasificacionEquipo(clasificacionequipo);
+    });
+  
+  
   }, []);
+
+  useEffect(() => {
+    const data={
+      Clasificacion:selectclasificacionequipo,
+    }
+    socket?.emit("listar-tipoequipoxcl", data, (tipoequipo: any) => {
+      setTipoEquipo(tipoequipo);
+    });
+  }, [selectclasificacionequipo]);
 
   useEffect(() => {
     const data={
@@ -107,7 +119,7 @@ export default function TabCrearEquipoStock() {
       setEquipo(equipoxclxtc);
       console.log("blon", equipoxclxtc);
     });
-  }, [selecttipoequipo,selectcliente]);
+  }, [selecttipoequipo,selectcliente,selectclasificacionequipo]);
 
   return (
     <div className="flex w-full flex-col">
@@ -126,9 +138,9 @@ export default function TabCrearEquipoStock() {
         <Tab key="2" title="Ingreso Stock">
           <Card>
             <CardBody>
-              <h1>Escoger los precios en función al mes</h1>
+              <h1>Ingresar las series</h1>
               <br />
-              <form className="flex flex-col justify-center items-center">
+              <form className="flex flex-col justify-center items-center gap-2">
                 <SelectStateComponent
                   array={cliente}
                   index="IdCliente"
@@ -137,6 +149,15 @@ export default function TabCrearEquipoStock() {
                   placeholder="Seleccionar un cliente"
                   value={selectcliente}
                   onChange={setSelectCliente}
+                />
+                <SelectStateComponent
+                  array={clasificacionequipo}
+                  index="Clasificacion"
+                  texts={["Clasificacion"]}
+                  label="Clasificacion"
+                  placeholder="Seleccionar una opcion"
+                  value={selectclasificacionequipo}
+                  onChange={setSelectClasificacionEquipo}
                 />
                 <SelectStateComponent
                   array={tipoequipo}
@@ -189,20 +210,21 @@ export default function TabCrearEquipoStock() {
                           labelPlacement="outside"
                           type="text"
                           className="hidden"
-                          {...rEquipoDescuento(`test.${index}.Equipo`)}
+                          value={selectclasificacionequipo}
+                          {...rEquipoStock(`Clasificacion`)}
                         />
                         <Input
-                          label={`Tiempo ${index + 1}`}
+                          label={`Equipo ${index + 1}`}
                           labelPlacement="outside"
                           type="text"
                           className="hidden"
-                          {...rEquipoDescuento(`test.${index}.Tiempo`)}
+                          {...rEquipoStock(`test.${index}.Equipo`)}
                         />
                         <Input
-                          label={`Precio ${index + 1}`}
+                          label={`Equipo ${index + 1}`}
                           labelPlacement="outside"
                           type="text"
-                          {...rEquipoDescuento(`test.${index}.Precio`)}
+                          {...rEquipoStock(`test.${index}.Serie`)}
                         />
                       </li>
                     );
@@ -211,7 +233,7 @@ export default function TabCrearEquipoStock() {
 
                 <Button
                   type="button"
-                  onClick={fEquipoDescuento(actionEquipoDescuento)}
+                  onClick={fEquipoStock(actionEquipoStock)}
                   color="primary"
                   isDisabled={btnguardar}
                 >
