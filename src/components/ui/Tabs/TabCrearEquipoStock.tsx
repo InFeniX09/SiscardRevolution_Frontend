@@ -29,7 +29,8 @@ export default function TabCrearEquipoStock() {
   const [clasificacionequipo, setClasificacionEquipo] = useState<any>([]);
   const [tipoequipo, setTipoEquipo] = useState<any>([]);
   const [cliente, setCliente] = useState<any>([]);
-  const [selectclasificacionequipo, setSelectClasificacionEquipo] = useState<any>([]);
+  const [selectclasificacionequipo, setSelectClasificacionEquipo] =
+    useState<any>([]);
   const [selecttipoequipo, setSelectTipoEquipo] = useState<any>([]);
   const [selectcliente, setSelectCliente] = useState<any>([]);
   const [btnguardar, setBtnGuardar] = useState<any>(true);
@@ -67,7 +68,6 @@ export default function TabCrearEquipoStock() {
     });
 
   const actionEquipoStock = async (dato: any) => {
-
     socket?.emit("ingresar-stock", dato, (equipostock: any) => {
       console.log("blon", equipostock);
     });
@@ -75,18 +75,31 @@ export default function TabCrearEquipoStock() {
     setBtnGuardar(true);
   };
 
-  const {
-    register: rLogicaEquipoStock,
-    handleSubmit: fLogicaEquipoStock,
-  } = useForm();
+  const { register: rLogicaEquipoStock, handleSubmit: fLogicaEquipoStock } =
+    useForm();
 
   const actionLogicaEquipoStock = async (dato: any) => {
-    for (let i = 0; i < dato.Cantidad; i++) {
-      insert(i, {
-        Equipo: dato.IdEquipo,
+    if (selectclasificacionequipo == "Seriado") {
+      for (let i = 0; i < dato.Cantidad; i++) {
+        insert(i, {
+          Equipo: dato.IdEquipo,
+        });
+      }
+      setBtnGuardar(false);
+    } else if (selectclasificacionequipo == "Accesorio") {    
+      const data={
+        IdEquipo:dato.IdEquipo,
+        Cantidad:dato.Cantidad,
+        Clasificacion:selectclasificacionequipo
+      }
+      console.log("pepe",data)
+
+      socket?.emit("ingresar-stock", data, (equipostock: any) => {
+        console.log("blon", equipostock);
       });
+      remove();
+      setBtnGuardar(true);
     }
-    setBtnGuardar(false);
   };
 
   /*UseEffect*/
@@ -94,32 +107,34 @@ export default function TabCrearEquipoStock() {
     socket?.emit("listar-cliente", null, (cliente: any) => {
       setCliente(cliente);
     });
-    socket?.emit("listar-clasificacionequipo", null, (clasificacionequipo: any) => {
-      setClasificacionEquipo(clasificacionequipo);
-    });
-  
-  
+    socket?.emit(
+      "listar-clasificacionequipo",
+      null,
+      (clasificacionequipo: any) => {
+        setClasificacionEquipo(clasificacionequipo);
+      }
+    );
   }, []);
 
   useEffect(() => {
-    const data={
-      Clasificacion:selectclasificacionequipo,
-    }
+    const data = {
+      Clasificacion: selectclasificacionequipo,
+    };
     socket?.emit("listar-tipoequipoxcl", data, (tipoequipo: any) => {
       setTipoEquipo(tipoequipo);
     });
   }, [selectclasificacionequipo]);
 
   useEffect(() => {
-    const data={
-      Cliente:selectcliente,
-      TipoEquipo:selecttipoequipo
-    }
+    const data = {
+      Cliente: selectcliente,
+      TipoEquipo: selecttipoequipo,
+    };
     socket?.emit("listar-equipoxclxtc", data, (equipoxclxtc: any) => {
       setEquipo(equipoxclxtc);
       console.log("blon", equipoxclxtc);
     });
-  }, [selecttipoequipo,selectcliente,selectclasificacionequipo]);
+  }, [selecttipoequipo, selectcliente, selectclasificacionequipo]);
 
   return (
     <div className="flex w-full flex-col">
@@ -183,11 +198,7 @@ export default function TabCrearEquipoStock() {
                   {...rLogicaEquipoStock(`Cantidad`)}
                 />
                 <div className="flex gap-5 py-3">
-                  <Button
-                    onClick={fLogicaEquipoStock(
-                      actionLogicaEquipoStock
-                    )}
-                  >
+                  <Button onClick={fLogicaEquipoStock(actionLogicaEquipoStock)}>
                     Iniciar
                   </Button>
                   <Button
@@ -224,6 +235,11 @@ export default function TabCrearEquipoStock() {
                           label={`Equipo ${index + 1}`}
                           labelPlacement="outside"
                           type="text"
+                          className={
+                            selectclasificacionequipo == "Accesorio"
+                              ? "hidden"
+                              : "block"
+                          }
                           {...rEquipoStock(`test.${index}.Serie`)}
                         />
                       </li>
@@ -232,6 +248,9 @@ export default function TabCrearEquipoStock() {
                 </ul>
 
                 <Button
+                  className={
+                    selectclasificacionequipo == "Accesorio" ? "hidden" : ""
+                  }
                   type="button"
                   onClick={fEquipoStock(actionEquipoStock)}
                   color="primary"

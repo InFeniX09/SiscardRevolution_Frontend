@@ -25,9 +25,6 @@ import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
-import SelectComponent from "../Select/Select";
-import CheckboxComponent from "../Checkbox/Checkbox";
-import RadiogroupComponent from "../Radiogroup/Radiogroup";
 
 interface Props {
   datosolicitud: string;
@@ -53,12 +50,47 @@ export default function ModalAtenderTicketComponent({
 
   const [equipoaccesorio, setEquipoAccesorio] = useState<any>([]);
 
+  const [equipocelular, setEquipoCelular] = useState<any>([]);
+  const [equipolaptop, setEquipoLaptop] = useState<any>([]);
+  const [equipochip, setEquipoChip] = useState<any>([]);
+
   useEffect(() => {
     socket?.emit(
       "listar-equipoxclasificacion",
       "",
       (equipoxclasificacion: any) => {
         setEquipoAccesorio(equipoxclasificacion);
+      }
+    );
+    const datacelular = {
+      TipoEquipo: "Celular",
+    };
+    const datalaptop = {
+      TipoEquipo: "Laptop",
+    };
+    const datachip = {
+      TipoEquipo: "Chip",
+    };
+
+    socket?.emit(
+      "listar-equipoxclxtexusu",
+      datacelular,
+      (equipoxclasificacion: any) => {
+        setEquipoCelular(equipoxclasificacion);
+      }
+    );
+    socket?.emit(
+      "listar-equipoxclxtexusu",
+      datalaptop,
+      (equipoxclasificacion: any) => {
+        setEquipoLaptop(equipoxclasificacion);
+      }
+    );
+    socket?.emit(
+      "listar-equipoxclxtexusu",
+      datachip,
+      (equipoxclasificacion: any) => {
+        setEquipoChip(equipoxclasificacion);
       }
     );
   }, []);
@@ -92,43 +124,65 @@ export default function ModalAtenderTicketComponent({
                           <h2>Asignando Items</h2>
                           <div>
                             <div>
-                              <h1>Celular</h1>
-                              <CheckboxComponent
-                                texto=""
-                                isSelected={estadocelular}
-                                onValueChange={setEstadoCelular}
+                              <SelectNormalComponent
+                                array={equipocelular}
+                                value="IdEquipoSerie"
+                                texts={[
+                                  "CodCliente",
+                                  "Marca",
+                                  "Modelo",
+                                  "Serie",
+                                ]}
+                                label="Celular"
+                                placeholder="Seleccionar un cliente"
+                                prop={{}}
                               />
                             </div>
                             <div>
-                              <h1>Chip</h1>
-                              <CheckboxComponent
-                                texto=""
-                                isSelected={estadochip}
-                                onValueChange={setEstadoChip}
+                              <SelectNormalComponent
+                                array={equipochip}
+                                value="IdEquipoSerie"
+                                texts={[
+                                  "CodCliente",
+                                  "Marca",
+                                  "Modelo",
+                                  "Serie",
+                                ]}
+                                label="Chip"
+                                placeholder="Seleccionar un cliente"
+                                prop={{}}
                               />
                             </div>
                             <div>
-                              <h1>Laptop</h1>
-                              <CheckboxComponent
-                                texto=""
-                                isSelected={estadolaptop}
-                                onValueChange={setEstadoLaptop}
+                              <SelectNormalComponent
+                                array={equipolaptop}
+                                value="IdEquipoSerie"
+                                texts={[
+                                  "CodCliente",
+                                  "Marca",
+                                  "Modelo",
+                                  "Serie",
+                                ]}
+                                label="Laptop"
+                                placeholder="Seleccionar un cliente"
+                                prop={{}}
                               />
                             </div>
                             <div>
                               <h1>Accesorios</h1>
-                              <CheckboxGroup
-                                label="Escoger Accesorios"
-                                color="warning"
-                                value={selected}
-                                onValueChange={setSelected}
-                              >
-                                {equipoaccesorio.map((item: any, key: any) => (
-                                  <Checkbox key={key} value={item.IdEquipo}>
-                                    {item.Modelo}
-                                  </Checkbox>
-                                ))}
-                              </CheckboxGroup>
+                              <SelectMultipleComponent
+                                array={equipolaptop}
+                                value="IdEquipoSerie"
+                                texts={[
+                                  "CodCliente",
+                                  "Marca",
+                                  "Modelo",
+                                  "Serie",
+                                ]}
+                                label="Laptop"
+                                placeholder="Seleccionar un cliente"
+                                prop={{}}
+                              />
                             </div>
                           </div>
                         </CardBody>

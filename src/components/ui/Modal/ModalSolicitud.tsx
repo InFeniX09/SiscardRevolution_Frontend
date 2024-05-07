@@ -24,7 +24,6 @@ export default function ModalSolicitudComponent() {
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
   const [tiposolicitud, setTipoSolicitud] = useState<any>([]);
-
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tipomotivo, setTipoMotivo] = useState([]);
   const [selecttiposolicitud, setSelectTipoSolicitud] = useState("");
