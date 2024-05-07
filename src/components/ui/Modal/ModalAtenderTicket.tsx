@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
+import { Document, Page, PDFViewer } from "@react-pdf/renderer";
 
 interface Props {
   datosolicitud: string;
@@ -53,6 +54,10 @@ export default function ModalAtenderTicketComponent({
   const [equipocelular, setEquipoCelular] = useState<any>([]);
   const [equipolaptop, setEquipoLaptop] = useState<any>([]);
   const [equipochip, setEquipoChip] = useState<any>([]);
+  const [accesorio, setAccesorio] = useState<any>([]);
+  const [datospdf, setDatosPdf] = useState<any>();
+
+  const [mostrarPDF, setMostrarPDF] = useState(false);
 
   useEffect(() => {
     socket?.emit(
@@ -93,7 +98,20 @@ export default function ModalAtenderTicketComponent({
         setEquipoChip(equipoxclasificacion);
       }
     );
+    socket?.emit("listar-accesorioxclxtexusu", datachip, (Accesorio: any) => {
+      setAccesorio(Accesorio);
+    });
   }, []);
+
+  const { register: rLogicaEquipoStock, handleSubmit: fLogicaEquipoStock } =
+    useForm();
+
+  const actionLogicaEquipoStock = async (dato: any) => {
+    socket?.emit("armarpdf-solicitud", "", (datospdf: any) => {
+      setDatosPdf(datospdf); // Guardar los datos del PDF
+      setMostrarPDF(true);
+    });
+  };
 
   return (
     <>
@@ -121,81 +139,88 @@ export default function ModalAtenderTicketComponent({
                     <Tab key="1" title="1er Paso">
                       <Card>
                         <CardBody>
-                          <h2>Asignando Items</h2>
-                          <div>
+                          <form>
+                            <h2>Asignando Items</h2>
                             <div>
-                              <SelectNormalComponent
-                                array={equipocelular}
-                                value="IdEquipoSerie"
-                                texts={[
-                                  "CodCliente",
-                                  "Marca",
-                                  "Modelo",
-                                  "Serie",
-                                ]}
-                                label="Celular"
-                                placeholder="Seleccionar un cliente"
-                                prop={{}}
-                              />
+                              <div>
+                                <SelectNormalComponent
+                                  array={equipocelular}
+                                  value="IdEquipoSerie"
+                                  texts={[
+                                    "CodCliente",
+                                    "Marca",
+                                    "Modelo",
+                                    "Serie",
+                                  ]}
+                                  label="Celular"
+                                  placeholder="Seleccionar un cliente"
+                                  prop={{}}
+                                />
+                              </div>
+                              <div>
+                                <SelectNormalComponent
+                                  array={equipochip}
+                                  value="IdEquipoSerie"
+                                  texts={[
+                                    "CodCliente",
+                                    "Marca",
+                                    "Modelo",
+                                    "Serie",
+                                  ]}
+                                  label="Chip"
+                                  placeholder="Seleccionar un cliente"
+                                  prop={{}}
+                                />
+                              </div>
+                              <div>
+                                <SelectNormalComponent
+                                  array={equipolaptop}
+                                  value="IdEquipoSerie"
+                                  texts={[
+                                    "CodCliente",
+                                    "Marca",
+                                    "Modelo",
+                                    "Serie",
+                                  ]}
+                                  label="Laptop"
+                                  placeholder="Seleccionar un cliente"
+                                  prop={{}}
+                                />
+                              </div>
+                              <div>
+                                <h1>Accesorios</h1>
+                                <SelectMultipleComponent
+                                  array={accesorio}
+                                  value="IdEquipo"
+                                  texts={["CodCliente", "Marca", "Modelo"]}
+                                  subtexts={[""]}
+                                  label="Celular"
+                                  placeholder="Seleccionar un cliente"
+                                  prop={{}}
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <SelectNormalComponent
-                                array={equipochip}
-                                value="IdEquipoSerie"
-                                texts={[
-                                  "CodCliente",
-                                  "Marca",
-                                  "Modelo",
-                                  "Serie",
-                                ]}
-                                label="Chip"
-                                placeholder="Seleccionar un cliente"
-                                prop={{}}
-                              />
-                            </div>
-                            <div>
-                              <SelectNormalComponent
-                                array={equipolaptop}
-                                value="IdEquipoSerie"
-                                texts={[
-                                  "CodCliente",
-                                  "Marca",
-                                  "Modelo",
-                                  "Serie",
-                                ]}
-                                label="Laptop"
-                                placeholder="Seleccionar un cliente"
-                                prop={{}}
-                              />
-                            </div>
-                            <div>
-                              <h1>Accesorios</h1>
-                              <SelectMultipleComponent
-                                array={equipolaptop}
-                                value="IdEquipoSerie"
-                                texts={[
-                                  "CodCliente",
-                                  "Marca",
-                                  "Modelo",
-                                  "Serie",
-                                ]}
-                                label="Laptop"
-                                placeholder="Seleccionar un cliente"
-                                prop={{}}
-                              />
-                            </div>
-                          </div>
+                            <Button
+                              onClick={fLogicaEquipoStock(
+                                actionLogicaEquipoStock
+                              )}
+                            >
+                              Armar Pdf
+                            </Button>
+                          </form>
                         </CardBody>
                       </Card>
                     </Tab>
                     <Tab key="2" title="2do Paso">
                       <Card>
                         <CardBody>
-                          Ut enim ad minim veniam, quis nostrud exercitation
-                          ullamco laboris nisi ut aliquip ex ea commodo
-                          consequat. Duis aute irure dolor in reprehenderit in
-                          voluptate velit esse cillum dolore eu fugiat nulla
-                          pariatur.
+                          {mostrarPDF && datospdf && (
+                            <PDFViewer width="100%" height={600}>
+                              <Document file={{ data: datospdf }}>
+                                <Page size="A4" />
+                              </Document>
+                            </PDFViewer>
+                          )}
                         </CardBody>
                       </Card>
                     </Tab>

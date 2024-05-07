@@ -154,6 +154,7 @@ export default function ModalTicketComponent() {
                     {...register("Descripcion", { required: true })}
                   />
                   <SelectMultipleComponent
+                  
                     prop={{ ...register("idTicketcc", { required: true }) }}
                   />
                   <SelectNormalComponent

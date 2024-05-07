@@ -11,9 +11,10 @@ import {
 import { FieldValues } from "react-hook-form";
 
 interface Props {
-  array: any;
+  array: any[]; // Ensure the type is an array
   value: string;
   texts: string[];
+  subtexts: string[];
   label: string;
   placeholder: string;
   prop: FieldValues;
@@ -23,6 +24,7 @@ export default function SelectMultipleComponent({
   array,
   value,
   texts,
+  subtexts,
   label,
   placeholder,
   prop,
@@ -30,7 +32,7 @@ export default function SelectMultipleComponent({
   return (
     <Select
       {...prop}
-      items={array as any[]}
+      items={array}
       label={label}
       variant="bordered"
       isMultiline={true}
@@ -41,29 +43,34 @@ export default function SelectMultipleComponent({
         base: "max-w-xs",
         trigger: "min-h-unit-12 py-2",
       }}
-      renderValue={(items: any[]) => {
+      renderValue={(items: any) => {
         return (
           <div className="flex flex-wrap gap-2">
-            {items.map((item) => (
-              <Chip key={item[value]}>{item[texts[0]]}</Chip>
+            {items.map((item:any) => (
+              <Chip key={item.key}>{texts.map((text) => item.data[text]).join(" - ")}</Chip>
             ))}
           </div>
         );
       }}
     >
-      {(item) => (
+      {(item: any) => (
         <SelectItem key={item[value]}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={item[texts[0]]}
               className="flex-shrink-0"
               size="sm"
-              src={item.RutaImagen}
+              src={item.RutaImagen} // Assuming the image source property is 'RutaImagen'
             />
             <div className="flex flex-col">
-              <span className="text-small">{item[texts[0]]}</span>
-              <span className="text-tiny text-default-400">
-                {item[texts[1]]}
+              {/* Muestra los textos principales y subtextos */}
+
+              <span className="text-small">
+                {texts.map((text) => item[text]).join(" - ")}
+              </span>
+
+              <span className="text-small">
+                {subtexts.map((subtext) => item[subtext]).join(" - ")}
               </span>
             </div>
           </div>
