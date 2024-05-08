@@ -153,10 +153,7 @@ export default function ModalTicketComponent() {
                     variant="bordered"
                     {...register("Descripcion", { required: true })}
                   />
-                  <SelectMultipleComponent
                   
-                    prop={{ ...register("idTicketcc", { required: true }) }}
-                  />
                   <SelectNormalComponent
                     array={area}
                     value="IdArea"

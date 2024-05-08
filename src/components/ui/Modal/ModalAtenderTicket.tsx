@@ -25,7 +25,6 @@ import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
-import { Document, Page, PDFViewer } from "@react-pdf/renderer";
 
 interface Props {
   datosolicitud: string;
@@ -56,8 +55,7 @@ export default function ModalAtenderTicketComponent({
   const [equipochip, setEquipoChip] = useState<any>([]);
   const [accesorio, setAccesorio] = useState<any>([]);
   const [datospdf, setDatosPdf] = useState<any>();
-
-  const [mostrarPDF, setMostrarPDF] = useState(false);
+  const [datospdf1, setDatosPdf1] = useState<any>();
 
   useEffect(() => {
     socket?.emit(
@@ -108,11 +106,25 @@ export default function ModalAtenderTicketComponent({
 
   const actionLogicaEquipoStock = async (dato: any) => {
     socket?.emit("armarpdf-solicitud", "", (datospdf: any) => {
-      setDatosPdf(datospdf); // Guardar los datos del PDF
-      setMostrarPDF(true);
+      const pdfBlob = new Blob([new Uint8Array(datospdf)], {
+        type: "application/pdf",
+      });
+      const pdfURL = URL.createObjectURL(pdfBlob);
+      setDatosPdf(pdfURL);
+      setDatosPdf1(pdfBlob);
     });
   };
 
+  const { register: rEnviarPdf, handleSubmit: fEnviarPdf } = useForm();
+
+  const actionEnviarPdf = async () => {
+    const data = {
+      pdf: datospdf1,
+    };
+    socket?.emit("enviarcorreo", data, (datospdf: any) => {
+      console.log(datospdf);
+    });
+  };
   return (
     <>
       <Tooltip content="Atender">
@@ -214,13 +226,16 @@ export default function ModalAtenderTicketComponent({
                     <Tab key="2" title="2do Paso">
                       <Card>
                         <CardBody>
-                          {mostrarPDF && datospdf && (
-                            <PDFViewer width="100%" height={600}>
-                              <Document file={{ data: datospdf }}>
-                                <Page size="A4" />
-                              </Document>
-                            </PDFViewer>
-                          )}
+                          <iframe
+                            src={datospdf}
+                            width="100%"
+                            height={400}
+                          ></iframe>
+                          <form>
+                            <Button onClick={fEnviarPdf(actionEnviarPdf)}>
+                              Enviar Pdf a correo
+                            </Button>
+                          </form>
                         </CardBody>
                       </Card>
                     </Tab>
