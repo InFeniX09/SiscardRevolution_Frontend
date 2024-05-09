@@ -37,6 +37,7 @@ import SelectNormalComponent from "../Select/SelectNormal";
 import { useSession } from "next-auth/react";
 import { SocketContext } from "@/src/context/SocketContext";
 
+
 export default function ModalTicketComponent() {
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
@@ -152,8 +153,7 @@ export default function ModalTicketComponent() {
                     placeholder="Describe tu problema"
                     variant="bordered"
                     {...register("Descripcion", { required: true })}
-                  />
-                  
+                  />                
                   <SelectNormalComponent
                     array={area}
                     value="IdArea"

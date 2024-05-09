@@ -25,7 +25,8 @@ import { toast } from "react-toastify";
 import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 interface Props {
   datosolicitud: string;
   datomotivo: string;
@@ -79,6 +80,7 @@ export default function ModalAtenderTicketComponent({
       "listar-equipoxclxtexusu",
       datacelular,
       (equipoxclasificacion: any) => {
+        console.log('cel',equipoxclasificacion)
         setEquipoCelular(equipoxclasificacion);
       }
     );
@@ -105,7 +107,8 @@ export default function ModalAtenderTicketComponent({
     useForm();
 
   const actionLogicaEquipoStock = async (dato: any) => {
-    socket?.emit("armarpdf-solicitud", "", (datospdf: any) => {
+    console.log("data",dato)
+    socket?.emit("armarpdf-solicitud", dato, (datospdf: any) => {
       const pdfBlob = new Blob([new Uint8Array(datospdf)], {
         type: "application/pdf",
       });
@@ -118,11 +121,30 @@ export default function ModalAtenderTicketComponent({
   const { register: rEnviarPdf, handleSubmit: fEnviarPdf } = useForm();
 
   const actionEnviarPdf = async () => {
-    const data = {
-      pdf: datospdf1,
-    };
-    socket?.emit("enviarcorreo", data, (datospdf: any) => {
-      console.log(datospdf);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Desea proceder con la solicitud?",
+      text: "Se enviara un correo con lo detallado",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = {
+          pdf: datospdf1,
+        };
+        socket?.emit("enviarcorreo", data, (datospdf: any) => {
+          console.log(datospdf);
+        });
+        Swal.fire({
+          title: "Exito!",
+          text: "Su solicitud procedio exitosamente.",
+          icon: "success",
+        });
+      }
     });
   };
   return (
@@ -136,6 +158,7 @@ export default function ModalAtenderTicketComponent({
         aria-label="Modal para atender ticket"
         aria-labelledby="modal-title"
         size="2xl"
+        isDismissable={false}
       >
         <ModalContent>
           {(onClose) => (
@@ -166,7 +189,7 @@ export default function ModalAtenderTicketComponent({
                                   ]}
                                   label="Celular"
                                   placeholder="Seleccionar un cliente"
-                                  prop={{}}
+                                  prop={{...rLogicaEquipoStock(`Celular`)}}
                                 />
                               </div>
                               <div>
@@ -181,7 +204,7 @@ export default function ModalAtenderTicketComponent({
                                   ]}
                                   label="Chip"
                                   placeholder="Seleccionar un cliente"
-                                  prop={{}}
+                                  prop={{...rLogicaEquipoStock(`Chip`)}}
                                 />
                               </div>
                               <div>
@@ -196,7 +219,7 @@ export default function ModalAtenderTicketComponent({
                                   ]}
                                   label="Laptop"
                                   placeholder="Seleccionar un cliente"
-                                  prop={{}}
+                                  prop={{...rLogicaEquipoStock(`Laptop`)}}
                                 />
                               </div>
                               <div>
@@ -208,7 +231,7 @@ export default function ModalAtenderTicketComponent({
                                   subtexts={[""]}
                                   label="Celular"
                                   placeholder="Seleccionar un cliente"
-                                  prop={{}}
+                                  prop={{...rLogicaEquipoStock(`Accesorio`)}}
                                 />
                               </div>
                             </div>
@@ -239,15 +262,7 @@ export default function ModalAtenderTicketComponent({
                         </CardBody>
                       </Card>
                     </Tab>
-                    <Tab key="3" title="3er Paso">
-                      <Card>
-                        <CardBody>
-                          Excepteur sint occaecat cupidatat non proident, sunt
-                          in culpa qui officia deserunt mollit anim id est
-                          laborum.
-                        </CardBody>
-                      </Card>
-                    </Tab>
+                   
                   </Tabs>
                 </div>
               </ModalBody>
