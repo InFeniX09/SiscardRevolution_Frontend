@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
 import TableEquipoStockComponent from "../Table/TableEquipoStock";

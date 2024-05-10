@@ -34,7 +34,7 @@ export default function ExcelCarga() {
   return (
     <div className="flex flex-col gap-3 items-center justify-center">
       <h1>Sube tu archivo en <span className="text-green-600">Excel</span> </h1>
-      <Input type="file" onChange={handleFileUpload} />
+      <input type="file" onChange={handleFileUpload} />
       <Button onClick={logData}>Cargar datos</Button>
     </div>
   );
