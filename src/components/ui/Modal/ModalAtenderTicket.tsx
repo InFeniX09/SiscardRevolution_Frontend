@@ -108,7 +108,8 @@ export default function ModalAtenderTicketComponent({
 
   const actionLogicaEquipoStock = async (dato: any) => {
     console.log("data",dato)
-    socket?.emit("armarpdf-solicitud", dato, (datospdf: any) => {
+    const para=1
+    socket?.emit("armarpdf-solicitud", {dato,datosolicitud,datomotivo}, (datospdf: any) => {
       const pdfBlob = new Blob([new Uint8Array(datospdf)], {
         type: "application/pdf",
       });
