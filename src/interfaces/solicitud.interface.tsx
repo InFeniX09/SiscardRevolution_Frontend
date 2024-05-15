@@ -3,5 +3,6 @@ export interface Solicitud {
     TipoSolicitud:string
     TipoMotivo:string
     Usuario:string
+    IdUsuario:string
     Estado:string
 };

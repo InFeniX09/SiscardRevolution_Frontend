@@ -171,7 +171,7 @@ export default function TableSolicitudComponent({ array }: Props) {
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-                <ModalAtenderTicketComponent datosolicitud={user.TipoSolicitud} datomotivo={user.TipoMotivo}/>
+                <ModalAtenderTicketComponent datosolicitud={user.TipoSolicitud} datomotivo={user.TipoMotivo} datousuario={user.IdUsuario}/>
             </div>
           );
         default:

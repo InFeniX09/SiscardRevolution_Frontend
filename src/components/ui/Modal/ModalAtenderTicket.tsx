@@ -30,11 +30,14 @@ import withReactContent from "sweetalert2-react-content";
 interface Props {
   datosolicitud: string;
   datomotivo: string;
+  datousuario: string;
+
 }
 
 export default function ModalAtenderTicketComponent({
   datosolicitud,
   datomotivo,
+  datousuario
 }: Props) {
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
@@ -108,8 +111,8 @@ export default function ModalAtenderTicketComponent({
 
   const actionLogicaEquipoStock = async (dato: any) => {
     console.log("data",dato)
-    const para=1
-    socket?.emit("armarpdf-solicitud", {dato,datosolicitud,datomotivo}, (datospdf: any) => {
+    const usuario_id=session?.user.IdUsuario
+    socket?.emit("armarpdf-solicitud", {dato,datosolicitud,datomotivo,usuario_id,datousuario}, (datospdf: any) => {
       const pdfBlob = new Blob([new Uint8Array(datospdf)], {
         type: "application/pdf",
       });

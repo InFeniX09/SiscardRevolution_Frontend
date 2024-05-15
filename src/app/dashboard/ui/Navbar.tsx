@@ -32,7 +32,7 @@ interface Props {
 export default function NavbarPage({ nombreusuario,issidebarcollapsedmobile,onToggleSidebarMobile }: Props) {
   return (
     <Navbar
-      className="w-full rounded-[200px] h-[8%] bg-[var(--colorcontra-neutral)]"
+      className="w-full rounded-[200px] bg-[var(--colorcontra-neutral)]"
       classNames={{
         wrapper: "w-full max-w-full px-3",
       }}
