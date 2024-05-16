@@ -137,7 +137,11 @@ export default function TableTipoEquipoComponent({ array }: Props) {
         case "name":
           return (
             <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Clasificacion }}
+              avatarProps={{
+                radius: "full",
+                size: "sm",
+                src: user.Clasificacion,
+              }}
               classNames={{
                 description: "text-default-500",
               }}
@@ -168,10 +172,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
             </Chip>
           );
         case "actions":
-          return (
-            <div className="relative flex items-center gap-2">
-            </div>
-          );
+          return <div className="relative flex items-center gap-2"></div>;
         default:
           return cellValue;
       }
@@ -322,7 +323,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
   const classNames = React.useMemo(
     () => ({
       table: ["bg-red-500 bg-opacity-50 rounded-xl"],
-      wrapper: ["max-h-[382px]", "max-w-3xl"],
+      wrapper: ["bg-blue-500 max-h-[382px]", "max-w-3xl"],
       th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
       td: [
         // changing the rows border radius

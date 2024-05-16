@@ -10,8 +10,8 @@ import {
   WalletIcon,
   TicketIcon,
   WindowIcon,
-  ClipboardDocumentListIcon,
   HandRaisedIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/solid";
 import {
   Avatar,
@@ -25,6 +25,7 @@ import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
 import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
+import Image from "next/image";
 
 interface Props {
   nombreusuario: string;
@@ -32,55 +33,49 @@ interface Props {
   onToggleSidebarMobile: () => void;
 }
 
-export default function NavbarPage({
+export default function NavbarBottomMobile({
   nombreusuario,
   issidebarcollapsedmobile,
   onToggleSidebarMobile,
 }: Props) {
   return (
     <Navbar
-      className="w-full rounded-[200px] h-[8%] bg-[var(--colorblur-contraneutral)]"
+      className="w-full rounded-[200px] h-[8%]  bg-[var(--colorblur-contraneutral)]"
       classNames={{
-        wrapper: "w-full max-w-full px-3",
+        wrapper: "w-full max-w-full px-3 ",
       }}
     >
       <NavbarContent justify="start">
-        <Chip
-          className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]"
-          variant="faded"
-        >
-          <Tooltip content="Chat">
+        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+          <Tooltip content="Identificación">
             <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Centro de Atención">
+          <Tooltip content="Identificación">
             <HandRaisedIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
+      </NavbarContent>
+      <NavbarContent justify="center">
+        <Image
+          src={"/dashboard/fondo1.jpg"}
+          width={100}
+          height={100}
+          alt="1"
+        ></Image>
+      </NavbarContent>
+      <NavbarContent justify="end">
         <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Reportes">
+          <Tooltip content="Identificación">
             <ClipboardDocumentListIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Alertas">
-            <MegaphoneIcon className="h-5 text-[var(--color-neutral)]" />
+          <Tooltip content="Identificación">
+            <Bars4Icon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Notificaciones">
-            <BellIcon className="h-5  text-[var(--color-neutral)]" />
-          </Tooltip>
-        </Chip>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Billetera">
-            <WalletIcon className="h-6 text-[var(--color-neutral)]" />
-          </Tooltip>
-        </Chip>
-        <DropdownComponent name={nombreusuario} />
       </NavbarContent>
     </Navbar>
   );

@@ -2,8 +2,10 @@
 import { BreadcrumbComponent } from "@/src/components/ui/Breadcrumb/Breadcrumb";
 import NavbarPage from "./Navbar";
 import { Sidebar } from "./Sibebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
+import NavbarMobile from "./NavbarBottomMobile";
+import NavbarTopMobile from "./NavbarTopMobile";
 
 interface Props {
   children: React.ReactNode;
@@ -14,9 +16,18 @@ export default function LayoutDashComponent({
   children,
   nombreusuario,
 }: Props) {
+  const [mobile, setMobile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [issidebarcollapsedmobile, setIsSidebarCollapsedMobile] =
     useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth >= 650) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, []);
 
   return (
     <>
@@ -46,25 +57,39 @@ export default function LayoutDashComponent({
           className="w-full h-full bg-cover rounded-2xl  max-sm:rounded-none flex flex-col gap-5 bg-[image:var(--dashboard-bg)]
             before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen "
         >
-          <div className="bg-[var(--dashboard-Dash)] h-[100vh] w-full flex flex-col p-2 gap-3 overflow-hidden relative rounded-2xl max-sm:rounded-none backdrop-filter blur-1 font-semibold text-base justify-between">
-            <NavbarPage
-              nombreusuario={nombreusuario}
-              issidebarcollapsedmobile={issidebarcollapsedmobile}
-              onToggleSidebarMobile={() =>
-                setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
-              }
-            />
-            <div className="bg-[var(--dashboard-Dash1)]  overflow-auto p-3 flex flex-col gap-4 rounded-2xl max-sm:rounded-none ">
+          <div className="bg-[var(--dashboard-Dash)] h-full w-full flex flex-col p-2 gap-3 overflow-hidden relative rounded-2xl max-sm:rounded-none backdrop-filter blur-1 font-semibold text-base">
+            {mobile ? (
+              <NavbarPage
+                nombreusuario={nombreusuario}
+                issidebarcollapsedmobile={issidebarcollapsedmobile}
+                onToggleSidebarMobile={() =>
+                  setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
+                }
+              />
+            ) : (
+              <NavbarTopMobile
+                nombreusuario={nombreusuario}
+                issidebarcollapsedmobile={issidebarcollapsedmobile}
+                onToggleSidebarMobile={() =>
+                  setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
+                }
+              />
+            )}
+            <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto p-3 flex flex-col gap-4 rounded-2xl max-sm:rounded-none ">
               <BreadcrumbComponent />
               {children}
             </div>
-            <NavbarPage
-              nombreusuario={nombreusuario}
-              issidebarcollapsedmobile={issidebarcollapsedmobile}
-              onToggleSidebarMobile={() =>
-                setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
-              }
-            />
+            {mobile ? (
+              <></>
+            ) : (
+              <NavbarMobile
+                nombreusuario={nombreusuario}
+                issidebarcollapsedmobile={issidebarcollapsedmobile}
+                onToggleSidebarMobile={() =>
+                  setIsSidebarCollapsedMobile(!issidebarcollapsedmobile)
+                }
+              />
+            )}
           </div>
         </div>
       </div>

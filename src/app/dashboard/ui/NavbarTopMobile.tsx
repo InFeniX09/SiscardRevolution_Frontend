@@ -10,8 +10,8 @@ import {
   WalletIcon,
   TicketIcon,
   WindowIcon,
-  ClipboardDocumentListIcon,
   HandRaisedIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/solid";
 import {
   Avatar,
@@ -25,6 +25,7 @@ import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
 import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
+import Image from "next/image";
 
 interface Props {
   nombreusuario: string;
@@ -32,37 +33,19 @@ interface Props {
   onToggleSidebarMobile: () => void;
 }
 
-export default function NavbarPage({
+export default function NavbarTopMobile({
   nombreusuario,
   issidebarcollapsedmobile,
   onToggleSidebarMobile,
 }: Props) {
   return (
     <Navbar
-      className="w-full rounded-[200px] h-[8%] bg-[var(--colorblur-contraneutral)]"
+      className="w-full rounded-3xl h-[8%] bg-[var(--colorblur-contraneutral)]"
       classNames={{
         wrapper: "w-full max-w-full px-3",
       }}
     >
       <NavbarContent justify="start">
-        <Chip
-          className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]"
-          variant="faded"
-        >
-          <Tooltip content="Chat">
-            <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-neutral)]" />
-          </Tooltip>
-        </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Centro de Atención">
-            <HandRaisedIcon className="h-5  text-[var(--color-neutral)]" />
-          </Tooltip>
-        </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
-          <Tooltip content="Reportes">
-            <ClipboardDocumentListIcon className="h-5  text-[var(--color-neutral)]" />
-          </Tooltip>
-        </Chip>
         <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Alertas">
             <MegaphoneIcon className="h-5 text-[var(--color-neutral)]" />
@@ -73,6 +56,14 @@ export default function NavbarPage({
             <BellIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
+      </NavbarContent>
+      <NavbarContent justify="center">
+        <Image
+          src={"/dashboard/LogoSiscardPeru.png"}
+          alt="1"
+          width={70}
+          height={70}
+        />
       </NavbarContent>
       <NavbarContent justify="end">
         <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">

@@ -11,12 +11,15 @@
 :root {
   /* Tema LightPeru */
   &.LightPeru {
-    --color-neutral:black;
-    --colorcontra-neutral:rgba(255,255,255,0.5);
-
+    /*Colores*/
+    --colorblur-peru: rgba(235, 21, 17, 0.5);
+    --color-neutral: black;
+    --color-contraneutral: white;
+    --colorblur-neutral: rgba(0, 0, 0, 0.5);
+    --colorblur-contraneutral: rgba(255, 255, 255, 0.5);
 
     /*Dashboard*/
-    --dashboard-bg:url('/dashboard/fondo1.jpg');
+    --dashboard-bg: url("/dashboard/fondo1.jpg");
     /*Dashboard*/
 
     --bg-login: url("/login/FondoInicioPeru.png");
@@ -38,11 +41,15 @@
   }
   /* Tema DarkPeru */
   &.DarkPeru {
-    --color-neutral:white;
-    --colorcontra-neutral:rgba(0,0,0,0.5);
+    /*Colores*/
+    --colorblur-peru: rgba(199, 79, 79,1);
 
+    --color-neutral: white;
+    --color-contraneutral: black;
+    --colorblur-neutral: rgba(255, 255, 255, 0.5);
+    --colorblur-contraneutral: rgba(0, 0, 0, 0.5);
+    /*Colores*/
 
-    
     --nextui-background-color: rgba(0, 0, 0, 0.75);
     --bg-darkmode85: rgba(0, 0, 0, 0.85);
     --bg-darkmode50: rgba(0, 0, 0, 0.5);
@@ -52,15 +59,13 @@
     --dashboard-Layer: none;
     --dashboard-Dash: rgba(16 18 27 / 40%);
     --dashboard-fondo: url("/dashboard/FondoInicioPeru.png");
-    --dashboard-bg:url('/dashboard/fondo1.jpg');
-
+    --dashboard-bg: url("/dashboard/fondo1.jpg");
   }
   /* Tema LightArgentin a */
   &.LightArgentina {
     --bg-login: url("/login/FondoArgentinaLogin.png");
     --bg-login-card: rgba(47, 145, 170, 0.5);
     --mi-app-primary-100: #d9e2fe;
-
   }
   /* Tema DarkArgentina */
   &.DarkArgentina {

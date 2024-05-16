@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { DarkModeSwitch } from "@/src/app/dashboard/ui/DarkmodeSwitch";
 
 interface Props {
   name: string;
@@ -34,7 +35,7 @@ export default function DropdownComponent({ name }: Props) {
               className: "h-10 w-10   sm:h-8 sm:w-8 ",
             }}
             className="transition-transform text-[var(--color-neutral)]"
-            name={name}
+            name={""}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
@@ -46,6 +47,9 @@ export default function DropdownComponent({ name }: Props) {
             <p className="font-bold text-[var(--color-neutral)]">
               Joseph Yeremy Castillo Rivera
             </p>
+          </DropdownItem>
+          <DropdownItem key="settings">
+            <DarkModeSwitch />
           </DropdownItem>
           <DropdownItem key="settings">
             <Link href={"/dashboard/configuracion"}>Configuración</Link>
