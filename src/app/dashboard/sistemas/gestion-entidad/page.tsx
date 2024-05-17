@@ -1,7 +1,10 @@
-import React from 'react'
+import TabGestionEntidad from "@/src/components/ui/Tabs/TabGestionEntidad";
+import React from "react";
 
 export default function page() {
   return (
-    <div>page</div>
-  )
+    <>
+      <TabGestionEntidad/>
+    </>
+  );
 }

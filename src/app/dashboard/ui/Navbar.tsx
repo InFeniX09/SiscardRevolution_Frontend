@@ -46,38 +46,38 @@ export default function NavbarPage({
     >
       <NavbarContent justify="start">
         <Chip
-          className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]"
+          className="bg-[var(--colorblur-peru)]"
           variant="faded"
         >
           <Tooltip content="Chat">
-            <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-neutral)]" />
+            <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Centro de Atención">
-            <HandRaisedIcon className="h-5  text-[var(--color-neutral)]" />
+            <HandRaisedIcon className="h-5  text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Reportes">
-            <ClipboardDocumentListIcon className="h-5  text-[var(--color-neutral)]" />
+            <ClipboardDocumentListIcon className="h-5  text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Alertas">
-            <MegaphoneIcon className="h-5 text-[var(--color-neutral)]" />
+            <MegaphoneIcon className="h-5 text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Notificaciones">
-            <BellIcon className="h-5  text-[var(--color-neutral)]" />
+            <BellIcon className="h-5  text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
       </NavbarContent>
       <NavbarContent justify="end">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Billetera">
-            <WalletIcon className="h-6 text-[var(--color-neutral)]" />
+            <WalletIcon className="h-6 text-[var(--color-contraneutral)]" />
           </Tooltip>
         </Chip>
         <DropdownComponent name={nombreusuario} />

@@ -42,6 +42,8 @@ export const Sidebar = ({
   issidebarcollapsedmobile,
   onToggleSidebarMobile,
 }: Props) => {
+
+  const currentPath = usePathname();
   const [menuItems, setMenuItems] = useState<Menu[]>([]);
   const { data: session, status } = useSession();
 
@@ -89,7 +91,7 @@ export const Sidebar = ({
                 key={menuItem.IdMenu}
                 title={menuItem.Menu}
                 icon={menuItem.RutaImagen}
-                isActive={false} // Define tu lógica para establecer la activación del elemento
+                isActive={currentPath === menuItem.Ruta} // Define tu lógica para establecer la activación del elemento
                 href={menuItem.Ruta}
               />
             );

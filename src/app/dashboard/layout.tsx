@@ -17,9 +17,10 @@ export default async function Dashboard1Layout({
     <>
       <div
         className="relative bg-cover bg-center flex justify-center items-center flex-col w-full h-screen
-        before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen before:backdrop-saturate-200 before:bg-[image:var(--dashboard-Layer)] bg-[image:var(--dashboard-bg)]"
+        before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen before:backdrop-saturate-200  bg-[image:var(--dashboard-bg)]"
       >
-        <div className="bg-[var(--dashboard-Dash)] max-w-[95rem] max-h-[95rem] h-[100vh] w-full sm:h-[95vh] sm:w-[95%] flex flex-col overflow-hidden relative rounded-3xl max-sm:rounded-none backdrop-filter blur-1 font-semibold text-base">
+        <div className="bg-[var(--colorblur-contraneutral)] h-[97vh] w-[97vw] flex flex-col overflow-hidden relative rounded-3xl backdrop-filter 
+        blur-1 font-semibold text-base border-[var(--colorblur-contraneutral)] border-1">
           <LayoutDashComponent nombreusuario={session?.user.Usuario}>
             {children}
           </LayoutDashComponent>

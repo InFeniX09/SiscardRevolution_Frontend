@@ -12,14 +12,14 @@
   /* Tema LightPeru */
   &.LightPeru {
     /*Colores*/
-    --colorblur-peru: rgba(235, 21, 17, 0.5);
+    --colorblur-peru: rgba(230, 37, 50,1);
     --color-neutral: black;
     --color-contraneutral: white;
     --colorblur-neutral: rgba(0, 0, 0, 0.5);
     --colorblur-contraneutral: rgba(255, 255, 255, 0.5);
 
     /*Dashboard*/
-    --dashboard-bg: url("/dashboard/fondo1.jpg");
+    --dashboard-bg: url("/dashboard/fondos/Designer.jpeg");
     /*Dashboard*/
 
     --bg-login: url("/login/FondoInicioPeru.png");
