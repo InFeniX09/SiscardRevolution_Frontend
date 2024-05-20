@@ -83,7 +83,7 @@
   padding: 10px 25px;
   font-family: "Lato", sans-serif;
   font-weight: 500;
-  background: var(--color-btn);
+  background: var(--colorblur-peru);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -99,6 +99,7 @@
   border: none;
   color: #fff;
   overflow: hidden;
+  position: relative;
 }
 
 .btn-11:hover {

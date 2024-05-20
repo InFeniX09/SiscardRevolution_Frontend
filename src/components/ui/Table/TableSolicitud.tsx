@@ -48,17 +48,17 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdSolicitud",
   "TipoSolicitud",
   "TipoMotivo",
-  "Usuario",
+  "FcCreacion",
+  "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdSolicitud", uid: "IdSolicitud", sortable: true },
-  { name: "TipoSolicitud", uid: "TipoSolicitud", sortable: true },
-  { name: "TipoMotivo", uid: "TipoMotivo", sortable: true },
-  { name: "Usuario", uid: "Usuario", sortable: true },
+  { name: "Solicitud", uid: "TipoSolicitud", sortable: true },
+  { name: "Motivo", uid: "TipoMotivo", sortable: true },
+  { name: "FechaCreacion", uid: "FcCreacion", sortable: true },
+  { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
@@ -135,43 +135,17 @@ export default function TableSolicitudComponent({ array }: Props) {
       const cellValue = user[columnKey as keyof Solicitud];
 
       switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{ radius: "full", size: "sm", src: user.TipoMotivo }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.TipoMotivo}
-              name={cellValue}
-            >
-              {user.TipoMotivo}
-            </User>
-          );
-        case "role":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{cellValue}</p>
-              <p className="text-bold text-tiny capitalize text-default-500">
-                {user.TipoMotivo}
-              </p>
-            </div>
-          );
-        case "status":
-          return (
-            <Chip
-              className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.TipoMotivo]}
-              size="sm"
-              variant="dot"
-            >
-              {cellValue}
-            </Chip>
-          );
+        case "FcCreacion":
+          return cellValue
+       
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-                <ModalAtenderTicketComponent datosolicitud={user.TipoSolicitud} datomotivo={user.TipoMotivo} datousuario={user.IdUsuario}/>
+              <ModalAtenderTicketComponent
+                datosolicitud={user.TipoSolicitud}
+                datomotivo={user.TipoMotivo}
+                datousuario={user.IdUsuario}
+              />
             </div>
           );
         default:
@@ -208,7 +182,7 @@ export default function TableSolicitudComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscar"
             size="sm"
             startContent={<TicketIcon className="h-5" />}
             value={filterValue}
@@ -217,6 +191,7 @@ export default function TableSolicitudComponent({ array }: Props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -224,32 +199,7 @@ export default function TableSolicitudComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -272,10 +222,10 @@ export default function TableSolicitudComponent({ array }: Props) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} solicitudes
           </span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Filas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -315,8 +265,8 @@ export default function TableSolicitudComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -344,7 +294,6 @@ export default function TableSolicitudComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         removeWrapper

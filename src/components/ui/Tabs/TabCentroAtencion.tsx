@@ -16,8 +16,6 @@ export default function TabCentroAtencion() {
 
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
 
-  
-
   useEffect(() => {
     if (session) {
       // Verifica si session está definido
@@ -74,8 +72,6 @@ export default function TabCentroAtencion() {
     }
   };
 
-
-  
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -112,7 +108,6 @@ export default function TabCentroAtencion() {
             </CardBody>
           </Card>
         </Tab>
-        
       </Tabs>
     </div>
   );

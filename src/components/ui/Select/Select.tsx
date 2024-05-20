@@ -1,7 +1,6 @@
-
 import { Select, SelectItem } from "@nextui-org/react";
 import { FieldValues } from "react-hook-form";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
 interface Props {
   array: any;
@@ -22,7 +21,7 @@ export default function SelectComponent({
   prop,
   onSelectChange,
 }: Props) {
-
+  
   const handleSelectChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedValue = event.target.value;
@@ -32,7 +31,6 @@ export default function SelectComponent({
     },
     [onSelectChange]
   );
-  
 
   return (
     <>

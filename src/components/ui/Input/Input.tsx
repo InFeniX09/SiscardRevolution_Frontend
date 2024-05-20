@@ -27,11 +27,20 @@ export default function InputComponent({
   return (
     <Input
       {...prop}
-      type={tipo === "text" ? "text" : isVisible ? "text" : "password"}
+      type={
+        tipo === "date"
+          ? "date"
+          : tipo === "text"
+          ? "text"
+          : isVisible
+          ? "text"
+          : "password"
+      }
       label={titulo}
       placeholder={placeholder}
       startContent={icon}
       labelPlacement="outside"
+      className="w-[100%]"
       endContent={
         <button
           className={`focus:outline-none ${icon1}`}
