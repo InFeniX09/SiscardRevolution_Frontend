@@ -1,6 +1,6 @@
 import TabReportes from "@/src/components/ui/Tabs/TabReportes";
 
-export default function () {
+export default function Page() {
     return (
         <>
             <TabReportes/>

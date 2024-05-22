@@ -81,7 +81,14 @@ export default function TabReportes() {
           </Tab>
           <Tab key="2" title="PowerBi">
             <Card>
-              <CardBody className="flex gap-4"></CardBody>
+              <CardBody className="flex gap-4">
+                <iframe
+                  className="h-[100vh] w-full"
+                  allowFullScreen
+                  title="CULQ -Monitoreo"
+                  src="https://app.powerbi.com/view?r=eyJrIjoiNDM2MWIxOTMtNjYwZi00Mjk2LThmOTktYWIyOWMxNGUwMGI0IiwidCI6ImU3MjkwM2VhLTUxNTUtNDVkMy1iYWYzLTYzZTIzY2M3MGUwNSJ9"
+                />
+              </CardBody>
             </Card>
           </Tab>
         </Tabs>
