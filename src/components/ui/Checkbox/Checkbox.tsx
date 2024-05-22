@@ -16,7 +16,7 @@ export default function CheckboxComponent({
   return (
     <Checkbox
       color="danger"
-      classNames={{ label: "text-[var(--color-neutral)]" }}
+      classNames={{ label: "text-[var(--color-contraneutral)]" }}
       isSelected={isselected}
       onValueChange={onValueChange}
       icon={<PlusIcon className="h-5" />}

@@ -29,7 +29,7 @@ export const LoginForm = () => {
   return (
     <form
       action={dispatch}
-      className="w-80 flex flex-col justify-center items-center  text-white"
+      className="w-[100%] flex flex-col justify-between items-center  text-white"
     >
       <div className="flex flex-col gap-4 w-full">
         <Input1Component
@@ -37,7 +37,7 @@ export const LoginForm = () => {
           tipo="text"
           titulo="Usuario"
           placeholder="Ingresar usuario"
-          icon={<UserCircleIcon className="h-5 text-black" />}
+          icon={<UserCircleIcon className="h-5 text-[var(--color-neutral)]" />}
           icon1={"hidden"}
         ></Input1Component>
         <Input1Component
@@ -45,7 +45,7 @@ export const LoginForm = () => {
           tipo="pass"
           titulo="Clave"
           placeholder="Ingresar clave"
-          icon={<KeyIcon className="h-5 text-black" />}
+          icon={<KeyIcon className="h-5 text-[var(--color-neutral)]" />}
           icon1={""}
         ></Input1Component>
       </div>

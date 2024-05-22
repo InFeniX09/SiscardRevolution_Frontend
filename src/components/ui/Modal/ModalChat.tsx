@@ -22,6 +22,7 @@ export default function ModalChatComponent() {
 
   const { data: session, status } = useSession(); //Usuario
   const [usuario, setUsuario] = useState<any>([]); //UsuarioDestinatario
+  
   const { socket } = useContext(SocketContext);
 
   const data = {

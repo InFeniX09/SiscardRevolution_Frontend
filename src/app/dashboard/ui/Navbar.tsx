@@ -25,6 +25,7 @@ import { NotificationsDropdown } from "./NotificationsDropdown";
 import { DarkModeSwitch } from "./DarkmodeSwitch";
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
 import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
+import Link from "next/link";
 
 interface Props {
   nombreusuario: string;
@@ -45,10 +46,7 @@ export default function NavbarPage({
       }}
     >
       <NavbarContent justify="start">
-        <Chip
-          className="bg-[var(--colorblur-peru)]"
-          variant="faded"
-        >
+        <Chip className="bg-[var(--colorblur-peru)]" variant="faded">
           <Tooltip content="Chat">
             <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-contraneutral)]" />
           </Tooltip>
@@ -60,7 +58,9 @@ export default function NavbarPage({
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Reportes">
-            <ClipboardDocumentListIcon className="h-5  text-[var(--color-contraneutral)]" />
+            <Link href="/dashboard/reportes">
+              <ClipboardDocumentListIcon className="h-5  text-[var(--color-contraneutral)]" />
+            </Link>
           </Tooltip>
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] " variant="faded">

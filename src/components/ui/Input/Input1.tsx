@@ -26,6 +26,7 @@ export default function Input1Component({
   const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <Input
+      classNames={{ label: "!text-[var(--color-contraneutral)]" }}
       name={name}
       type={tipo === "text" ? "text" : isVisible ? "text" : "password"}
       label={titulo}
