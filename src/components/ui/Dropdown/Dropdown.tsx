@@ -8,7 +8,7 @@ import {
   User,
   useDisclosure,
 } from "@nextui-org/react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { DarkModeSwitch } from "@/src/app/dashboard/ui/DarkmodeSwitch";
 
@@ -18,6 +18,7 @@ interface Props {
 
 export default function DropdownComponent({ name }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { data: session } = useSession();
 
   const handleLogout = async () => {
     await signOut();
@@ -45,7 +46,7 @@ export default function DropdownComponent({ name }: Props) {
           >
             <p className="font-bold text-[var(--color-neutral)]">Nombre:</p>
             <p className="font-bold text-[var(--color-neutral)]">
-              Joseph Yeremy Castillo Rivera
+              {session?.user.Usuario}
             </p>
           </DropdownItem>
           <DropdownItem key="settings">
