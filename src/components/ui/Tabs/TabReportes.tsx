@@ -82,6 +82,7 @@ export default function TabReportes() {
           <Tab key="2" title="PowerBi">
             <Card>
               <CardBody className="flex gap-4">
+                
                 <iframe
                   className="h-[100vh] w-full"
                   allowFullScreen
