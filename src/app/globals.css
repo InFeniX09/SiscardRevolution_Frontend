@@ -12,7 +12,7 @@
   /* Tema LightPeru */
   &.LightPeru {
     /*Colores*/
-    --colorblur-peru: rgba(230, 37, 50,1);
+    --colorblur-peru: rgba(230, 37, 50, 1);
     --color-neutral: black;
     --color-contraneutral: white;
     --colorblur-neutral: rgba(0, 0, 0, 0.5);
@@ -42,7 +42,7 @@
   /* Tema DarkPeru */
   &.DarkPeru {
     /*Colores*/
-    --colorblur-peru: rgba(199, 79, 79,1);
+    --colorblur-peru: rgba(199, 79, 79, 1);
 
     --color-neutral: white;
     --color-contraneutral: black;
@@ -59,7 +59,7 @@
     --dashboard-Layer: none;
     --dashboard-Dash: rgba(16 18 27 / 40%);
     --dashboard-fondo: url("/dashboard/FondoInicioPeru.png");
-    --dashboard-bg: url("/dashboard/fondo1.jpg");
+    --dashboard-bg: url("/dashboard/fondos/Designer.jpeg");
   }
   /* Tema LightArgentin a */
   &.LightArgentina {
