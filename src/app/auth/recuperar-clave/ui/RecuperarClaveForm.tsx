@@ -23,9 +23,7 @@ export default function RecuperarClaveForm() {
   } = useForm();
 
   const actionRecuperaClave = async (dato: any) => {
-    setEmail(dato.Email);
-    setFase(2);
-    reset();
+   
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: "Desea enviar la recuperación de correo?",
@@ -38,6 +36,9 @@ export default function RecuperarClaveForm() {
       allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) {
+        setEmail(dato.Email);
+        setFase(2);
+        reset();
         socket?.emit("recuperar-clave", dato, (datospdf: any) => {
           console.log(datospdf);
         });
