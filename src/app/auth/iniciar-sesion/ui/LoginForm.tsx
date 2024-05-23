@@ -7,7 +7,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 
-import InputComponent from "@/src/components/ui/Input/Input";
 import CheckboxComponent from "@/src/components/ui/Checkbox/Checkbox";
 import { KeyIcon } from "@heroicons/react/24/solid";
 import { authenticate } from "@/src/actions/auth";
@@ -15,8 +14,6 @@ import Input1Component from "@/src/components/ui/Input/Input1";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-
-  console.log(state);
 
   useEffect(() => {
     if (state === "Success") {

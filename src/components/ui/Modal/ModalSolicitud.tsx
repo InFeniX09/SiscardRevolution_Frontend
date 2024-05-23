@@ -27,11 +27,13 @@ export default function ModalSolicitudComponent() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tipomotivo, setTipoMotivo] = useState([]);
   const [selecttiposolicitud, setSelectTipoSolicitud] = useState("");
+
   useEffect(() => {
     socket?.emit("listar-tiposolicitud", null, (tiposolicitud: any) => {
       setTipoSolicitud(tiposolicitud);
     });
   }, []);
+  
   //Formulario
   const {
     register,

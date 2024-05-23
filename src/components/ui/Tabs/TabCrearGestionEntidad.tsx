@@ -90,6 +90,7 @@ export default function TabCrearGestionEntidad() {
   //-------------------------
 
   const { register: rEntidad, handleSubmit: fEntidad, watch } = useForm();
+  
   const actionEntidad = async (dato: any) => {
     const formValues = watch();
     console.log(formValues);
