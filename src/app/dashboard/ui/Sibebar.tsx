@@ -22,12 +22,13 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import clsx from "clsx";
 import { Menu } from "@/src/interfaces";
 import { auth } from "@/src/auth.config";
 import { getlistarMenuxUsuarioxPerfil } from "@/src/actions/menu";
 import { useSession } from "next-auth/react";
+import { SocketContext } from "@/src/context/SocketContext";
 
 interface Props {
   isSidebarCollapsed: boolean;
@@ -42,32 +43,31 @@ export const Sidebar = ({
   issidebarcollapsedmobile,
   onToggleSidebarMobile,
 }: Props) => {
-
   const currentPath = usePathname();
   const [menuItems, setMenuItems] = useState<Menu[]>([]);
   const { data: session, status } = useSession();
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (status === "authenticated") {
-        try {
-          const response = await getlistarMenuxUsuarioxPerfil(
-            session?.user.IdUsuario,
-            session?.user.Puesto_id
-          );
-          setMenuItems(response);
-        } catch (error) {
-          console.error("Error fetching menu data:", error);
-        }
+    if (status === "authenticated") {
+      try {
+        const dato = {
+          Usuario_id: session?.user.IdUsuario,
+          Puesto_id: session?.user.Puesto_id,
+        };
+        socket?.emit("listar-menuxusuarioxperfil", dato, (menuxusuario: any) => {
+          setMenuItems(menuxusuario);
+          console.log("blon", menuxusuario);
+        });
+      } catch (error) {
+        console.error("Error fetching menu data:", error);
       }
-    };
-
-    // Only call fetchData when session.status changes from any value to 'authenticated'
-    fetchData();
+    }
   }, [status]);
+
   const renderMenuItems = () => {
     return menuItems.map((menuItem) => {
-      switch (menuItem.idTipoMenu) {
+      switch (menuItem.TipoMenu_id) {
         case 1:
           return (
             <SidebarMenu key={menuItem.IdMenu} title={menuItem.Menu}>
@@ -82,9 +82,9 @@ export const Sidebar = ({
   };
   const renderSubMenuItems = (parentId: number) => {
     return menuItems
-      .filter((menuItem) => menuItem.idPadre === parentId)
+      .filter((menuItem) => menuItem.Padre_id === parentId)
       .map((menuItem) => {
-        switch (menuItem.idTipoMenu) {
+        switch (menuItem.TipoMenu_id) {
           case 2:
             return (
               <SidebarItem
@@ -97,7 +97,7 @@ export const Sidebar = ({
             );
           case 3:
             const subItems = menuItems.filter(
-              (item) => item.idPadre === menuItem.IdMenu
+              (item) => item.Padre_id === menuItem.IdMenu
             );
             return (
               <CollapseItems

@@ -53,7 +53,9 @@ export default function NavbarPage({
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] " variant="faded">
           <Tooltip content="Centro de Atención">
-            <HandRaisedIcon className="h-5  text-[var(--color-contraneutral)]" />
+            <Link href="/dashboard/centro-atencion">
+              <HandRaisedIcon className="h-5  text-[var(--color-contraneutral)]" />
+            </Link>
           </Tooltip>
         </Chip>
         <Chip className="bg-[var(--colorblur-peru)] " variant="faded">

@@ -49,13 +49,11 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdMarca",
   "Marca",
   "TipoEquipo",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdMarca", uid: "IdMarca", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },

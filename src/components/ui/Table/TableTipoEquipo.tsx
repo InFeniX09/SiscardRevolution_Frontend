@@ -49,16 +49,12 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdTipoEquipo",
   "TipoEquipo",
   "Clasificacion",
-  "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdTipoEquipo", uid: "IdTipoEquipo", sortable: true },
   { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
   { name: "Clasificacion", uid: "Clasificacion", sortable: true },
-  { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
   array: TipoEquipo[];
@@ -73,7 +69,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
@@ -207,7 +203,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscar"
             size="sm"
             startContent={<TicketIcon className="h-5" />}
             value={filterValue}
@@ -216,6 +212,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+           
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -223,32 +220,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -270,10 +242,10 @@ export default function TableTipoEquipoComponent({ array }: Props) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Tipos de Equipo
           </span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Filas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -313,8 +285,8 @@ export default function TableTipoEquipoComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
