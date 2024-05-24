@@ -9,6 +9,7 @@ import {
   SelectItem,
   Button,
   Input,
+  select,
 } from "@nextui-org/react";
 import { SocketContext } from "@/src/context/SocketContext";
 import { useSession } from "next-auth/react";
@@ -18,53 +19,185 @@ import InputComponent from "../Input/Input";
 import { useFieldArray, useForm } from "react-hook-form";
 import SelectNormalComponent from "../Select/SelectNormal";
 import TextAreaNormalComponent from "../Textarea/TextAreaNormal";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import SelectStateComponent from "../Select/SelectState";
+
 export default function TabCrearEquipo() {
+  //-------------------------
+  //Socket y Session
+  //-------------------------
   const { socket } = useContext(SocketContext);
   const { data: session } = useSession();
-  const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
+  //-------------------------
+  //Estados
+  //-------------------------
+  const [selectedTab, setSelectedTab] = useState(0);
   const [equipo, setEquipo] = useState<any>([]);
   const [tipoequipo, setTipoEquipo] = useState<any>([]);
   const [cliente, setCliente] = useState<any>([]);
   const [marca, setMarca] = useState<any>([]);
   const [modelo, setModelo] = useState<any>([]);
+  const [equipodescuento, setEquipoDescuento] = useState<any>([]);
   const [btnguardar, setBtnGuardar] = useState<any>(true);
-
-  useEffect(() => {
-    toast.error("Selecciona una de las opciones para empezar", {
-      position: "top-right",
-      autoClose: 3000,
-      theme: "colored",
-    });
-    if (session) {
-      socket?.emit("listar-tipoequipo", "", (TipoEquipo: any) => {
-        setTipoEquipo(TipoEquipo);
-      });
-    }
-  }, [session]);
-
+  const [selecttipoequipo, setSelectTipoEquipo] = useState<any>();
+  const [selectmarca, setSelectMarca] = useState<any>();
+  const [marcaxtipoequipo, setMarcaXTipoEquipo] = useState<any>([]);
+  //-------------------------
+  //Cambio Tab
+  //-------------------------
   const handleTabChange = (key: any) => {
     setSelectedTab(key);
     switch (Number(key)) {
+      case 1:
+        break;
+      case 2:
+        if (marca.length === 0) {
+          socket?.emit("listar-tipoequipo", "", (tipoequipo: any) => {
+            setTipoEquipo(tipoequipo);
+          });
+        } else {
+        }
+        break;
+      case 3:
+        if (modelo.length === 0) {
+          socket?.emit("listar-tipoequipo", "", (tipoequipo: any) => {
+            setTipoEquipo(tipoequipo);
+          });
+        } else {
+        }
+        break;
+      case 4:
+        if (equipo.length === 0) {
+          socket?.emit("listar-tipoequipo", "", (tipoequipo: any) => {
+            setTipoEquipo(tipoequipo);
+          });
+          socket?.emit("listar-cliente", "", (cliente: any) => {
+            setCliente(cliente);
+          });
+        } else {
+        }
+        break;
+      case 5:
+        if (equipodescuento.length === 0) {
+          socket?.emit("listar-equipodescuento", "", (EquipoDescuento: any) => {
+            setEquipoDescuento(EquipoDescuento);
+          });
+        } else {
+        }
+        break;
     }
   };
-
-  const { register: rTipoEquipo, handleSubmit: fTipoEquipo } = useForm();
+  //-------------------------
+  //Formularios
+  //-------------------------
+  const {
+    register: rTipoEquipo,
+    handleSubmit: fTipoEquipo,
+    reset: resetTipoEquipo,
+  } = useForm();
   const actionTipoEquipo = async (dato: any) => {
-    socket?.emit("crear-tipoequipo", dato, (marca: any) => {
-      console.log("blon", marca);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Crear nuevo Tipo de Equipo?",
+      text: "Se creará un nuevo tipo de equipo.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit("crear-tipoequipo", dato, (tipoequipo: any) => {
+          if (tipoequipo.msg === "Existe") {
+            Swal.fire({
+              title: "Creación sin Exito!",
+              text: "El tipo de equipo ya existe, intente con otros datos.",
+              icon: "error",
+            });
+          } else {
+            resetTipoEquipo();
+            Swal.fire({
+              title: "Creación Exitosa!",
+              text: "Se ha creado un nuevo tipo de equipo.",
+              icon: "success",
+            });
+          }
+        });
+      }
     });
   };
-  const { register: rMarca, handleSubmit: fMarca } = useForm();
+  const {
+    register: rMarca,
+    handleSubmit: fMarca,
+    reset: resetMarca,
+  } = useForm();
   const actionMarca = async (dato: any) => {
-    socket?.emit("crear-marca", dato, (marca: any) => {
-      console.log("blon", marca);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Crear nueva Marca?",
+      text: "Se creará una nueva marca.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit("crear-marca", dato, (marca: any) => {
+          if (marca.msg === "Existe") {
+            Swal.fire({
+              title: "Creación sin Exito!",
+              text: "La marca ya existe, intente con otros datos.",
+              icon: "error",
+            });
+          } else {
+            resetMarca();
+            Swal.fire({
+              title: "Creación Exitosa!",
+              text: "Se ha creado una nueva marca.",
+              icon: "success",
+            });
+          }
+        });
+      }
     });
   };
-  const { register: rModelo, handleSubmit: fModelo } = useForm();
+  const { register: rModelo, handleSubmit: fModelo ,reset:resetModelo} = useForm();
   const actionModelo = async (dato: any) => {
-    socket?.emit("crear-modelo", dato, (marca: any) => {
-      console.log("blon", marca);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Crear nuevo Modelo?",
+      text: "Se creará un nuevo Modelo.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit("crear-modelo", dato, (modelo: any) => {
+          if (modelo.msg === "Existe") {
+            Swal.fire({
+              title: "Creación sin Exito!",
+              text: "El Modelo ya existe, intente con otros datos.",
+              icon: "error",
+            });
+          } else {
+            resetModelo();
+            Swal.fire({
+              title: "Creación Exitosa!",
+              text: "Se ha creado un nuevo modelo.",
+              icon: "success",
+            });
+          }
+        });
+      }
     });
+  
   };
   const { register: rEquipo, handleSubmit: fEquipo } = useForm();
   const actionEquipo = async (dato: any) => {
@@ -72,7 +205,6 @@ export default function TabCrearEquipo() {
       console.log("blon", marca);
     });
   };
-
   const {
     register: rEquipoDescuento,
     handleSubmit: fEquipoDescuento,
@@ -84,7 +216,6 @@ export default function TabCrearEquipo() {
       control,
       name: "test",
     });
-
   const actionEquipoDescuento = async (dato: any) => {
     console.log("ysy", dato);
     socket?.emit("crear-equipodescuento", dato, (equipodescuento: any) => {
@@ -93,12 +224,10 @@ export default function TabCrearEquipo() {
     remove();
     setBtnGuardar(true);
   };
-
   const {
     register: rLogicaEquipoDescuento,
     handleSubmit: fLogicaEquipoDescuento,
   } = useForm();
-
   const actionLogicaEquipoDescuento = async (dato: any) => {
     for (let i = 0; i < dato.CMes; i++) {
       insert(i, {
@@ -110,27 +239,28 @@ export default function TabCrearEquipo() {
     setBtnGuardar(false);
   };
 
-  /*UseEffect*/
   useEffect(() => {
-    socket?.emit("listar-tipoequipo", null, (tipoequipo: any) => {
-      setTipoEquipo(tipoequipo);
-    });
-    socket?.emit("listar-cliente", null, (cliente: any) => {
-      setCliente(cliente);
-    });
-    socket?.emit("listar-marca", null, (marca: any) => {
-      setMarca(marca);
-      console.log("blon", marca);
-    });
-    socket?.emit("listar-modelo", null, (modelo: any) => {
-      setModelo(modelo);
-      console.log("blon", modelo);
-    });
-    socket?.emit("listar-equipo", null, (equipo: any) => {
-      setEquipo(equipo);
-      console.log("blon", equipo);
-    });
-  }, []);
+    if (selecttipoequipo) {
+      socket?.emit(
+        "listar-marcaxtipoequipo",
+        { TipoEquipo: selecttipoequipo },
+        (marcaxtipoequipo: any) => {
+          setMarcaXTipoEquipo(marcaxtipoequipo);
+        }
+      );
+    }
+  }, [selecttipoequipo]);
+  useEffect(() => {
+    if (selectmarca) {
+      socket?.emit(
+        "listar-modeloxmarca",
+        { TipoEquipo: selecttipoequipo },
+        (marcaxtipoequipo: any) => {
+          setMarcaXTipoEquipo(marcaxtipoequipo);
+        }
+      );
+    }
+  }, [selectmarca]);
 
   return (
     <div className="flex w-full flex-col">
@@ -139,7 +269,110 @@ export default function TabCrearEquipo() {
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
       >
-        <Tab key="1" title="Equipo">
+        <Tab key="1" title="TipoEquipo">
+          <Card>
+            <CardBody>
+              <form className="flex justify-center items-center flex-col w-full gap-3">
+                <InputComponent
+                  tipo="text"
+                  titulo="Nuevo Tipo de Equipo"
+                  placeholder=""
+                  icon
+                  icon1={"hidden"}
+                  prop={{ ...rTipoEquipo(`TipoEquipo`) }}
+                />
+                <Select
+                  label="Clasificacion"
+                  className="w-full"
+                  labelPlacement="outside"
+                  placeholder="Seleccionar"
+                  {...rTipoEquipo(`Clasificacion`)}
+                >
+                  <SelectItem key={"Seriado"} value="Seriado">
+                    Seriado
+                  </SelectItem>
+                  <SelectItem key={"Consumible"} value="Consumible">
+                    Consumible
+                  </SelectItem>
+                  <SelectItem key={"Sustituible"} value="Sustituible">
+                    Sustituible
+                  </SelectItem>
+                  <SelectItem key={"Accesorio"} value="Accesorio">
+                    Accesorio
+                  </SelectItem>
+                </Select>
+                <Button color="danger" onClick={fTipoEquipo(actionTipoEquipo)}>
+                  Añadir
+                </Button>
+              </form>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="2" title="Marca">
+          <Card>
+            <CardBody>
+              <form className="flex justify-center items-center flex-col w-full gap-3">
+                <SelectNormalComponent
+                  array={tipoequipo}
+                  value="IdTipoEquipo"
+                  texts={["Clasificacion", "TipoEquipo"]}
+                  label="Tipo de Equipo"
+                  placeholder="Seleccionar un tipo de equipo"
+                  prop={{ ...rMarca(`TipoEquipo`) }}
+                />
+                <InputComponent
+                  tipo="text"
+                  titulo="Nueva Marca"
+                  placeholder=""
+                  icon
+                  icon1={"hidden"}
+                  prop={{ ...rMarca(`Marca`) }}
+                />
+                <Button color="danger" onClick={fMarca(actionMarca)}>
+                  Añadir
+                </Button>
+              </form>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="3" title="Modelo">
+          <Card>
+            <CardBody>
+              <form className="flex justify-center items-center flex-col w-full gap-3">
+                <SelectStateComponent
+                  array={tipoequipo}
+                  index="IdTipoEquipo"
+                  texts={["Clasificacion", "TipoEquipo"]}
+                  label="Tipo de Equipo"
+                  placeholder="Seleccionar un tipo de equipo"
+                  value={selecttipoequipo}
+                  onChange={setSelectTipoEquipo}
+                />
+                <SelectNormalComponent
+                  array={marcaxtipoequipo}
+                  value="IdMarca"
+                  texts={["Marca"]}
+                  label="Marca"
+                  placeholder="Seleccionar una Marca"
+                  prop={{ ...rModelo(`Marca`) }}
+                />
+
+                <InputComponent
+                  tipo="text"
+                  titulo="Nuevo Modelo"
+                  placeholder=""
+                  icon
+                  icon1={"hidden"}
+                  prop={{ ...rModelo(`Modelo`) }}
+                />
+                <Button color="danger" onClick={fModelo(actionModelo)}>
+                  Añadir
+                </Button>
+              </form>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="4" title="Equipo">
           <Card>
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
@@ -151,21 +384,23 @@ export default function TabCrearEquipo() {
                   placeholder="Seleccionar un cliente"
                   prop={{ ...rEquipo("Cliente") }}
                 />
-                <SelectNormalComponent
+                <SelectStateComponent
                   array={tipoequipo}
-                  value="IdTipoEquipo"
-                  texts={["TipoEquipo"]}
+                  index="IdTipoEquipo"
+                  texts={["Clasificacion", "TipoEquipo"]}
                   label="Tipo de Equipo"
-                  placeholder="Seleccionar"
-                  prop={{ ...rEquipo("TipoEquipo") }}
+                  placeholder="Seleccionar un tipo de equipo"
+                  value={selecttipoequipo}
+                  onChange={setSelectTipoEquipo}
                 />
-                <SelectNormalComponent
-                  array={marca}
-                  value="IdMarca"
+                <SelectStateComponent
+                  array={marcaxtipoequipo}
+                  index="IdMarca"
                   texts={["Marca"]}
                   label="Marca"
-                  placeholder="Seleccione una Marca"
-                  prop={{ ...rEquipo("Marca") }}
+                  placeholder="Seleccionar una Marca"
+                  value={selectmarca}
+                  onChange={setSelectMarca}
                 />
                 <SelectNormalComponent
                   array={modelo}
@@ -207,83 +442,6 @@ export default function TabCrearEquipo() {
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="2" title="TipoEquipo">
-          <Card>
-            <CardBody>
-              <form className="flex justify-center items-center flex-col w-full gap-3">
-                <InputComponent
-                  tipo="text"
-                  titulo="Nuevo Tipo de Equipo"
-                  placeholder=""
-                  icon
-                  icon1={"hidden"}
-                  prop={{ ...rTipoEquipo(`TipoEquipo`) }}
-                />
-                <Select
-                  label="Clasificacion"
-                  className="w-full"
-                  labelPlacement="outside"
-                  placeholder="Seleccionar"
-                  {...rTipoEquipo(`Clasificacion`)}
-                >
-                  <SelectItem key={"Seriado"} value="Seriado">
-                    Seriado
-                  </SelectItem>
-                  <SelectItem key={"Consumible"} value="Consumible">
-                    Consumible
-                  </SelectItem>
-                  <SelectItem key={"Sustituible"} value="Sustituible">
-                    Sustituible
-                  </SelectItem>
-                  <SelectItem key={"Accesorio"} value="Accesorio">
-                    Accesorio
-                  </SelectItem>
-                </Select>
-                <Button color="danger" onClick={fTipoEquipo(actionTipoEquipo)}>
-                  Añadir
-                </Button>
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
-        <Tab key="3" title="Marca">
-          <Card>
-            <CardBody>
-              <form className="flex justify-center items-center flex-col w-full gap-3">
-                <InputComponent
-                  tipo="text"
-                  titulo="Nueva Marca"
-                  placeholder=""
-                  icon
-                  icon1={"hidden"}
-                  prop={{ ...rMarca(`Marca`) }}
-                />
-                <Button color="danger" onClick={fMarca(actionMarca)}>
-                  Añadir
-                </Button>
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
-        <Tab key="4" title="Modelo">
-          <Card>
-            <CardBody>
-              <form className="flex justify-center items-center flex-col w-full gap-3">
-                <InputComponent
-                  tipo="text"
-                  titulo="Nuevo Modelo"
-                  placeholder=""
-                  icon
-                  icon1={"hidden"}
-                  prop={{ ...rModelo(`Modelo`) }}
-                />
-                <Button color="danger" onClick={fModelo(actionModelo)}>
-                  Añadir
-                </Button>
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
         <Tab key="5" title="EquipoDescuento">
           <Card>
             <CardBody>
@@ -293,7 +451,7 @@ export default function TabCrearEquipo() {
                 <SelectNormalComponent
                   array={equipo}
                   value="IdEquipo"
-                  texts={[ "CodCliente", "Marca", "Modelo"]}
+                  texts={["CodCliente", "Marca", "Modelo"]}
                   label="Equipo"
                   placeholder="Seleccionar"
                   prop={{ ...rLogicaEquipoDescuento(`IdEquipo`) }}

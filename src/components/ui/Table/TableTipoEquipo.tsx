@@ -24,7 +24,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -53,8 +53,8 @@ const INITIAL_VISIBLE_COLUMNS = [
   "Clasificacion",
 ];
 export const columnsSolicitud = [
-  { name: "TipoEquipo", uid: "TipoEquipo", sortable: true },
-  { name: "Clasificacion", uid: "Clasificacion", sortable: true },
+  { name: "Tipo de Equipo", uid: "TipoEquipo", sortable: true },
+  { name: "Clasificación", uid: "Clasificacion", sortable: true },
 ];
 interface Props {
   array: TipoEquipo[];
@@ -92,10 +92,19 @@ export default function TableTipoEquipoComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Clasificacion.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Clasificacion &&
+            user.Clasificacion.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.TipoEquipo &&
+            user.TipoEquipo.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
+
+  
+
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -205,7 +214,7 @@ export default function TableTipoEquipoComponent({ array }: Props) {
             }}
             placeholder="Buscar"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}

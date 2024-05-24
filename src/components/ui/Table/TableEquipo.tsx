@@ -24,7 +24,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -50,7 +50,6 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipo",
   "Marca",
   "Modelo",
   "CodCliente",
@@ -59,7 +58,6 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdEquipo", uid: "IdEquipo", sortable: true },
   { name: "Marca", uid: "Marca", sortable: true },
   { name: "Modelo", uid: "Modelo", sortable: true },
   { name: "CodCliente", uid: "CodCliente", sortable: true },
@@ -80,7 +78,7 @@ export default function TableEquipoComponent({ array }: Props) {
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
@@ -213,15 +211,16 @@ export default function TableEquipoComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscar"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -229,32 +228,7 @@ export default function TableEquipoComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -276,10 +250,10 @@ export default function TableEquipoComponent({ array }: Props) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} equipos
           </span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Filas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -319,8 +293,8 @@ export default function TableEquipoComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );

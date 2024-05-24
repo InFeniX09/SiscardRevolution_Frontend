@@ -21,18 +21,10 @@ export default function TabGestionEquipo() {
   const [dataequipodescuento, setEquipoDescuento] = useState([]);
 
   useEffect(() => {
-    toast.error("Selecciona una de las opciones para empezar", {
-      position: "top-right",
-      autoClose: 3000,
-      theme: "colored",
+    socket?.emit("listar-tipoequipo", "", (TipoEquipo: any) => {
+      setTipoEquipo(TipoEquipo);
     });
-    if (session) {
-      socket?.emit("listar-tipoequipo", "", (TipoEquipo: any) => {
-        setTipoEquipo(TipoEquipo);
-      });
-    }
-  }, [session]);
-  
+  }, []);
 
   const handleTabChange = (key: any) => {
     setSelectedTab(key);
@@ -75,12 +67,10 @@ export default function TabGestionEquipo() {
   };
   return (
     <div className="flex w-full flex-col">
-    
       <Tabs
         disabledKeys={["music"]}
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
-        
       >
         <Tab key="1" title="TipoEquipo">
           <Card>

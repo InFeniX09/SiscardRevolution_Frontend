@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalContent,
@@ -10,54 +10,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
-import { useSession } from "next-auth/react";
-import {useForm } from "react-hook-form";
-import { SocketContext } from "@/src/context/SocketContext";
-
 import TabCrearEquipo from "../Tabs/TabCrearEquipo";
 
 export default function ModalGestionEquipo() {
-  /*Context*/
-  const { data: session } = useSession();
-  const { socket } = useContext(SocketContext);
-  /*NextUI*/
+  //-------------------------
+  //NextUI
+  //-------------------------
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  /*Estados*/
-  /*Modo Estado*/
-  const [selecttiposolicitud, setSelectTipoSolicitud] = useState("");
-
-  /*Extra Estado*/
-
-  //Formulario
-  const { register, handleSubmit } = useForm();
-
-  /*Acciones Form*/
-  const enviarctp = async (dato: any) => {
-    console.log(dato);
-
-    const { tipomotivo } = dato;
-    const DeUsuario_id = session?.user.IdUsuario;
-    const data = {
-      TipoSolicitud_id: selecttiposolicitud,
-      TipoMotivo_id: tipomotivo,
-      Usuario_id: DeUsuario_id,
-    };
-    socket?.emit("crear-solicitud", data, (respuesta: any) => {
-      if (respuesta === "si") {
-        console.log("Se creo");
-      } else {
-        console.log("NO creo");
-      }
-    });
-  };
-
-  const actionModelo = async (dato: any) => {
-    socket?.emit("crear-marca", dato, (marca: any) => {
-      console.log("blon", marca);
-    });
-  };
-  /*Acciones Extra*/
-
   return (
     <>
       <Button
@@ -75,6 +34,8 @@ export default function ModalGestionEquipo() {
         className="h-[90vh]"
         classNames={{ wrapper: "overflow-hidden" }}
         size="xl"
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
       >
         <ModalContent>
           {(onClose) => (
@@ -89,7 +50,6 @@ export default function ModalGestionEquipo() {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Cerrar
                 </Button>
-        
               </ModalFooter>
             </>
           )}
