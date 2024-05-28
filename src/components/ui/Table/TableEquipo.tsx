@@ -24,7 +24,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { MagnifyingGlassIcon, TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import {
+  MagnifyingGlassIcon,
+  TicketIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -49,18 +53,9 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = [
-  "Marca",
-  "Modelo",
-  "CodCliente",
-  "Especificacion",
-  "Gamma",
-  "actions",
-];
+const INITIAL_VISIBLE_COLUMNS = ["Marca", "Especificacion", "Gamma", "actions"];
 export const columnsSolicitud = [
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Equipo", uid: "Marca", sortable: true },
   { name: "Especificacion", uid: "Especificacion", sortable: true },
   { name: "Gamma", uid: "Gamma", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
@@ -101,8 +96,16 @@ export default function TableEquipoComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Especificacion.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Modelo &&
+            user.Modelo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Marca &&
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.CodCliente &&
+            user.CodCliente.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
     if (
@@ -134,55 +137,38 @@ export default function TableEquipoComponent({ array }: Props) {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback(
-    (user: Equipo, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Equipo];
+  const renderCell = React.useCallback((user: Equipo, columnKey: React.Key) => {
+    const cellValue = user[columnKey as keyof Equipo];
 
-      switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Especificacion }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.Especificacion}
-              name={cellValue}
-            >
+    switch (columnKey) {
+      case "Marca":
+        return <p>{user.CodCliente + "-" + user.Marca + " " + user.Modelo}</p>;
+      case "role":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
+            <p className="text-bold text-tiny capitalize text-default-500">
               {user.Especificacion}
-            </User>
-          );
-        case "role":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{cellValue}</p>
-              <p className="text-bold text-tiny capitalize text-default-500">
-                {user.Especificacion}
-              </p>
-            </div>
-          );
-        case "status":
-          return (
-            <Chip
-              className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.Especificacion]}
-              size="sm"
-              variant="dot"
-            >
-              {cellValue}
-            </Chip>
-          );
-        case "actions":
-          return (
-            <div className="relative flex items-center gap-2">
-            </div>
-          );
-        default:
-          return cellValue;
-      }
-    },
-    []
-  );
+            </p>
+          </div>
+        );
+      case "status":
+        return (
+          <Chip
+            className="capitalize border-none gap-1 text-default-600"
+            color={statusColorMap[user.Especificacion]}
+            size="sm"
+            variant="dot"
+          >
+            {cellValue}
+          </Chip>
+        );
+      case "actions":
+        return <div className="relative flex items-center gap-2"></div>;
+      default:
+        return cellValue;
+    }
+  }, []);
 
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -220,7 +206,6 @@ export default function TableEquipoComponent({ array }: Props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button

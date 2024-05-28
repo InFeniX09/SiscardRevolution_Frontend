@@ -37,12 +37,19 @@ export default function TabCrearEquipo() {
   const [tipoequipo, setTipoEquipo] = useState<any>([]);
   const [cliente, setCliente] = useState<any>([]);
   const [marca, setMarca] = useState<any>([]);
+  const [area, setArea] = useState<any>([]);
   const [modelo, setModelo] = useState<any>([]);
   const [equipodescuento, setEquipoDescuento] = useState<any>([]);
   const [btnguardar, setBtnGuardar] = useState<any>(true);
+  const [selectarea, setSelectArea] = useState<any>();
+  const [selectcliente, setSelectCliente] = useState<any>();
   const [selecttipoequipo, setSelectTipoEquipo] = useState<any>();
   const [selectmarca, setSelectMarca] = useState<any>();
   const [marcaxtipoequipo, setMarcaXTipoEquipo] = useState<any>([]);
+  const [modeloxmarca, setModeloXMarca] = useState<any>([]);
+  const [equipoxareaxclientextipoequipo, setEquipoXAreaXClienteXTipoEquipo] =
+    useState<any>([]);
+
   //-------------------------
   //Cambio Tab
   //-------------------------
@@ -75,6 +82,9 @@ export default function TabCrearEquipo() {
           socket?.emit("listar-cliente", "", (cliente: any) => {
             setCliente(cliente);
           });
+          socket?.emit("listar-area", "", (area: any) => {
+            setArea(area);
+          });
         } else {
         }
         break;
@@ -82,6 +92,15 @@ export default function TabCrearEquipo() {
         if (equipodescuento.length === 0) {
           socket?.emit("listar-equipodescuento", "", (EquipoDescuento: any) => {
             setEquipoDescuento(EquipoDescuento);
+          });
+          socket?.emit("listar-tipoequipo", "", (tipoequipo: any) => {
+            setTipoEquipo(tipoequipo);
+          });
+          socket?.emit("listar-cliente", "", (cliente: any) => {
+            setCliente(cliente);
+          });
+          socket?.emit("listar-area", "", (area: any) => {
+            setArea(area);
           });
         } else {
         }
@@ -165,7 +184,11 @@ export default function TabCrearEquipo() {
       }
     });
   };
-  const { register: rModelo, handleSubmit: fModelo ,reset:resetModelo} = useForm();
+  const {
+    register: rModelo,
+    handleSubmit: fModelo,
+    reset: resetModelo,
+  } = useForm();
   const actionModelo = async (dato: any) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
@@ -197,38 +220,60 @@ export default function TabCrearEquipo() {
         });
       }
     });
-  
-  };
-  const { register: rEquipo, handleSubmit: fEquipo } = useForm();
-  const actionEquipo = async (dato: any) => {
-    socket?.emit("crear-equipo", dato, (marca: any) => {
-      console.log("blon", marca);
-    });
   };
   const {
-    register: rEquipoDescuento,
-    handleSubmit: fEquipoDescuento,
-    control,
-    reset,
+    register: rEquipo,
+    handleSubmit: fEquipo,
+    reset: resetEquipo,
   } = useForm();
-  const { fields, append, prepend, remove, swap, move, insert, replace } =
-    useFieldArray({
-      control,
-      name: "test",
+  const actionEquipo = async (dato: any) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Crear nuevo Equipo?",
+      text: "Se creará un nuevo Equipo.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit(
+          "crear-equipo",
+          {
+            Area: dato.Area,
+            Cliente: dato.Cliente,
+            Modelo: dato.Modelo,
+            Especificacion: dato.Especificacion,
+            Gamma: dato.Gamma,
+          },
+          (equipo: any) => {
+            if (equipo.msg === "Existe") {
+              Swal.fire({
+                title: "Creación sin Exito!",
+                text: "El Equipo ya existe, intente con otros datos.",
+                icon: "error",
+              });
+            } else {
+              resetEquipo();
+              Swal.fire({
+                title: "Creación Exitosa!",
+                text: "Se ha creado un nuevo equipo.",
+                icon: "success",
+              });
+            }
+          }
+        );
+      }
     });
-  const actionEquipoDescuento = async (dato: any) => {
-    console.log("ysy", dato);
-    socket?.emit("crear-equipodescuento", dato, (equipodescuento: any) => {
-      console.log("blon", equipodescuento);
-    });
-    remove();
-    setBtnGuardar(true);
   };
   const {
     register: rLogicaEquipoDescuento,
     handleSubmit: fLogicaEquipoDescuento,
   } = useForm();
   const actionLogicaEquipoDescuento = async (dato: any) => {
+    console.log(dato);
     for (let i = 0; i < dato.CMes; i++) {
       insert(i, {
         Equipo: dato.IdEquipo,
@@ -237,6 +282,24 @@ export default function TabCrearEquipo() {
       });
     }
     setBtnGuardar(false);
+  };
+  const {
+    register: rEquipoDescuento,
+    handleSubmit: fEquipoDescuento,
+    control,
+    reset,
+  } = useForm();
+  const { fields, remove, insert } = useFieldArray({
+    control,
+    name: "test",
+  });
+  const actionEquipoDescuento = async (dato: any) => {
+    console.log("ysy", dato);
+    socket?.emit("crear-equipodescuento", dato, (equipodescuento: any) => {
+      console.log("blon", equipodescuento);
+    });
+    remove();
+    setBtnGuardar(true);
   };
 
   useEffect(() => {
@@ -254,13 +317,28 @@ export default function TabCrearEquipo() {
     if (selectmarca) {
       socket?.emit(
         "listar-modeloxmarca",
-        { TipoEquipo: selecttipoequipo },
-        (marcaxtipoequipo: any) => {
-          setMarcaXTipoEquipo(marcaxtipoequipo);
+        { Marca: selectmarca },
+        (modeloxmarca: any) => {
+          setModeloXMarca(modeloxmarca);
         }
       );
     }
   }, [selectmarca]);
+  useEffect(() => {
+    if (selectarea && selectcliente && selecttipoequipo) {
+      socket?.emit(
+        "listar-equipoxareaxclientextipoequipo",
+        {
+          Cliente: selectcliente,
+          Area: selectarea,
+          TipoEquipo: selecttipoequipo,
+        },
+        (equipoxareaxclientextipoequipo: any) => {
+          setEquipoXAreaXClienteXTipoEquipo(equipoxareaxclientextipoequipo);
+        }
+      );
+    }
+  }, [selectarea, selectcliente, selecttipoequipo]);
 
   return (
     <div className="flex w-full flex-col">
@@ -377,6 +455,14 @@ export default function TabCrearEquipo() {
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
                 <SelectNormalComponent
+                  array={area}
+                  value="IdArea"
+                  texts={["Area"]}
+                  label="Area"
+                  placeholder="Seleccionar un área"
+                  prop={{ ...rEquipo("Area") }}
+                />
+                <SelectNormalComponent
                   array={cliente}
                   value="IdCliente"
                   texts={["CodCliente"]}
@@ -403,7 +489,7 @@ export default function TabCrearEquipo() {
                   onChange={setSelectMarca}
                 />
                 <SelectNormalComponent
-                  array={modelo}
+                  array={modeloxmarca}
                   value="IdModelo"
                   texts={["Modelo"]}
                   label="Modelo"
@@ -421,13 +507,13 @@ export default function TabCrearEquipo() {
                   placeholder="Seleccionar"
                   {...rEquipo("Gamma")}
                 >
-                  <SelectItem key={1} value="Alta">
+                  <SelectItem key={"Alta"} value="Alta">
                     Alta
                   </SelectItem>
-                  <SelectItem key={2} value="Media">
+                  <SelectItem key={"Media"} value="Media">
                     Media
                   </SelectItem>
-                  <SelectItem key={3} value="Baja">
+                  <SelectItem key={"Baja"} value="Baja">
                     Baja
                   </SelectItem>
                 </Select>
@@ -449,9 +535,44 @@ export default function TabCrearEquipo() {
               <br />
               <form className="flex flex-col justify-center items-center">
                 <SelectNormalComponent
-                  array={equipo}
+                  array={area}
+                  value="IdArea"
+                  texts={["Area"]}
+                  label="Area"
+                  placeholder="Seleccionar un área"
+                  prop={{ ...rLogicaEquipoDescuento("Area") }}
+                />
+                <SelectStateComponent
+                  array={area}
+                  index="IdArea"
+                  texts={["Area"]}
+                  label="Area"
+                  placeholder="Seleccionar un área"
+                  value={selectarea}
+                  onChange={setSelectArea}
+                />
+                <SelectStateComponent
+                  array={cliente}
+                  index="IdCliente"
+                  texts={["CodCliente"]}
+                  label="Cliente"
+                  placeholder="Seleccionar un cliente"
+                  value={selectcliente}
+                  onChange={setSelectCliente}
+                />
+                <SelectStateComponent
+                  array={tipoequipo}
+                  index="IdTipoEquipo"
+                  texts={["Clasificacion", "TipoEquipo"]}
+                  label="Tipo de Equipo"
+                  placeholder="Seleccionar un tipo de equipo"
+                  value={selecttipoequipo}
+                  onChange={setSelectTipoEquipo}
+                />
+                <SelectNormalComponent
+                  array={equipoxareaxclientextipoequipo}
                   value="IdEquipo"
-                  texts={["CodCliente", "Marca", "Modelo"]}
+                  texts={["Marca", "Modelo"]}
                   label="Equipo"
                   placeholder="Seleccionar"
                   prop={{ ...rLogicaEquipoDescuento(`IdEquipo`) }}
