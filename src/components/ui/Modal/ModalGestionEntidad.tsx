@@ -17,7 +17,7 @@ import { SocketContext } from "@/src/context/SocketContext";
 import TabCrearEquipo from "../Tabs/TabCrearEquipo";
 import TabCrearGestionEntidad from "../Tabs/TabCrearGestionEntidad";
 
-export default function ModalGestionEntidad() {
+export default function ModalCrearUsuario() {
   /*Context*/
   const { data: session } = useSession();
   const { socket } = useContext(SocketContext);
@@ -63,7 +63,7 @@ export default function ModalGestionEntidad() {
     <>
       <div>
         <Button
-          className="custom-btn btn-11 bg-red-500 flex"
+          className="custom-btn btn-11 bg-red-500 !flex"
           onPress={onOpen}
           endContent={<UserPlusIcon className="h-5" />}
           size="sm"
@@ -79,12 +79,13 @@ export default function ModalGestionEntidad() {
         className="h-[90vh]"
         classNames={{ wrapper: "overflow-hidden" }}
         size="xl"
+        isDismissable={false} isKeyboardDismissDisabled={true}
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 h-[10%]">
-                Crear Equipo Completo
+               Crear Usuario
               </ModalHeader>
               <ModalBody className="h-[84%] overflow-auto">
                 <TabCrearGestionEntidad />

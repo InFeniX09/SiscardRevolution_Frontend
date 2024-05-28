@@ -46,12 +46,12 @@ export default function NavbarTopMobile({
       }}
     >
       <NavbarContent justify="start">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Alertas">
             <MegaphoneIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Notificaciones">
             <BellIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
@@ -66,7 +66,7 @@ export default function NavbarTopMobile({
         />
       </NavbarContent>
       <NavbarContent justify="end">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Billetera">
             <WalletIcon className="h-6 text-[var(--color-neutral)]" />
           </Tooltip>

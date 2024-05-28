@@ -19,15 +19,18 @@ export default function ModalGestionEquipo() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
-      <Button
-        onPress={onOpen}
-        endContent={<UserPlusIcon className="h-5" />}
-        size="sm"
-        color="danger"
-        className=" overflow-visible"
-      >
-        Creaciones
-      </Button>
+      <div>
+        <Button
+          className="custom-btn btn-11 bg-red-500 !flex w-full"
+          onPress={onOpen}
+          endContent={<UserPlusIcon className="h-5" />}
+          size="sm"
+          color="danger"
+        >
+          Creaciones
+        </Button>
+      </div>
+
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

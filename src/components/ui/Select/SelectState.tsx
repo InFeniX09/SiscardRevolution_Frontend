@@ -30,7 +30,6 @@ export default function SelectStateComponent({
         labelPlacement="outside"
         onSelectionChange={(keys) => onChange(Array.from(keys))}
         selectedKeys={value}
-        color="danger"
       >
         {array.map((item) => (
           <SelectItem key={item[index]} value={item[index]}>

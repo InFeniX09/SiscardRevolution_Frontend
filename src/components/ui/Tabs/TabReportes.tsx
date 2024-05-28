@@ -51,7 +51,7 @@ export default function TabReportes() {
           className=""
           color="danger"
           classNames={{
-            cursor: "bg-[var(--colorblur-peru)]",
+            cursor: "bg-[var(--color-peru)]",
             tabList: "bg-white",
           }}
           aria-label="Options"

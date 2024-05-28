@@ -301,12 +301,18 @@ export default function TableMarcaComponent({ array }: Props) {
 
   const classNames = React.useMemo(
     () => ({
-      table: ["bg-red-500 bg-opacity-50 rounded-xl"],
-      wrapper: ["max-h-[382px]", "max-w-3xl"],
-      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+      table: ["bg-[var(--color-peru)] rounded-xl"],
+      wrapper: ["max-h-[382px]"],
+      th: [
+        "bg-[var(--color-peru)]",
+        "font-bold text-white text-xs",
+        "border-b",
+        "border-divider",
+      ],
       td: [
         // changing the rows border radius
         // first
+        "text-white",
         "group-data-[first=true]:first:before:rounded-none",
         "group-data-[first=true]:last:before:rounded-none",
         // middle
@@ -318,12 +324,11 @@ export default function TableMarcaComponent({ array }: Props) {
     }),
     []
   );
-
   return (
     <>
       <Table
         isCompact
-        removeWrapper
+        
         aria-label="Example table with custom cells, pagination and sorting"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"

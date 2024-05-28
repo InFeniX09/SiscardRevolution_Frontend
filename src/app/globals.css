@@ -12,7 +12,8 @@
   /* Tema LightPeru */
   &.LightPeru {
     /*Colores*/
-    --colorblur-peru: rgba(230, 37, 50, 1);
+    --colorblur-peru: rgba(230, 37, 50, 0.5);
+    --color-peru: rgba(230, 37, 50, 1);
     --color-neutral: black;
     --color-contraneutral: white;
     --colorblur-neutral: rgba(0, 0, 0, 0.5);
@@ -76,14 +77,11 @@
 
 /*Codepen*/
 .custom-btn {
-  width: 200px;
-  height: 40px;
   color: #fff;
   border-radius: 5px;
-  padding: 10px 25px;
   font-family: "Lato", sans-serif;
   font-weight: 500;
-  background: var(--colorblur-peru);
+  background: var(--color-peru);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;

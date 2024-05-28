@@ -46,12 +46,12 @@ export default function NavbarBottomMobile({
       }}
     >
       <NavbarContent justify="start">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Identificación">
             <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Identificación">
             <HandRaisedIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
@@ -66,12 +66,12 @@ export default function NavbarBottomMobile({
         ></Image>
       </NavbarContent>
       <NavbarContent justify="end">
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Identificación">
             <ClipboardDocumentListIcon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>
         </Chip>
-        <Chip className="bg-[var(--colorblur-peru)] border-[var(--colorblur-neutral)]" variant="faded">
+        <Chip className="bg-[var(--color-peru)] border-[var(--colorblur-neutral)]" variant="faded">
           <Tooltip content="Identificación">
             <Bars4Icon className="h-5  text-[var(--color-neutral)]" />
           </Tooltip>

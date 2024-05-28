@@ -25,6 +25,8 @@ import { TicketIcon } from "@heroicons/react/24/solid";
 import Input1Component from "../Input/Input1";
 import SelectComponent from "../Select/Select";
 import SelectStateComponent from "../Select/SelectState";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function TabCrearGestionEntidad() {
   //-------------------------
@@ -47,6 +49,7 @@ export default function TabCrearGestionEntidad() {
   const [marca, setMarca] = useState<any>([]);
   const [modelo, setModelo] = useState<any>([]);
   const [btnguardar, setBtnGuardar] = useState<any>(true);
+
   //-------------------------
   //UseEffect
   //-------------------------
@@ -78,10 +81,9 @@ export default function TabCrearGestionEntidad() {
     });
   }, [selectArea]);
 
- const handleTabChange = (key: any) => {
+  const handleTabChange = (key: any) => {
     setSelectedTab(key);
     switch (Number(key)) {
-      
     }
   };
 
@@ -89,16 +91,66 @@ export default function TabCrearGestionEntidad() {
   //Formularios
   //-------------------------
 
-  const { register: rEntidad, handleSubmit: fEntidad, watch } = useForm();
-  
+  const {
+    register: rEntidad,
+    handleSubmit: fEntidad,
+    watch,
+    reset: resetEntidad,
+  } = useForm();
   const actionEntidad = async (dato: any) => {
-    const formValues = watch();
-    console.log(formValues);
-    console.log(dato);
+    handleTabChange("2");
   };
-
-
-
+  const actionEntidad1 = async (dato: any) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Crear nuevo Usuario?",
+      text: "Se creará un nuevo Usuario.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit(
+          "crear-usuario",
+          {
+            Nombres: dato.Nombres,
+            Apellidos: dato.Apellidos,
+            TipoDocumento: dato.TipoDocumento,
+            NroDocumento: dato.NroDocumento,
+            Telefono: dato.Telefono,
+            Direccion: dato.Direccion,
+            Correo: dato.Correo,
+            Fecha: dato.Fecha,
+            Area: selectArea,
+            Puesto: dato.Puesto,
+            Usuario: dato.Usuario,
+            Clave: dato.Clave,
+            CorreoEmpresarial: dato.CorreoEmpresarial,
+            FechaIngreso:dato.FechaIngreso
+          },
+          (usuario: any) => {
+            if (usuario.msg === "Existe") {
+              Swal.fire({
+                title: "Creación sin Exito!",
+                text: "El Usuario ya existe, intente con otros datos.",
+                icon: "error",
+              });
+            } else {
+              resetEntidad();
+              Swal.fire({
+                title: "Creación Exitosa!",
+                text: "Se ha creado un nuevo Usuario.",
+                icon: "success",
+              });
+            }
+          }
+        );
+      }
+    });
+  };
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -174,6 +226,19 @@ export default function TabCrearGestionEntidad() {
                     icon1={"hidden"}
                     prop={{ ...rEntidad(`Correo`) }}
                   />
+                  <SelectNormalComponent
+                    array={[
+                      { IdSexo: "M", Sexo: "Masculino" },
+                      { IdSexo: "F", Sexo: "Femenino" },
+                    ]}
+                    value="IdSexo"
+                    texts={["Sexo"]}
+                    label="Genero"
+                    placeholder="Seleccionar un cliente"
+                    prop={{ ...rEntidad("Genero") }}
+                  />
+                </div>
+                <div className="flex gap-3  w-full">
                   <InputComponent
                     tipo="date"
                     titulo="Fecha de Nacimiento"
@@ -182,18 +247,13 @@ export default function TabCrearGestionEntidad() {
                     icon1={"hidden"}
                     prop={{ ...rEntidad(`Fecha`) }}
                   />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <SelectNormalComponent
-                    array={[
-                      { IdSexo: "masculino", Sexo: "Masculino" },
-                      { IdSexo: "femenino", Sexo: "Femenino" },
-                    ]}
-                    value="IdSexo"
-                    texts={["Sexo"]}
-                    label="Genero"
-                    placeholder="Seleccionar un cliente"
-                    prop={{ ...rEntidad("Genero") }}
+                  <InputComponent
+                    tipo="date"
+                    titulo="Fecha Ingreso"
+                    placeholder=""
+                    icon
+                    icon1={"hidden"}
+                    prop={{ ...rEntidad(`FechaIngreso`) }}
                   />
                 </div>
                 <div className="flex gap-3  w-full">
@@ -215,17 +275,11 @@ export default function TabCrearGestionEntidad() {
                     prop={{ ...rEntidad("Puesto") }}
                   />
                 </div>
-                <Button
-                  type="button"
-                  onClick={() => handleTabChange("2")}
-                  color="primary"
-                >
-                  next
-                </Button>
+
                 <Button
                   type="button"
                   onClick={fEntidad(actionEntidad)}
-                  color="primary"
+                  color="danger"
                 >
                   Siguiente
                 </Button>
@@ -236,7 +290,7 @@ export default function TabCrearGestionEntidad() {
         <Tab key="2" title="Datos Usuario">
           <Card>
             <CardBody>
-              <form>
+              <form className="flex justify-center items-center flex-col w-full gap-3">
                 <div className="flex gap-3  w-full">
                   <InputComponent
                     tipo="text"
@@ -255,12 +309,22 @@ export default function TabCrearGestionEntidad() {
                     prop={{ ...rEntidad(`Clave`) }}
                   />
                 </div>
+                <div className="flex gap-3  w-full">
+                  <InputComponent
+                    tipo="text"
+                    titulo="Correo Empresarial"
+                    placeholder=""
+                    icon
+                    icon1={"hidden"}
+                    prop={{ ...rEntidad(`CorreoEmpresarial`) }}
+                  />
+                </div>
                 <Button
                   type="button"
-                  onClick={fEntidad(actionEntidad)}
-                  color="primary"
+                  onClick={fEntidad(actionEntidad1)}
+                  color="danger"
                 >
-                  Siguiente
+                  Crear Usuario
                 </Button>
               </form>
             </CardBody>

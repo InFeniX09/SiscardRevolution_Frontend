@@ -407,7 +407,7 @@ export default function TabCrearEquipo() {
                   prop={{ ...rMarca(`Marca`) }}
                 />
                 <Button color="danger" onClick={fMarca(actionMarca)}>
-                  Añadir
+                Añadir
                 </Button>
               </form>
             </CardBody>
@@ -520,9 +520,9 @@ export default function TabCrearEquipo() {
                 <Button
                   type="button"
                   onClick={fEquipo(actionEquipo)}
-                  color="primary"
+                  color="danger"
                 >
-                  Guardar Precios
+                  Añadir
                 </Button>
               </form>
             </CardBody>
@@ -534,14 +534,7 @@ export default function TabCrearEquipo() {
               <h1>Escoger los precios en función al mes</h1>
               <br />
               <form className="flex flex-col justify-center items-center">
-                <SelectNormalComponent
-                  array={area}
-                  value="IdArea"
-                  texts={["Area"]}
-                  label="Area"
-                  placeholder="Seleccionar un área"
-                  prop={{ ...rLogicaEquipoDescuento("Area") }}
-                />
+     
                 <SelectStateComponent
                   array={area}
                   index="IdArea"
@@ -584,14 +577,14 @@ export default function TabCrearEquipo() {
                   {...rLogicaEquipoDescuento(`CMes`)}
                 />
                 <div className="flex gap-5 py-3">
-                  <Button
+                  <Button color="danger"
                     onClick={fLogicaEquipoDescuento(
                       actionLogicaEquipoDescuento
                     )}
                   >
                     Iniciar
                   </Button>
-                  <Button
+                  <Button color="danger"
                     onClick={() => {
                       remove();
                       setBtnGuardar(true);
@@ -634,10 +627,10 @@ export default function TabCrearEquipo() {
                 <Button
                   type="button"
                   onClick={fEquipoDescuento(actionEquipoDescuento)}
-                  color="primary"
+                  color="danger"
                   isDisabled={btnguardar}
                 >
-                  Guardar Precios
+                  Añadir
                 </Button>
               </form>
             </CardBody>

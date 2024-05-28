@@ -29,6 +29,7 @@ import {
   CheckCircleIcon,
   CheckIcon,
   EnvelopeIcon,
+  MagnifyingGlassIcon,
   PhoneIcon,
   TicketIcon,
   UserPlusIcon,
@@ -45,6 +46,7 @@ import ModalSolicitudComponent from "../Modal/ModalSolicitud";
 import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 import { Equipo } from "@/src/interfaces/equipo.interface";
 import { Usuario } from "@/src/interfaces/usuario.interface";
+import ModalGestionEntidad from "../Modal/ModalGestionEntidad";
 
 /**/
 
@@ -220,9 +222,19 @@ export default function TableUsuario({ array }: Props) {
         case "Online":
           return (
             <Chip
-              startContent={(user.Online ? (<CheckCircleIcon className="h-5" />) : (<XCircleIcon className="h-5" />)) }
+              startContent={
+                user.Online ? (
+                  <CheckCircleIcon className="h-5" />
+                ) : (
+                  <XCircleIcon className="h-5" />
+                )
+              }
               variant="faded"
-              className={(user.Online ? "bg-[var(--color-contraneutral)] text-green-500" : "bg-[var(--color-contraneutral)]  text-red-500")}
+              className={
+                user.Online
+                  ? "bg-[var(--color-contraneutral)] text-green-500"
+                  : "bg-[var(--color-contraneutral)]  text-red-500"
+              }
             >
               {user.Online ? "En linea" : "Fuera de linea"}
             </Chip>
@@ -265,9 +277,9 @@ export default function TableUsuario({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscador"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
@@ -281,32 +293,7 @@ export default function TableUsuario({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -324,12 +311,12 @@ export default function TableUsuario({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
+            <ModalGestionEntidad />
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Usuarios
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -372,8 +359,8 @@ export default function TableUsuario({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -381,11 +368,11 @@ export default function TableUsuario({ array }: Props) {
 
   const classNames = React.useMemo(
     () => ({
-      table: ["bg-[var(--colorblur-peru)] rounded-xl"],
+      table: ["bg-[var(--color-peru)] rounded-xl"],
       wrapper: ["max-h-[382px]"],
       th: [
-        "bg-transparent",
-        "text-default-500 text-white",
+        "bg-[var(--color-peru)]",
+        "font-bold text-white text-xs",
         "border-b",
         "border-divider",
       ],

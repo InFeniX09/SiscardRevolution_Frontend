@@ -22,7 +22,7 @@ export default function TabGestionEntidad() {
           className=""
           color="danger"
           classNames={{
-            cursor: "bg-[var(--colorblur-peru)]",
+            cursor: "bg-[var(--color-peru)]",
             tabList: "bg-white",
           }}
           aria-label="Options"
@@ -32,11 +32,6 @@ export default function TabGestionEntidad() {
               <CardBody className="flex gap-4">
                 <TableUsuario array={usuario} />
               </CardBody>
-            </Card>
-          </Tab>
-          <Tab key="2" title="Usuario">
-            <Card>
-              <CardBody className="flex gap-4"></CardBody>
             </Card>
           </Tab>
         </Tabs>
