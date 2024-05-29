@@ -23,7 +23,7 @@ import {
   SortDescriptor,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -61,9 +61,10 @@ export const columnsTicket = [
 ];
 interface Props {
   array: Ticket[];
+  atender:string;
 }
 
-export default function TableTicketComponent({ array }: Props) {
+export default function TableTicketComponent({ array,atender }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -217,15 +218,16 @@ export default function TableTicketComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscar"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+           
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -233,32 +235,7 @@ export default function TableTicketComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -276,12 +253,16 @@ export default function TableTicketComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalTicketComponent/>
+            {atender === "si" ? (
+              <ModalTicketComponent />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Tickets
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -324,8 +305,8 @@ export default function TableTicketComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -358,7 +339,6 @@ export default function TableTicketComponent({ array }: Props) {
   );
   return (
     <>
-      <h1>Mis Tickets</h1>
       <Table
         isCompact
         aria-label="Example table with custom cells, pagination and sorting"

@@ -28,7 +28,6 @@ import { TicketIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalSolicitudComponent from "../Modal/ModalSolicitud";
 import { EquipoSerie } from "@/src/interfaces/equiposerie.interface";
 
 /**/
@@ -45,20 +44,14 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipoSerie",
   "Marca",
-  "Modelo",
-  "CodCliente",
   "Serie",
   "Usuario",
   "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdEquipoSerie", uid: "IdEquipoSerie", sortable: true },
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Equipo", uid: "Marca", sortable: true },
   { name: "Serie", uid: "Serie", sortable: true },
   { name: "Usuario", uid: "Usuario", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
@@ -100,8 +93,20 @@ export default function TableEquipoSerieComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Marca.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Modelo &&
+            user.Modelo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.CodCliente &&
+            user.CodCliente.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Marca &&
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Serie &&
+            user.Serie.toLowerCase().includes(lowerCaseFilterValue)) ||
+            (user.Usuario &&
+              user.Usuario.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
     if (
@@ -126,9 +131,7 @@ export default function TableEquipoSerieComponent({ array }: Props) {
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: EquipoSerie, b: EquipoSerie) => {
       const first = a[sortDescriptor.column as keyof EquipoSerie] as number;
-      const second = b[
-        sortDescriptor.column as keyof EquipoSerie
-      ] as number;
+      const second = b[sortDescriptor.column as keyof EquipoSerie] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -140,22 +143,9 @@ export default function TableEquipoSerieComponent({ array }: Props) {
       const cellValue = user[columnKey as keyof EquipoSerie];
 
       switch (columnKey) {
-        case "name":
+        case "Marca":
           return (
-            <User
-              avatarProps={{
-                radius: "full",
-                size: "sm",
-                src: user.Marca,
-              }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.CodCliente}
-              name={cellValue}
-            >
-              {user.CodCliente}
-            </User>
+            <p>{user.CodCliente + "-" + user.Marca + " " + user.Modelo}</p>
           );
         case "role":
           return (
@@ -229,32 +219,7 @@ export default function TableEquipoSerieComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -272,12 +237,11 @@ export default function TableEquipoSerieComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Series
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -320,8 +284,8 @@ export default function TableEquipoSerieComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -355,10 +319,8 @@ export default function TableEquipoSerieComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Stock por Area</h1>
       <Table
         isCompact
-        
         aria-label="Example table with custom cells, pagination and sorting"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"

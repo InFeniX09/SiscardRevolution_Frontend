@@ -51,31 +51,19 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipoControl",
   "Marca",
-  "Modelo",
-  "CodCliente",
   "Usuario",
   "Serie",
-  "Identificacion",
-  "TiempoVida",
-  "FcAsignado",
-  "FcBaja",
+  "FcMovimiento",
   "Observacion",
   "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdEquipoControl", uid: "IdEquipoControl", sortable: true },
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Nombre Equipo", uid: "Marca", sortable: true },
   { name: "Usuario", uid: "Usuario", sortable: true },
   { name: "Serie", uid: "Serie", sortable: true },
-  { name: "Identificacion", uid: "Identificacion", sortable: true },
-  { name: "TiempoVida", uid: "TiempoVida", sortable: true },
-  { name: "FcAsignado", uid: "FcAsignado", sortable: true },
-  { name: "FcBaja", uid: "FcBaja", sortable: true },
+  { name: "FcMovimiento", uid: "FcMovimiento", sortable: true },
   { name: "Observacion", uid: "Observacion", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
@@ -116,10 +104,23 @@ export default function TableEquipoControlComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Marca.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Modelo &&
+            user.Modelo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.CodCliente &&
+            user.CodCliente.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Marca &&
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Serie &&
+            user.Serie.toLowerCase().includes(lowerCaseFilterValue)) ||
+            (user.Usuario &&
+              user.Usuario.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
+    
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -154,22 +155,13 @@ export default function TableEquipoControlComponent({ array }: Props) {
       const cellValue = user[columnKey as keyof EquipoControl];
 
       switch (columnKey) {
-        case "name":
+        case "Marca":
           return (
-            <User
-              avatarProps={{
-                radius: "full",
-                size: "sm",
-                src: user.Marca,
-              }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.CodCliente}
-              name={cellValue}
-            >
-              {user.CodCliente}
-            </User>
+            <div>
+              <span>
+                {user.CodCliente + "-" + user.Marca + " " + user.Modelo}
+              </span>
+            </div>
           );
         case "role":
           return (
@@ -227,7 +219,7 @@ export default function TableEquipoControlComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscador"
             size="sm"
             startContent={<TicketIcon className="h-5" />}
             value={filterValue}
@@ -243,32 +235,7 @@ export default function TableEquipoControlComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -286,12 +253,11 @@ export default function TableEquipoControlComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Registro de Controles
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -334,8 +300,8 @@ export default function TableEquipoControlComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -369,7 +335,6 @@ export default function TableEquipoControlComponent({ array }: Props) {
 
   return (
     <>
-      <h1>Stock por Area</h1>
       <Table
         isCompact
         aria-label="Example table with custom cells, pagination and sorting"

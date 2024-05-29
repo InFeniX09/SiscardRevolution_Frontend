@@ -125,7 +125,6 @@ export default function ModalTicketComponent() {
         scrollBehavior={scrollBehavior}
         placement="top-center"
         className="overflow-hidden h-full"
-        backdrop="blur"
       >
         <ModalContent>
           {(onClose) => (

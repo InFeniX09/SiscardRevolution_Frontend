@@ -19,9 +19,9 @@ import InputComponent from "../Input/Input";
 import { useFieldArray, useForm } from "react-hook-form";
 import SelectNormalComponent from "../Select/SelectNormal";
 import TextAreaNormalComponent from "../Textarea/TextAreaNormal";
+import SelectStateComponent from "../Select/SelectState";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import SelectStateComponent from "../Select/SelectState";
 
 export default function TabCrearEquipo() {
   //-------------------------

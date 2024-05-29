@@ -48,24 +48,30 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
+  "IdSolicitud",
   "TipoSolicitud",
   "TipoMotivo",
+  "Usuario",
   "FcCreacion",
   "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
+  { name: "#Solicitud", uid: "IdSolicitud", sortable: true },
   { name: "Solicitud", uid: "TipoSolicitud", sortable: true },
   { name: "Motivo", uid: "TipoMotivo", sortable: true },
+  { name: "Usuario", uid: "Usuario", sortable: true },
   { name: "FechaCreacion", uid: "FcCreacion", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
+
 interface Props {
   array: Solicitud[];
+  atender: string;
 }
 
-export default function TableSolicitudComponent({ array }: Props) {
+export default function TableSolicitudComponent({ array, atender }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -136,18 +142,10 @@ export default function TableSolicitudComponent({ array }: Props) {
 
       switch (columnKey) {
         case "FcCreacion":
-          return cellValue
-       
+          return cellValue;
+
         case "actions":
-          return (
-            <div className="relative flex items-center gap-2">
-              <ModalAtenderTicketComponent
-                datosolicitud={user.TipoSolicitud}
-                datomotivo={user.TipoMotivo}
-                datousuario={user.IdUsuario}
-              />
-            </div>
-          );
+          return <div className="relative flex items-center gap-2"></div>;
         default:
           return cellValue;
       }
@@ -191,7 +189,6 @@ export default function TableSolicitudComponent({ array }: Props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -217,12 +214,16 @@ export default function TableSolicitudComponent({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
+            {atender === "si" ? (
+              <ModalSolicitudComponent />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} solicitudes
+            Total {array.length} Solicitudes
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:

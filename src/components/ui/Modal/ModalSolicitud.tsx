@@ -19,6 +19,8 @@ import { SocketContext } from "@/src/context/SocketContext";
 import SelectMultipleComponent from "../Select/SelectMultiple";
 import SelectNormalComponent from "../Select/SelectNormal";
 import SelectComponent from "../Select/Select";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function ModalSolicitudComponent() {
   const { data: session } = useSession();
@@ -39,10 +41,11 @@ export default function ModalSolicitudComponent() {
     register,
     handleSubmit,
     formState: { errors },
+    reset: resetSolicitud,
   } = useForm();
 
   const onSubmit = async (dato: any) => {
-    console.log("from activo");
+    const MySwal = withReactContent(Swal);
     const { tipomotivo } = dato;
     const DeUsuario_id = session?.user.IdUsuario;
     const data = {
@@ -50,11 +53,33 @@ export default function ModalSolicitudComponent() {
       TipoMotivo_id: tipomotivo,
       Usuario_id: DeUsuario_id,
     };
-    socket?.emit("crear-solicitud", data, (respuesta: any) => {
-      if (respuesta === "si") {
-        console.log("Se creo");
-      } else {
-        console.log("NO creo");
+    MySwal.fire({
+      title: "Crear nueva Solicitud?",
+      text: "Se creará un nueva solicitud.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, proceder!",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        socket?.emit("crear-solicitud", data, (solicitud: any) => {
+          if (solicitud.msg === "Existe") {
+            Swal.fire({
+              title: "Creación sin Exito!",
+              text: "La Solicitud ya existe, intente con otros datos.",
+              icon: "error",
+            });
+          } else {
+            resetSolicitud();
+            Swal.fire({
+              title: "Creación Exitosa!",
+              text: "Se ha creado un nueva solicitud.",
+              icon: "success",
+            });
+          }
+        });
       }
     });
   };
@@ -83,7 +108,7 @@ export default function ModalSolicitudComponent() {
       >
         Crear nueva solicitud
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
           {(onClose) => (
             <>

@@ -5,10 +5,10 @@ import axios from "axios";
 import { environment } from "@/src/environments/environment";
 
 const api = axios.create({
-    baseURL: environment.baseUrl,
-    headers: { "Content-Type": "application/json" },
-  });
-  
+  baseURL: environment.baseUrl,
+  headers: { "Content-Type": "application/json" },
+});
+
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: "/auth/iniciar-sesion",
@@ -53,23 +53,19 @@ export const authConfig: NextAuthConfig = {
         if (!parsedCredentials.success) return null;
 
         const { email, Contrasena } = parsedCredentials.data;
-        
 
         try {
           const response = await api.post("/auth/buscarUsuario", {
-            pUsuario:email
+            pUsuario: email,
           });
-          const user = response.data.Query3;
-        
           
-
+          const user = response.data.Query3;
 
           if (!user) {
             return null; // Handle invalid credentials
           }
 
-          if( Contrasena !== user.Clave ) return null;
-
+          if (Contrasena !== user.Clave) return null;
 
           const { Contrasena: _, ...rest } = user; // Remove password from response
           return rest;

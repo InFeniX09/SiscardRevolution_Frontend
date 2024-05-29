@@ -327,8 +327,7 @@ export default function TableMarcaComponent({ array }: Props) {
   return (
     <>
       <Table
-        isCompact
-        
+        isCompact 
         aria-label="Example table with custom cells, pagination and sorting"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"

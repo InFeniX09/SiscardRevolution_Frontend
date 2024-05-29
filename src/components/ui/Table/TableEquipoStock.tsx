@@ -24,7 +24,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import {
+  MagnifyingGlassIcon,
+  TicketIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
@@ -44,10 +48,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipoStock",
   "Marca",
-  "Modelo",
-  "CodCliente",
   "Usuario",
   "StockActual",
   "StockDisponible",
@@ -55,10 +56,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "IdEquipoStock", uid: "IdEquipoStock", sortable: true },
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Equipo", uid: "Marca", sortable: true },
   { name: "Usuario", uid: "Usuario", sortable: true },
   { name: "StockActual", uid: "StockActual", sortable: true },
   { name: "StockDisponible", uid: "StockDisponible", sortable: true },
@@ -101,8 +99,18 @@ export default function TableEquipoStockComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Marca.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Modelo &&
+            user.Modelo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.CodCliente &&
+            user.CodCliente.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Marca &&
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Usuario &&
+            user.Usuario.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
     if (
@@ -134,53 +142,43 @@ export default function TableEquipoStockComponent({ array }: Props) {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user: EquipoStock, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof EquipoStock];
+  const renderCell = React.useCallback(
+    (user: EquipoStock, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof EquipoStock];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{
-              radius: "full",
-              size: "sm",
-              src: user.Marca,
-            }}
-            classNames={{
-              description: "text-default-500",
-            }}
-            description={user.StockActual}
-            name={cellValue}
-          >
-            {user.StockActual}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">
-              {user.StockActual}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize border-none gap-1 text-default-600"
-            color={statusColorMap[user.StockActual]}
-            size="sm"
-            variant="dot"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return <div className="relative flex items-center gap-2"></div>;
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "Marca":
+          return (
+            <span>{user.CodCliente+'-'+user.Marca+' '+user.Modelo}</span>
+          );
+        case "role":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{cellValue}</p>
+              <p className="text-bold text-tiny capitalize text-default-500">
+                {user.StockActual}
+              </p>
+            </div>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize border-none gap-1 text-default-600"
+              color={statusColorMap[user.StockActual]}
+              size="sm"
+              variant="dot"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return <div className="relative flex items-center gap-2"></div>;
+        default:
+          return cellValue;
+      }
+    },
+    []
+  );
 
   const onRowsPerPageChange = React.useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -209,9 +207,9 @@ export default function TableEquipoStockComponent({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Buscar"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
@@ -225,32 +223,7 @@ export default function TableEquipoStockComponent({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -272,7 +245,7 @@ export default function TableEquipoStockComponent({ array }: Props) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Stock
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -315,8 +288,8 @@ export default function TableEquipoStockComponent({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -349,10 +322,8 @@ export default function TableEquipoStockComponent({ array }: Props) {
   );
 
   return (
-    <>
-      <h1>Equipo Stock</h1>
+
       <Table
-        isCompact
         aria-label="Example table with custom cells, pagination and sorting"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
@@ -392,6 +363,6 @@ export default function TableEquipoStockComponent({ array }: Props) {
           )}
         </TableBody>
       </Table>
-    </>
+    
   );
 }

@@ -28,7 +28,6 @@ import { MagnifyingGlassIcon, TicketIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalSolicitudComponent from "../Modal/ModalSolicitud";
 import { EquipoDescuento } from "@/src/interfaces/equipodescuento.interface";
 
 /**/
@@ -46,17 +45,14 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Marca",
-  "Modelo",
-  "CodCliente",
   "Tiempo",
   "Precio",
   "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
+  { name: "Equipo", uid: "Marca", sortable: true },
+
   { name: "Tiempo", uid: "Tiempo", sortable: true },
   { name: "Precio", uid: "Precio", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
@@ -98,10 +94,21 @@ export default function TableEquipoDescuentoComponent({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Marca.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Modelo &&
+            user.Modelo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.CodCliente &&
+            user.CodCliente.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Marca &&
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue))||
+            (user.Tiempo &&
+              user.Tiempo.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
+    
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -138,23 +145,8 @@ export default function TableEquipoDescuentoComponent({ array }: Props) {
       const cellValue = user[columnKey as keyof EquipoDescuento];
 
       switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{
-                radius: "full",
-                size: "sm",
-                src: user.Marca,
-              }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.CodCliente}
-              name={cellValue}
-            >
-              {user.CodCliente}
-            </User>
-          );
+        case "Marca":
+          return <p>{user.CodCliente + "-" + user.Marca + " " + user.Modelo}</p>;
         case "role":
           return (
             <div className="flex flex-col">
