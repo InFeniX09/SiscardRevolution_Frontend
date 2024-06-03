@@ -23,8 +23,8 @@ export const BreadcrumbComponent = () => {
           );
         })}
       </Breadcrumbs>
-      <h1 className="text-1xl uppercase ">
-        <strong className=" text-[var(--color-neutral)]">{currentPageName}</strong>
+      <h1 className="text-1xl uppercase">
+        <strong className="text-[var(--color-neutral)]">{currentPageName}</strong>
       </h1>
     </div>
   );

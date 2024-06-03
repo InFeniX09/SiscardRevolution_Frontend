@@ -19,7 +19,6 @@ export default function TabGestionEntidad() {
     <>
       <div className="flex w-full flex-col">
         <Tabs
-          className=""
           color="danger"
           classNames={{
             cursor: "bg-[var(--color-peru)]",
@@ -31,6 +30,12 @@ export default function TabGestionEntidad() {
             <Card>
               <CardBody className="flex gap-4">
                 <TableUsuario array={usuario} />
+              </CardBody>
+            </Card>
+          </Tab>
+          <Tab key="2" title="Permisos" className="text-white">
+            <Card>
+              <CardBody className="flex gap-4">
               </CardBody>
             </Card>
           </Tab>

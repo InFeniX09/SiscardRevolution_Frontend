@@ -103,9 +103,8 @@ export default function TableEquipoDescuentoComponent({ array }: Props) {
           (user.CodCliente &&
             user.CodCliente.toLowerCase().includes(lowerCaseFilterValue)) ||
           (user.Marca &&
-            user.Marca.toLowerCase().includes(lowerCaseFilterValue))||
-            (user.Tiempo &&
-              user.Tiempo.toLowerCase().includes(lowerCaseFilterValue))
+            user.Marca.toLowerCase().includes(lowerCaseFilterValue))
+           
       );
     }
     

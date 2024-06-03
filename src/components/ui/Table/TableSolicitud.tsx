@@ -148,11 +148,7 @@ export default function TableSolicitudComponent({ array, atender }: Props) {
           return (
             <div className="relative flex items-center gap-2">
               {atender === "si" ? (
-                <ModalAtenderTicketComponent
-                  datosolicitud={user.TipoSolicitud}
-                  datomotivo={user.TipoMotivo}
-                  datousuario={user.Usuario}
-                />
+                <ModalAtenderTicketComponent IdSolicitud={user.IdSolicitud} />
               ) : (
                 <></>
               )}
@@ -226,7 +222,7 @@ export default function TableSolicitudComponent({ array, atender }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            {atender === "si" ? <ModalSolicitudComponent /> : <></>}
+            {atender === "si" ? <></> : <ModalSolicitudComponent />}
           </div>
         </div>
         <div className="flex justify-between items-center">

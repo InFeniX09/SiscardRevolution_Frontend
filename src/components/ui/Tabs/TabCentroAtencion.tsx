@@ -21,9 +21,9 @@ export default function TabCentroAtencion() {
   const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
 
   useEffect(() => {
-    if (session) {
+
       // Verifica si session está definido
-      const quesada = session.user.IdUsuario;
+      const quesada = session?.user.IdUsuario;
 
       const data = {
         Usuario_id: quesada,
@@ -32,8 +32,8 @@ export default function TabCentroAtencion() {
       socket?.emit("listar-misolicitud", data, (asignados: any) => {
         setSolicitud(asignados);
       });
-    }
-  }, [session, socket]);
+
+  }, []);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -101,14 +101,14 @@ export default function TabCentroAtencion() {
     <Tab key="1" title="Mis Solicitudes">
       <Card>
         <CardBody>
-          <TableSolicitudComponent array={datasolicitud} atender="si"/>
+          <TableSolicitudComponent array={datasolicitud} atender="no"/>
         </CardBody>
       </Card>
     </Tab>,
     <Tab key="2" title="Mis Tickets">
       <Card>
         <CardBody>
-          <TableTicketComponent array={dataticket} atender="si" />
+          <TableTicketComponent array={dataticket} atender="no" />
         </CardBody>
       </Card>
     </Tab>,
@@ -118,14 +118,14 @@ export default function TabCentroAtencion() {
       <Tab key="3" title="Atender Solicitudes">
         <Card>
           <CardBody>
-            <TableSolicitudComponent array={datatodossolicitud} atender=""/>
+            <TableSolicitudComponent array={datatodossolicitud} atender="si"/>
           </CardBody>
         </Card>
       </Tab>,
       <Tab key="4" title="Atender Tickets">
         <Card>
           <CardBody>
-            <TableTicketComponent array={datatodosticket} atender=""/>
+            <TableTicketComponent array={datatodosticket} atender="si"/>
           </CardBody>
         </Card>
       </Tab>
@@ -136,6 +136,10 @@ export default function TabCentroAtencion() {
     <div className="flex w-full flex-col">
      {menuLoaded ? (
         <Tabs
+        classNames={{
+          cursor: "bg-[var(--color-peru)]",
+          tabList: "bg-white",
+        }}
           color="danger"
           aria-label="Options"
           selectedKey={selectedTab}

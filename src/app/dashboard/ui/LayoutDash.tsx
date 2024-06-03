@@ -55,7 +55,7 @@ export default function LayoutDashComponent({
       >
         <div
           className="w-full h-full bg-cover rounded-2xl  max-sm:rounded-none flex flex-col gap-5 bg-[image:var(--dashboard-bg)]
-            before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-screen "
+            before:content-[''] before:absolute before:top-0 before:left-0 before:w-full  "
         >
           <div className="bg-[var(--dashboard-Dash)] h-full w-full flex flex-col p-2 gap-3 overflow-hidden relative rounded-2xl max-sm:rounded-none backdrop-filter blur-1 font-semibold text-base">
             {mobile ? (
@@ -75,7 +75,7 @@ export default function LayoutDashComponent({
                 }
               />
             )}
-            <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto p-3 flex flex-col gap-4 rounded-2xl max-sm:rounded-none ">
+            <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto py-1.5 px-1.5 flex flex-col gap-1 rounded-2xl max-sm:rounded-none ">
               <BreadcrumbComponent />
               {children}
             </div>

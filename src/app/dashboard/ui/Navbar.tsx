@@ -48,7 +48,9 @@ export default function NavbarPage({
       <NavbarContent justify="start">
         <Chip className="bg-[var(--color-peru)]" variant="faded">
           <Tooltip content="Chat">
-            <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-contraneutral)]" />
+          <Link href="/dashboard/chat">
+          <ChatBubbleLeftRightIcon className="h-5 text-[var(--color-contraneutral)]" />
+            </Link>
           </Tooltip>
         </Chip>
         <Chip className="bg-[var(--color-peru)] " variant="faded">
