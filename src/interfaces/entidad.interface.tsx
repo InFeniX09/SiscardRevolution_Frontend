@@ -15,5 +15,5 @@ export interface Entidad {
     TipoEntidad_id:number,
     FcIngreso:Date,
     FcBaja:Date,
-    Estado:string
+    Estado_id:string
 };

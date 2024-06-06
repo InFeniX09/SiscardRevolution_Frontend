@@ -3,5 +3,5 @@ export interface Marca {
   Marca: string;
   TipoEquipo: string;
   Clasificacion: string;
-  Estado: string;
+  Estado_id: string;
 }

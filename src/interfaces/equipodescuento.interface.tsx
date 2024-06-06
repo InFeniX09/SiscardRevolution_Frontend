@@ -5,6 +5,6 @@ export interface EquipoDescuento {
     CodCliente:string,
     Tiempo:string,
     Precio:string,
-    Estado:string,
+    Estado_id:string,
 
 };

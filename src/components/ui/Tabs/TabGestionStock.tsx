@@ -10,7 +10,7 @@ import TableEquipoSerieComponent from "../Table/TableEquipoSerie";
 export default function TabGestionStock() {
   const { socket } = useContext(SocketContext);
   const { data: session } = useSession();
-  const [selectedTab, setSelectedTab] = useState(0); // Estado para el índice de la pestaña seleccionada
+  const [selectedTab, setSelectedTab] = useState(0); 
   const [dataequipostock, setEquipoStock] = useState([]);
   const [dataequipocontrol, setEquipoControl] = useState([]);
   const [dataequiposerie, setEquipoSerie] = useState([]);

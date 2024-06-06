@@ -5,5 +5,5 @@ export interface Equipo {
     CodCliente:string,
     Especificacion:string,
     Gamma:string,
-    Estado:string
+    Estado_id:string
 };

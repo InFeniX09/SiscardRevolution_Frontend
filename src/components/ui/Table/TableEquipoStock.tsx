@@ -22,9 +22,13 @@ import {
   ChipProps,
   SortDescriptor,
   Tooltip,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@nextui-org/react";
 //Iconos
 import {
+  EllipsisVerticalIcon,
   MagnifyingGlassIcon,
   TicketIcon,
   UserPlusIcon,
@@ -33,6 +37,7 @@ import {
 import { capitalize } from "./Utils";
 /**/
 import { EquipoStock } from "@/src/interfaces/equipostock.interface";
+import ModalTranspasarStock from "../Modal/ModalTranspasarStock";
 
 /**/
 
@@ -68,6 +73,8 @@ interface Props {
 }
 
 export default function TableEquipoStockComponent({ array }: Props) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -149,7 +156,9 @@ export default function TableEquipoStockComponent({ array }: Props) {
       switch (columnKey) {
         case "Marca":
           return (
-            <span>{user.CodCliente+'-'+user.Marca+' '+user.Modelo}</span>
+            <span>
+              {user.CodCliente + "-" + user.Marca + " " + user.Modelo}
+            </span>
           );
         case "role":
           return (
@@ -172,7 +181,11 @@ export default function TableEquipoStockComponent({ array }: Props) {
             </Chip>
           );
         case "actions":
-          return <div className="relative flex items-center gap-2"></div>;
+          return (
+            <div>
+              <ModalTranspasarStock IdEquipoStock={user.IdEquipoStock} />
+            </div>
+          );
         default:
           return cellValue;
       }
@@ -322,47 +335,44 @@ export default function TableEquipoStockComponent({ array }: Props) {
   );
 
   return (
-
-      <Table
-        aria-label="Example table with custom cells, pagination and sorting"
-        bottomContent={bottomContent}
-        bottomContentPlacement="outside"
-        checkboxesProps={{
-          classNames: {
-            wrapper:
-              "after:bg-foreground after:text-background text-background",
-          },
-        }}
-        classNames={classNames}
-        selectedKeys={selectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        topContent={topContent}
-        topContentPlacement="outside"
-        onSelectionChange={setSelectedKeys}
-        onSortChange={setSortDescriptor}
-      >
-        <TableHeader columns={headerColumns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
-              allowsSorting={column.sortable}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: EquipoStock) => (
-            <TableRow key={item.IdEquipoStock}>
-              {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    
+    <Table
+      aria-label="Example table with custom cells, pagination and sorting"
+      bottomContent={bottomContent}
+      bottomContentPlacement="outside"
+      checkboxesProps={{
+        classNames: {
+          wrapper: "after:bg-foreground after:text-background text-background",
+        },
+      }}
+      classNames={classNames}
+      selectedKeys={selectedKeys}
+      selectionMode="multiple"
+      sortDescriptor={sortDescriptor}
+      topContent={topContent}
+      topContentPlacement="outside"
+      onSelectionChange={setSelectedKeys}
+      onSortChange={setSortDescriptor}
+    >
+      <TableHeader columns={headerColumns}>
+        {(column) => (
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "actions" ? "center" : "start"}
+            allowsSorting={column.sortable}
+          >
+            {column.name}
+          </TableColumn>
+        )}
+      </TableHeader>
+      <TableBody emptyContent={"No users found"} items={sortedItems}>
+        {(item: EquipoStock) => (
+          <TableRow key={item.IdEquipoStock}>
+            {(columnKey) => (
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 }

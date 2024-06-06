@@ -4,5 +4,5 @@ export interface Solicitud {
     TipoMotivo:string
     Usuario:string
     IdUsuario:string
-    Estado:string
+    Estado_id:string
 };

@@ -9,7 +9,7 @@ export interface Ticket {
   FcCreacion:string,
   FcCierre:string,
   idPrioridad:number,
-  Estado:string,
+  Estado_id:string,
   UltimaFechMod:string,
   UltimoUserMod:string,
   }

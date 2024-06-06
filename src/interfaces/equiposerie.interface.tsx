@@ -5,7 +5,7 @@ export interface EquipoSerie {
     CodCliente:string,
     Usuario:string,
     Serie:string,
-    Estado:string,
+    Estado_id:string,
 
 
 };

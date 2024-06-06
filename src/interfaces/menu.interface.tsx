@@ -6,7 +6,7 @@ export interface Menu {
       Comando:string,
       TipoMenu_id:number,
       Padre_id:number,
-      Estado:string,
+      Estado_id:string,
       UltimaFechMod:string,
       UltimoUserMod:string,
 };

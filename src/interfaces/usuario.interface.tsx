@@ -9,7 +9,7 @@ export interface Usuario {
     RutaImagen:string,
     Entidad_id:number,
     Online:boolean,
-    Estado:string,
+    Estado_id:string,
     UltimaFechMod:Date,
     UltimoUserMod:string,
 

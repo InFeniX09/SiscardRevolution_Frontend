@@ -56,7 +56,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "Serie",
   "FcMovimiento",
   "Observacion",
-  "Estado",
+  "Estado_id",
   "actions",
 ];
 export const columnsSolicitud = [
