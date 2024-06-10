@@ -1,38 +1,37 @@
-import { Checkbox, CheckboxGroup} from "@nextui-org/react";
-import { FieldValues } from "react-hook-form";
-import React, { useCallback } from "react";
+import React from "react";
+import { Checkbox, CheckboxGroup, Select, SelectItem } from "@nextui-org/react";
 
 interface Props {
-  array: any;
-  value: string;
+  array: any[];
+  index: string;
   texts: string[];
   label: string;
-  placeholder: string;
-  prop: FieldValues;
+  value: any;
+  onChange: (value: any) => void;
 }
 
 export default function CheckboxGroupComponent({
   array,
-  value,
+  index,
   texts,
   label,
-  placeholder,
-  prop,
+  value,
+  onChange, 
 }: Props) {
-    return (
-        <>
-          {prop && (
-            <CheckboxGroup
-              {...prop}
-              label={label}       
-            >
-              {array.map((index: number) => (
-                <Checkbox key={index} >
-                  {'a'}
-                </Checkbox>
-              ))}
-            </CheckboxGroup>
-          )}
-        </>
-      );
+
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <CheckboxGroup
+        label={label}
+        onChange={(keys) => onChange(Array.from(keys))}
+        value={value}
+      >
+        {array.map((item) => (
+          <Checkbox key={item[index]} value={item[index]}>
+            {texts.map((text) => item[text]).join(" - ")}
+          </Checkbox>
+        ))}
+      </CheckboxGroup>
+    </div>
+  );
 }

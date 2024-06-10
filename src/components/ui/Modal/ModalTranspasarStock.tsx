@@ -56,6 +56,8 @@ export default function ModalTranspasarStock({ IdEquipoStock }: Props) {
   const [datospdf, setDatosPdf] = useState<any>();
   const [datospdf1, setDatosPdf1] = useState<any>();
 
+  const [selectequipogrupo, setSelectEquipoGrupo] = useState<any>();
+
   const [equipostockxid, setEquipoStockXId] = useState<any>([
     {
       TipoSolicitud: "",
@@ -76,6 +78,16 @@ export default function ModalTranspasarStock({ IdEquipoStock }: Props) {
           console.log(equipostockxid);
         }
       );
+      socket?.emit(
+        "listar-usuario",
+        "",
+        (equipostockxid: any) => {
+          setEquipoStockXId(equipostockxid);
+          console.log(equipostockxid);
+        }
+      );
+
+      
     }
   }, [isOpen1]);
 
@@ -85,14 +97,14 @@ export default function ModalTranspasarStock({ IdEquipoStock }: Props) {
     }
   };
 
-  const { register: rLogicaEquipoSerie, handleSubmit: fLogicaEquipoSerie } =
-    useForm();
+  const { register:rLogicaTranspasoEquipo, handleSubmit:fLogicaTranspasoEquipo } = useForm();
 
-  const actionLogicaEquipoSerie = async (dato: any) => {};
-
+  const actionLogicaTranspasoEquipo = async (dato: any) => {
+    console.log("a", selectequipogrupo);
+  };
   return (
     <>
-      <Tooltip content="Atender">
+      <Tooltip content="Transpasar">
         <UserPlusIcon className="h-5" onClick={onOpen1} />
       </Tooltip>
       <Modal
@@ -118,15 +130,24 @@ export default function ModalTranspasarStock({ IdEquipoStock }: Props) {
                   <Tab key="1" title="Seleccion de Equipos">
                     <Card>
                       <CardBody>
-                        <form>
+                        <form onSubmit={fLogicaTranspasoEquipo(actionLogicaTranspasoEquipo)}>
                           <CheckboxGroupComponent
                             array={equipostockxid}
-                            value="IdEquipoSerie"
+                            index="IdEquipoSerie"
                             texts={["Serie"]}
-                            label="Laptop"
-                            placeholder="Seleccionar un cliente"
-                            prop={{ ...rLogicaEquipoSerie(`Laptop`) }}
+                            label="Serie"
+                            value={selectequipogrupo}
+                            onChange={setSelectEquipoGrupo}
                           />
+                          <SelectNormalComponent
+                            array={equipocelular}
+                            value="IdEquipoSerie"
+                            texts={["CodCliente", "Marca", "Modelo", "Serie"]}
+                            label="Celular"
+                            placeholder="Seleccionar un cliente"
+                            prop={{ ...rLogicaTranspasoEquipo(`Equipo`) }}
+                          />
+                          <Button type="submit">Iniciar</Button>
                         </form>
                       </CardBody>
                     </Card>
