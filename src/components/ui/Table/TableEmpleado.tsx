@@ -1,6 +1,6 @@
 "use client";
 //Manejar estados
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 //Componentes UI
 import {
   Table,
@@ -16,25 +16,18 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
   Pagination,
   Selection,
   ChipProps,
   SortDescriptor,
-  Tooltip,
 } from "@nextui-org/react";
 //Iconos
-import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, TicketIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalTicketComponent from "../Modal/ModalTicket";
-import { SocketContext } from "@/src/context/SocketContext";
-import { useSession } from "next-auth/react";
-import { Solicitud } from "@/src/interfaces/solicitud.interface";
-import ModalSolicitudComponent from "../Modal/ModalSolicitud";
-import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
-import { Equipo } from "@/src/interfaces/equipo.interface";
+import { TablaEmpleado } from "@/src/interfaces";
+import ModalCrearEmpleado from "../Modal/ModalCrearEmpleado";
 
 /**/
 
@@ -49,29 +42,17 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = [
-  "IdEquipo",
-  "Marca",
-  "Modelo",
-  "CodCliente",
-  "Especificacion",
-  "Gamma",
-  "actions",
-];
+const INITIAL_VISIBLE_COLUMNS = ["Correo", "Telefono", "actions"];
 export const columnsSolicitud = [
-  { name: "IdEquipo", uid: "IdEquipo", sortable: true },
-  { name: "Marca", uid: "Marca", sortable: true },
-  { name: "Modelo", uid: "Modelo", sortable: true },
-  { name: "CodCliente", uid: "CodCliente", sortable: true },
-  { name: "Especificacion", uid: "Especificacion", sortable: true },
-  { name: "Gamma", uid: "Gamma", sortable: true },
+  { name: "Correo", uid: "Correo", sortable: true },
+  { name: "Telefono", uid: "Telefono", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  array: Equipo[];
+  array: TablaEmpleado[];
 }
 
-export default function TableEntidad({ array }: Props) {
+export default function TableEmpleado({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -103,8 +84,14 @@ export default function TableEntidad({ array }: Props) {
     let filteredUsers = [...array];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.Especificacion.toLowerCase().includes(filterValue.toLowerCase())
+      const lowerCaseFilterValue = filterValue.toLowerCase();
+
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.Correo &&
+            user.Correo.toLowerCase().includes(lowerCaseFilterValue)) ||
+          (user.Telefono &&
+            user.Telefono.toLowerCase().includes(lowerCaseFilterValue))
       );
     }
     if (
@@ -112,7 +99,7 @@ export default function TableEntidad({ array }: Props) {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.Estado)
+        Array.from(statusFilter).includes(user.Correo)
       );
     }
 
@@ -127,9 +114,9 @@ export default function TableEntidad({ array }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Equipo, b: Equipo) => {
-      const first = a[sortDescriptor.column as keyof Equipo] as number;
-      const second = b[sortDescriptor.column as keyof Equipo] as number;
+    return [...items].sort((a: TablaEmpleado, b: TablaEmpleado) => {
+      const first = a[sortDescriptor.column as keyof TablaEmpleado] as number;
+      const second = b[sortDescriptor.column as keyof TablaEmpleado] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -137,48 +124,12 @@ export default function TableEntidad({ array }: Props) {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (user: Equipo, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Equipo];
+    (user: TablaEmpleado, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof TablaEmpleado];
 
       switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{ radius: "full", size: "sm", src: user.Especificacion }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              description={user.Especificacion}
-              name={cellValue}
-            >
-              {user.Especificacion}
-            </User>
-          );
-        case "role":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{cellValue}</p>
-              <p className="text-bold text-tiny capitalize text-default-500">
-                {user.Especificacion}
-              </p>
-            </div>
-          );
-        case "status":
-          return (
-            <Chip
-              className="capitalize border-none gap-1 text-default-600"
-              color={statusColorMap[user.Especificacion]}
-              size="sm"
-              variant="dot"
-            >
-              {cellValue}
-            </Chip>
-          );
         case "actions":
-          return (
-            <div className="relative flex items-center gap-2">
-            </div>
-          );
+          return <></>;
         default:
           return cellValue;
       }
@@ -213,9 +164,9 @@ export default function TableEntidad({ array }: Props) {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Busqueda"
             size="sm"
-            startContent={<TicketIcon className="h-5" />}
+            startContent={<MagnifyingGlassIcon className="h-5" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
@@ -229,32 +180,7 @@ export default function TableEntidad({ array }: Props) {
                   size="sm"
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<TicketIcon className="h-5" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -272,12 +198,12 @@ export default function TableEntidad({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalSolicitudComponent />
+            <ModalCrearEmpleado/>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {array.length} users
+            Total {array.length} Empleados
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -320,8 +246,8 @@ export default function TableEntidad({ array }: Props) {
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
+            ? "Todos los items seleccionados"
+            : `${selectedKeys.size} de ${items.length} seleccionados`}
         </span>
       </div>
     );
@@ -355,7 +281,6 @@ export default function TableEntidad({ array }: Props) {
 
   return (
     <>
-      <h1>Mis Solicitudes </h1>
       <Table
         isCompact
         aria-label="Example table with custom cells, pagination and sorting"
@@ -388,8 +313,8 @@ export default function TableEntidad({ array }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: Equipo) => (
-            <TableRow key={item.IdEquipo}>
+          {(item: TablaEmpleado) => (
+            <TableRow key={item.IdEmpleado}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

@@ -11,6 +11,7 @@ export default async function Dashboard1Layout({
 
   if (session?.user === null || session?.user === undefined) {
     redirect("/");
+  
   }
 
   return (

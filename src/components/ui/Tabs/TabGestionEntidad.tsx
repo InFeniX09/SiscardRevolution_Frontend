@@ -33,6 +33,24 @@ export default function TabGestionEntidad() {
               </CardBody>
             </Card>
           </Tab>
+          <Tab key="2" title="Cliente" className="text-white">
+            <Card>
+              <CardBody className="flex gap-4">
+              </CardBody>
+            </Card>
+          </Tab>
+          <Tab key="2" title="Proveedor" className="text-white">
+            <Card>
+              <CardBody className="flex gap-4">
+              </CardBody>
+            </Card>
+          </Tab>
+          <Tab key="2" title="Permisos" className="text-white">
+            <Card>
+              <CardBody className="flex gap-4">
+              </CardBody>
+            </Card>
+          </Tab>
           <Tab key="2" title="Permisos" className="text-white">
             <Card>
               <CardBody className="flex gap-4">

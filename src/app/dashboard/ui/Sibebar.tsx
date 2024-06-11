@@ -50,6 +50,7 @@ export const Sidebar = ({
 
   useEffect(() => {
     if (status === "authenticated") {
+      console.log('d',session?.user)
       try {
         const dato = {
           Usuario_id: session?.user.IdUsuario,
