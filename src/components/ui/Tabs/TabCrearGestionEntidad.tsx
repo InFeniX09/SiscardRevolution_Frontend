@@ -37,34 +37,23 @@ export default function TabCrearGestionEntidad() {
   //-------------------------
   //Variables de Estado
   //-------------------------
+  const [empleadosinusuario, setEmpleadoSinUsuario] = useState<any>([]);
+
   const [tipodocumento, setTipoDocumento] = useState<any>([]);
   const [area, setArea] = useState<any>([]);
   const [puesto, setPuesto] = useState<any>([]);
   const [selectArea, setSelectArea] = useState<any>([]);
   const [selectedTab, setSelectedTab] = React.useState<string | number>("1");
 
-  const [equipo, setEquipo] = useState<any>([]);
-  const [tipoequipo, setTipoEquipo] = useState<any>([]);
-  const [cliente, setCliente] = useState<any>([]);
-  const [marca, setMarca] = useState<any>([]);
-  const [modelo, setModelo] = useState<any>([]);
-  const [btnguardar, setBtnGuardar] = useState<any>(true);
-
   //-------------------------
   //UseEffect
   //-------------------------
   useEffect(() => {
-    toast.error("Selecciona una de las opciones para empezar", {
-      position: "top-right",
-      autoClose: 3000,
-      theme: "colored",
+    socket?.emit("listar-empleadosinusuario", "", (empleadosinusuario: any) => {
+      setEmpleadoSinUsuario(empleadosinusuario);
+      console.log(empleadosinusuario);
     });
-    if (session) {
-      socket?.emit("listar-tipoequipo", "", (TipoEquipo: any) => {
-        setTipoEquipo(TipoEquipo);
-      });
-    }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     socket?.emit("listar-tipodocumento", null, (tipodocumento: any) => {
@@ -86,21 +75,17 @@ export default function TabCrearGestionEntidad() {
     switch (Number(key)) {
     }
   };
-
   //-------------------------
   //Formularios
   //-------------------------
-
   const {
-    register: rEntidad,
-    handleSubmit: fEntidad,
+    register: rCrearUsuario,
+    handleSubmit: fCrearUsuario,
     watch,
-    reset: resetEntidad,
+    reset: resetCrearUsuario,
   } = useForm();
-  const actionEntidad = async (dato: any) => {
-    handleTabChange("2");
-  };
-  const actionEntidad1 = async (dato: any) => {
+
+  const actionCrearUsuario = async (dato: any) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: "Crear nuevo Usuario?",
@@ -116,20 +101,10 @@ export default function TabCrearGestionEntidad() {
         socket?.emit(
           "crear-usuario",
           {
-            Nombres: dato.Nombres,
-            Apellidos: dato.Apellidos,
-            TipoDocumento: dato.TipoDocumento,
-            NroDocumento: dato.NroDocumento,
-            Telefono: dato.Telefono,
-            Direccion: dato.Direccion,
-            Correo: dato.Correo,
-            Fecha: dato.Fecha,
-            Area: selectArea,
-            Puesto: dato.Puesto,
             Usuario: dato.Usuario,
             Clave: dato.Clave,
-            CorreoEmpresarial: dato.CorreoEmpresarial,
-            FechaIngreso:dato.FechaIngreso
+            Entidad: dato.Entidad,
+         
           },
           (usuario: any) => {
             if (usuario.msg === "Existe") {
@@ -139,7 +114,7 @@ export default function TabCrearGestionEntidad() {
                 icon: "error",
               });
             } else {
-              resetEntidad();
+              resetCrearUsuario();
               Swal.fire({
                 title: "Creación Exitosa!",
                 text: "Se ha creado un nuevo Usuario.",
@@ -151,6 +126,26 @@ export default function TabCrearGestionEntidad() {
       }
     });
   };
+
+  const [usuarioautocreado, setUsuarioAutoCreado] = useState("");
+
+  const ganster = watch("Entidad");
+
+  useEffect(() => {
+    const entidadSeleccionada = empleadosinusuario.find(
+      (item: any) => item.IdEntidad === Number(ganster)
+    );
+    if (entidadSeleccionada) {
+      const primerNombre = entidadSeleccionada.Nombres.split(" ")[0] || "";
+      const primerApellido = entidadSeleccionada.Apellidos.split(" ")[0] || "";
+      setUsuarioAutoCreado(
+        `${primerNombre.charAt(
+          0
+        )}${primerApellido}`.toLowerCase()
+      );
+    }
+  }, [ganster, empleadosinusuario]);
+
   return (
     <div className="flex w-full flex-col">
       <Tabs
@@ -162,169 +157,42 @@ export default function TabCrearGestionEntidad() {
           <Card>
             <CardBody>
               <form className="flex justify-center items-center flex-col w-full gap-3">
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="text"
-                    titulo="Nombres"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Nombres`) }}
-                  />
-                  <InputComponent
-                    tipo="text"
-                    titulo="Apellidos"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Apellidos`) }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <SelectNormalComponent
-                    array={tipodocumento}
-                    value="IdTipoDocumento"
-                    texts={["TipoDocumento"]}
-                    label="Tipo Documento"
-                    placeholder="Seleccione un Modelo"
-                    prop={{ ...rEntidad("TipoDocumento") }}
-                  />
-
-                  <InputComponent
-                    tipo="text"
-                    titulo="Nro Documento"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad("NroDocumento") }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="text"
-                    titulo="Telefono"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Telefono`) }}
-                  />
-                  <InputComponent
-                    tipo="text"
-                    titulo="Direccion"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Direccion`) }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="text"
-                    titulo="Correo"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Correo`) }}
-                  />
-                  <SelectNormalComponent
-                    array={[
-                      { IdSexo: "M", Sexo: "Masculino" },
-                      { IdSexo: "F", Sexo: "Femenino" },
-                    ]}
-                    value="IdSexo"
-                    texts={["Sexo"]}
-                    label="Genero"
-                    placeholder="Seleccionar un cliente"
-                    prop={{ ...rEntidad("Genero") }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="date"
-                    titulo="Fecha de Nacimiento"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Fecha`) }}
-                  />
-                  <InputComponent
-                    tipo="date"
-                    titulo="Fecha Ingreso"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`FechaIngreso`) }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <SelectStateComponent
-                    array={area}
-                    index="IdArea"
-                    texts={["Area"]}
-                    label="Area"
-                    placeholder="Seleccione un Area"
-                    value={selectArea}
-                    onChange={setSelectArea}
-                  />
-                  <SelectNormalComponent
-                    array={puesto}
-                    value="IdPuesto"
-                    texts={["Puesto"]}
-                    label="Puesto"
-                    placeholder="Seleccione un Puesto"
-                    prop={{ ...rEntidad("Puesto") }}
-                  />
-                </div>
-
+                <SelectNormalComponent
+                  array={empleadosinusuario}
+                  value="IdEntidad"
+                  texts={["Nombres", "Apellidos"]}
+                  label="Entidad"
+                  placeholder="Seleccione una entidad"
+                  prop={{ ...rCrearUsuario("Entidad") }}
+                />
+                <InputComponent
+                  tipo="text"
+                  titulo="Usuario"
+                  placeholder=""
+                  icon
+                  icon1={"hidden"}
+                  prop={{
+                    ...rCrearUsuario(`Usuario`),
+                    value: usuarioautocreado,
+                  }}
+                />
+                <InputComponent
+                  tipo="text"
+                  titulo="Clave"
+                  placeholder=""
+                  icon
+                  icon1={"hidden"}
+                  prop={{
+                    ...rCrearUsuario(`Clave`),
+                    value: "Siscard678",
+                  }}
+                />
                 <Button
                   type="button"
-                  onClick={fEntidad(actionEntidad)}
+                  onClick={fCrearUsuario(actionCrearUsuario)}
                   color="danger"
                 >
-                  Siguiente
-                </Button>
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
-        <Tab key="2" title="Datos Usuario">
-          <Card>
-            <CardBody>
-              <form className="flex justify-center items-center flex-col w-full gap-3">
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="text"
-                    titulo="Usuario"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Usuario`) }}
-                  />
-                  <InputComponent
-                    tipo="text"
-                    titulo="Clave"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`Clave`) }}
-                  />
-                </div>
-                <div className="flex gap-3  w-full">
-                  <InputComponent
-                    tipo="text"
-                    titulo="Correo Empresarial"
-                    placeholder=""
-                    icon
-                    icon1={"hidden"}
-                    prop={{ ...rEntidad(`CorreoEmpresarial`) }}
-                  />
-                </div>
-                <Button
-                  type="button"
-                  onClick={fEntidad(actionEntidad1)}
-                  color="danger"
-                >
-                  Crear Usuario
+                  Finalizar
                 </Button>
               </form>
             </CardBody>

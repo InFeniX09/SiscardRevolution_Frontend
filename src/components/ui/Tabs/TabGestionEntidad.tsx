@@ -3,18 +3,36 @@ import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import React, { useContext, useEffect, useState } from "react";
 import { SocketContext } from "@/src/context/SocketContext";
 import TableUsuario from "../Table/TableUsuario";
+import TableMenuAsignado from "../Table/TableMenuAsignado";
 
 export default function TabGestionEntidad() {
   const { socket } = useContext(SocketContext);
   const [usuario, setUsuario] = useState([]);
+  const [menuasignado, setMenuAsignado] = useState([]);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   useEffect(() => {
     socket?.emit("listar-usuario", "", (usuario: any) => {
-      console.log(usuario);
       setUsuario(usuario);
     });
   }, []);
 
+  const handleTabChange = (key: any) => {
+    setSelectedTab(key.toString());
+    switch (Number(key)) {
+      case 1:
+        break;
+      case 2:
+        if (menuasignado!.length === 0) {
+          socket?.emit("listar-tablamenuasignado", "", (tablamenuasignado: any) => {
+            setMenuAsignado(tablamenuasignado);
+            console.log('e',tablamenuasignado)
+          });
+        } else {
+        }
+        break;
+    }
+  };
   return (
     <>
       <div className="flex w-full flex-col">
@@ -25,6 +43,8 @@ export default function TabGestionEntidad() {
             tabList: "bg-white",
           }}
           aria-label="Options"
+          selectedKey={selectedTab}
+          onSelectionChange={handleTabChange}
         >
           <Tab key="1" title="Usuario" className="text-white">
             <Card>
@@ -33,27 +53,24 @@ export default function TabGestionEntidad() {
               </CardBody>
             </Card>
           </Tab>
-          <Tab key="2" title="Cliente" className="text-white">
+          <Tab key="2" title="Menu Asignado" className="text-white">
             <Card>
               <CardBody className="flex gap-4">
+                <TableMenuAsignado array={menuasignado} />
               </CardBody>
             </Card>
           </Tab>
-          <Tab key="2" title="Proveedor" className="text-white">
+          <Tab key="3" title="Perfil" className="text-white">
             <Card>
               <CardBody className="flex gap-4">
+                <TableMenuAsignado array={menuasignado} />
               </CardBody>
             </Card>
           </Tab>
-          <Tab key="2" title="Permisos" className="text-white">
+          <Tab key="4" title="Perfil y Usuario" className="text-white">
             <Card>
               <CardBody className="flex gap-4">
-              </CardBody>
-            </Card>
-          </Tab>
-          <Tab key="2" title="Permisos" className="text-white">
-            <Card>
-              <CardBody className="flex gap-4">
+                <TableMenuAsignado array={menuasignado} />
               </CardBody>
             </Card>
           </Tab>

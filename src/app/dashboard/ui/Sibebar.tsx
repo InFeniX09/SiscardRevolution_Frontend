@@ -104,10 +104,11 @@ export const Sidebar = ({
               <CollapseItems
                 key={menuItem.IdMenu}
                 title={menuItem.Menu}
-                icon={<ChartBarIcon className="h-5" />}
+                icon={menuItem.RutaImagen}
                 items={subItems.map((subItem) => ({
                   name: subItem.Menu,
                   url: subItem.Ruta,
+                  icon: subItem.RutaImagen,
                 }))}
               />
             );

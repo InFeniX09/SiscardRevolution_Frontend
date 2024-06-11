@@ -3,6 +3,7 @@ import React from "react";
 import { useSidebarContext } from "./LayoutContext";
 import clsx from "clsx";
 import {
+  Cog8ToothIcon,
   ComputerDesktopIcon,
   DocumentArrowDownIcon,
   GiftTopIcon,
@@ -45,6 +46,8 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
         return <ComputerDesktopIcon className="h-6 w-6 text-[var(--color-neutral)]" />;
       case "HandRaisedIcon":
         return <HandRaisedIcon className="h-6 w-6 text-[var(--color-neutral)] " />;
+        case "Cog8ToothIcon":
+          return <Cog8ToothIcon className="h-6 w-6 text-[var(--color-neutral)] " />;
       default:
         return null; // Si el icono no coincide con ninguno conocido, devuelve null
     }
@@ -63,7 +66,7 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
         )}
         onClick={handleClick}
       >
-        {getIconComponent(icon) || ( // Intenta obtener el componente de icono
+        {getIconComponent(icon) || (
           <Image
             src=""
             alt={title}

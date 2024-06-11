@@ -47,7 +47,8 @@ import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 import { Equipo } from "@/src/interfaces/equipo.interface";
 import ModalGestionEntidad from "../Modal/ModalCrearUsuario";
 import { TablaUsuario } from "@/src/interfaces/tablausuario";
-import ModalCrearUsuario from "../Modal/ModalCrearUsuario";
+import { TablaMenuAsignado } from "@/src/interfaces/tablamenuasignado";
+import { TablaPerfilUsuario } from "@/src/interfaces/tablaperfilusuario";
 
 /**/
 
@@ -64,27 +65,21 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Usuario",
-  "Datos de Cuenta",
-  "FcIngreso",
-  "FcBaja",
-  "RutaImagen",
-  "Entidad_id",
-  "Online",
+  "Perfil",
   "Estado",
   "actions",
 ];
 export const columnsSolicitud = [
   { name: "Usuario", uid: "Usuario", sortable: true },
-  { name: "Datos de Cuenta", uid: "Datos de Cuenta", sortable: true },
-  { name: "Online", uid: "Online", sortable: true },
+  { name: "Perfil", uid: "Perfil", sortable: true },
   { name: "Estado", uid: "Estado", sortable: true },
   { name: "ACTIONS", uid: "actions", sortable: true },
 ];
 interface Props {
-  array: TablaUsuario[];
+  array: TablaPerfilUsuario[];
 }
 
-export default function TableUsuario({ array }: Props) {
+export default function TableMenuAsignado({ array }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -120,8 +115,8 @@ export default function TableUsuario({ array }: Props) {
 
       filteredUsers = filteredUsers.filter(
         (user) =>
-          (user.Usuario &&
-            user.Usuario.toLowerCase().includes(lowerCaseFilterValue))
+          (user.Perfil &&
+            user.Perfil.toLowerCase().includes(lowerCaseFilterValue))
          
       );
     }
@@ -131,7 +126,7 @@ export default function TableUsuario({ array }: Props) {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.Apellidos)
+        Array.from(statusFilter).includes(user.Perfil)
       );
     }
 
@@ -146,9 +141,9 @@ export default function TableUsuario({ array }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: TablaUsuario, b: TablaUsuario) => {
-      const first = a[sortDescriptor.column as keyof TablaUsuario] as number;
-      const second = b[sortDescriptor.column as keyof TablaUsuario] as number;
+    return [...items].sort((a: TablaPerfilUsuario, b: TablaPerfilUsuario) => {
+      const first = a[sortDescriptor.column as keyof TablaPerfilUsuario] as number;
+      const second = b[sortDescriptor.column as keyof TablaPerfilUsuario] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -156,54 +151,11 @@ export default function TableUsuario({ array }: Props) {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (user: TablaUsuario, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof TablaUsuario];
+    (user: TablaPerfilUsuario, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof TablaPerfilUsuario];
 
       switch (columnKey) {
-        case "Usuario":
-          return (
-            <User
-              avatarProps={{
-                radius: "full",
-                size: "sm",
-                src: user.RutaImagen,
-              }}
-              classNames={{
-                description: "text-default-500",
-              }}
-              name={
-                typeof cellValue === "object"
-                  ? cellValue.toISOString()
-                  : String(cellValue)
-              }
-            ></User>
-          );
-        case "Datos de Cuenta":
-          return (
-            <div className="flex flex-col">
-             <span>{user.Nombres+' '+user.Apellidos}</span>
-            </div>
-          );
-        case "Online":
-          return (
-            <Chip
-              startContent={
-                user.Online ? (
-                  <CheckCircleIcon className="h-5" />
-                ) : (
-                  <XCircleIcon className="h-5" />
-                )
-              }
-              variant="faded"
-              className={
-                user.Online
-                  ? "bg-[var(--color-contraneutral)] text-green-500"
-                  : "bg-[var(--color-contraneutral)]  text-red-500"
-              }
-            >
-              {user.Online ? "En linea" : "Fuera de linea"}
-            </Chip>
-          );
+        
         case "actions":
           return <div className="relative flex items-center gap-2"></div>;
         default:
@@ -276,7 +228,7 @@ export default function TableUsuario({ array }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <ModalCrearUsuario />
+            <ModalGestionEntidad />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -392,8 +344,8 @@ export default function TableUsuario({ array }: Props) {
           )}
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item: TablaUsuario) => (
-            <TableRow key={item.IdUsuario}>
+          {(item: TablaPerfilUsuario) => (
+            <TableRow key={item.IdPerfilUsuario}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

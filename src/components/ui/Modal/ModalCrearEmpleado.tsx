@@ -103,6 +103,7 @@ export default function ModalCrearEmpleado() {
 
   const { register: rCrearEmpleado, handleSubmit: fCrearEmpleado ,reset:rsCrearEmpleado , watch} = useForm();
   const actionCrearEmpleado1 = async (dato: any) => {
+    handleTabChange("2");
 
   };
   const actionCrearEmpleado = async (dato: any) => {
@@ -162,6 +163,16 @@ export default function ModalCrearEmpleado() {
   const formatoUbigeo = (value:any) => {
     return value < 10 ? `0${value}` : `${value}`;
   };
+
+  const [correoCorporativo, setCorreoCorporativo] = useState('');
+
+  const nombres = watch("Nombres", "");
+  const apellidos = watch("Apellidos", "");
+  useEffect(() => {
+    const primerNombre = nombres.split(" ")[0] || "";
+    const primerApellido = apellidos.split(" ")[0] || "";
+    setCorreoCorporativo(`${primerNombre}.${primerApellido}@siscardperu.pe`.toLowerCase());
+  }, [nombres, apellidos]);
 
   return (
     <>
@@ -350,7 +361,7 @@ export default function ModalCrearEmpleado() {
                               placeholder=""
                               icon
                               icon1={"hidden"}
-                              prop={{ ...rCrearEmpleado(`CorreoCorporativo`) }}
+                              prop={{ ...rCrearEmpleado(`CorreoCorporativo`),value:correoCorporativo }}
                             />                          
                           </div>
                           <div className="flex gap-3  w-full">
@@ -377,7 +388,7 @@ export default function ModalCrearEmpleado() {
                             onClick={fCrearEmpleado(actionCrearEmpleado)}
                             color="danger"
                           >
-                            Siguiente
+                            Finalizar
                           </Button>
                         </form>
                       </CardBody>
