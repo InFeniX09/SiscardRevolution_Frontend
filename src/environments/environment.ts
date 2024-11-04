@@ -1,5 +1,6 @@
 export const environment = {
   baseUrl: "http://172.17.7.43:3100",
+  NEXTAUTH_URL: "http://172.17.7.43:4000" 
 };
 /*
 ENV

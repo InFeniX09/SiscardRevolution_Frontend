@@ -10,6 +10,7 @@ const api = axios.create({
 });
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   pages: {
     signIn: "/auth/iniciar-sesion",
     newUser: "/auth/registrarse",
