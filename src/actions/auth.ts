@@ -1,23 +1,27 @@
 "use server"
 import { signIn } from "@/src/auth.config";
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
+export async function authenticate(prevState: any, formData: Iterable<readonly [PropertyKey, any]>) {
   try {
-    console.log("vamos en authenticate")
-    console.log(formData);
+    console.log("Entrando a authenticate");
+    const data = Object.fromEntries(formData);
+    console.log("Datos del formulario:", data);
 
-    await signIn("credentials", {
-      ...Object.fromEntries(formData),
+    const result = await signIn("credentials", {
+      ...data,
       redirect: false,
     });
 
+    console.log("Resultado de signIn:", result);
+
+    if (result?.error) {
+      console.log("Error en la autenticación:", result.error);
+      return "CredentialsSignin";
+    }
+
     return "Success";
   } catch (error) {
-    console.log(error);
-    console.log("error")
+    console.error("Error en authenticate:", error);
     return "CredentialsSignin";
   }
 }
