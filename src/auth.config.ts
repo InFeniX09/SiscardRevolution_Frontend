@@ -1,9 +1,8 @@
+import { environment } from "@/src/environments/environment";
+import axios from "axios";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
-import axios from "axios";
-import { environment } from "@/src/environments/environment";
-import { User } from "@nextui-org/react";
 
 const api = axios.create({
   baseURL: environment.baseUrl,
