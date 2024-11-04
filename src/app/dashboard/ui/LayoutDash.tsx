@@ -76,7 +76,7 @@ export default function LayoutDashComponent({
               />
             )}
             <div className="bg-[var(--dashboard-Dash1)] h-[92%] overflow-auto py-1.5 px-1.5 flex flex-col gap-1 rounded-2xl max-sm:rounded-none ">
-              <BreadcrumbComponent />
+
               {children}
             </div>
             {mobile ? (
