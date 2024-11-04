@@ -3,6 +3,7 @@ import { signIn } from "@/src/auth.config";
 
 export async function authenticate(prevState: any, formData: Iterable<readonly [PropertyKey, any]>) {
   try {
+    console.log("baseeeeee",process.env.NEXTAUTH_URL);
     console.log("Entrando a authenticate");
     const data = Object.fromEntries(formData);
     console.log("Datos del formulario:", data);
