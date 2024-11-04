@@ -28,12 +28,8 @@ import { TicketIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 //Extra
 import { capitalize } from "./Utils";
 /**/
-import ModalTicketComponent from "../Modal/ModalTicket";
-import { SocketContext } from "@/src/context/SocketContext";
-import { useSession } from "next-auth/react";
-import { Solicitud } from "@/src/interfaces/solicitud.interface";
+
 import ModalSolicitudComponent from "../Modal/ModalSolicitud";
-import ModalAtenderTicketComponent from "../Modal/ModalAtenderTicket";
 import { Equipo } from "@/src/interfaces/equipo.interface";
 
 /**/
@@ -389,7 +385,7 @@ export default function TableEntidad({ array }: Props) {
         </TableHeader>
         <TableBody emptyContent={"No users found"} items={sortedItems}>
           {(item: Equipo) => (
-            <TableRow key={item.IdEquipo}>
+            <TableRow key={item.id_equipo}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
