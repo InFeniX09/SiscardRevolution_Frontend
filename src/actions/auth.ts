@@ -6,6 +6,7 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
+    console.log("vamos en authenticate")
     console.log(formData);
 
     await signIn("credentials", {
@@ -16,7 +17,7 @@ export async function authenticate(
     return "Success";
   } catch (error) {
     console.log(error);
-    console.log("holaaaaa")
+    console.log("error")
     return "CredentialsSignin";
   }
 }
