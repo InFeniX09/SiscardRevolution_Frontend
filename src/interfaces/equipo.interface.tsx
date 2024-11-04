@@ -1,4 +1,5 @@
 export interface Equipo {
+    Especificacion: any;
     id_equipo:number,
     equipo_imei: string,
     Marca:string,

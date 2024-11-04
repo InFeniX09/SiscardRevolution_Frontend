@@ -11,7 +11,6 @@ import {
   NavbarContent,
   Tooltip,
 } from "@nextui-org/react";
-
 import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
 import Image from "next/image";
 

@@ -4,8 +4,7 @@ import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { SocketContext } from "@/src/context/SocketContext";
 import "react-toastify/dist/ReactToastify.css";
 import TableCliente from "../Table/TableCliente";
-import { getListarClientes, getListarTecnicos } from "@/src/actions/pilotaje/guia-clientes";
-import TableTecnico from "../Table/TableTecnico"
+import { getListarClientes } from "@/src/actions/pilotaje/guia-clientes";
 export default function TabConfiguracionesRecursosHumanos() {
   const { socket } = useContext(SocketContext);
   const [selectedTab, setSelectedTab] = useState(0);
