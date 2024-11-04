@@ -46,12 +46,14 @@ export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
       async authorize(credentials) {
+        console.log("environment", environment.baseUrl)
+        
         const parsedCredentials = z
           .object({ email: z.string(), Contrasena: z.string() })
           .safeParse(credentials);
 
         if (!parsedCredentials.success) return null;
-
+        console.log("parseDatos", parsedCredentials)
         const { email, Contrasena } = parsedCredentials.data;
 
         try {
