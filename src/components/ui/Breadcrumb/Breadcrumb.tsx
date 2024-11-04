@@ -10,7 +10,7 @@ export const BreadcrumbComponent = () => {
   const currentPageName = paths[paths.length - 1];
 
   return (
-    <div className="text-[0.8rem]">
+    {/*<div className="text-[0.8rem]">
       <Breadcrumbs >
         {paths.map((path, index) => {
           const href = `http://localhost:4000${paths.slice(0, index + 1).join("/")}`;
@@ -26,6 +26,6 @@ export const BreadcrumbComponent = () => {
       <h1 className="text-1xl uppercase">
         <strong className="text-[var(--color-neutral)]">{currentPageName}</strong>
       </h1>
-    </div>
+    </div>*/}
   );
 };

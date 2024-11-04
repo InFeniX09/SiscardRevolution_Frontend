@@ -3,28 +3,15 @@ import React from "react";
 import {
   Bars4Icon,
   ChatBubbleLeftRightIcon,
-  MegaphoneIcon,
-  IdentificationIcon,
-  CurrencyDollarIcon,
-  BellIcon,
-  WalletIcon,
-  TicketIcon,
-  WindowIcon,
   HandRaisedIcon,
   ClipboardDocumentListIcon,
 } from "@heroicons/react/24/solid";
 import {
-  Avatar,
   Chip,
-  Input,
   Navbar,
   NavbarContent,
   Tooltip,
 } from "@nextui-org/react";
-import { NotificationsDropdown } from "./NotificationsDropdown";
-import { DarkModeSwitch } from "./DarkmodeSwitch";
-import DropdownComponent from "@/src/components/ui/Dropdown/Dropdown";
-import ModalChatComponent from "@/src/components/ui/Modal/ModalChat";
 import Image from "next/image";
 
 interface Props {

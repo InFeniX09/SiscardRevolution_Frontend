@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode } from 'react';
 import { Socket } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
+import { environment } from '../environments/environment';
 
 interface SocketContextProps {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ export const SocketContext = createContext<SocketContextValue>({
 });
 
 export function SocketProvider({children}:SocketContextProps){
-    const { socket, online } = useSocket('http://localhost:3100');
+    const { socket, online } = useSocket(environment.baseUrl);
   
     return (
       <SocketContext.Provider value={{ socket, online }}>
